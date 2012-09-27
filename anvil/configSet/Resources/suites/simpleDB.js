@@ -18,11 +18,16 @@ module.exports = new function () {
 		
 		tableName = Titanium.App.Properties.getString('ddbTableName');
 		AWS.STS.getSessionToken({}, function(response) {
-			
-			Ti.App.Properties.setString('tempSessionToken', response["GetSessionTokenResult"][0]["Credentials"][0]["SessionToken"][0]);
-			Ti.App.Properties.setString('tempSecretAccessKey', response["GetSessionTokenResult"][0]["Credentials"][0]["SecretAccessKey"][0]);
-			Ti.App.Properties.setString('tempAccessKeyID', response["GetSessionTokenResult"][0]["Credentials"][0]["AccessKeyId"][0]);
-			Ti.App.Properties.setString('tempExpiration', response["GetSessionTokenResult"][0]["Credentials"][0]["Expiration"][0]);
+
+			Titanium.App.Properties.setString('tempSessionToken', response["GetSessionTokenResult"][0]["Credentials"][0]["SessionToken"][0]);
+			Titanium.App.Properties.setString('tempSecretAccessKey', response["GetSessionTokenResult"][0]["Credentials"][0]["SecretAccessKey"][0]);
+			Titanium.App.Properties.setString('tempAccessKeyID', response["GetSessionTokenResult"][0]["Credentials"][0]["AccessKeyId"][0]);
+			Titanium.App.Properties.setString('tempExpiration', response["GetSessionTokenResult"][0]["Credentials"][0]["Expiration"][0]);
+
+		}, function(error) {
+
+		});
+		
 	}//end init
 	
 	this.name = "simpleDB";
@@ -42,31 +47,31 @@ module.exports = new function () {
 			},1000);
 	}//end testSimple
 	
-	/*
-	this.testcreateDomain_as_async = function(testRun) {
+
+	this.testCreateDomain_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			DomainName : 'DrillCases1234'
 		}, function(data) {
-			finish(testRun);
+			
 			AWS.SimpleDB.deleteDomain({
 				'DomainName' : 'DrillCases1234'
 			}, function(data) {
-
+				finish(testRun);
 			}, function(error) {
-
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
 
 	//Test case with invalid domain
-	this.testcreateInvalidDomain_as_async = function(testRun) {
+	this.testCreateInvalidDomain_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			DomainName : '@DrillBitDomain'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 
@@ -74,22 +79,22 @@ module.exports = new function () {
 	}
 
 	//Test cases with invalid length for domain name parameter
-	this.testcreateInvalidMinimumLengthDomain_as_async = function(testRun) {
+	this.testCreateInvalidMinimumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			DomainName : 'xy'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
 	//test case with invalid maximum length for domain name paramater
-	this.testcreateInvalidMaximumLengthDomain_as_async = function(testRun) {
+	this.testCreateInvalidMaximumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			DomainName : 'xyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdget'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 
@@ -97,11 +102,11 @@ module.exports = new function () {
 	}
 
 	//test case for empty domain name while creating domain
-	this.testcreateEmptyDomain_as_async = function(testRun) {
+	this.testCreateEmptyDomain_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			DomainName : ''
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -110,40 +115,43 @@ module.exports = new function () {
 	//End Test Cases for Create Domain.
 
 	//Test case for valid request for list domain
-	this.testlistDomains_as_async = function(testRun) {
+	this.testListDomains_as_async = function(testRun) {
 		AWS.SimpleDB.listDomains({}, function(data) {
 			finish(testRun);
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
 	
-	this.testlistDomainsWithInvalidParams_as_async = function(testRun) {
+	this.testListDomainsWithInvalidParams_as_async = function(testRun) {
 		AWS.SimpleDB.listDomains({
 			'MaxNumberOfDomains' : '999',
 			'NextToken' : ''
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testlistDomainsWithvalidParams_as_async = function(testRun) {
-		AWS.SimpleDB.listDomains({
+	this.testListDomainsWithvalidParams_as_async = function(testRun) {
+	AWS.SimpleDB.listDomains({
 			'MaxNumberOfDomains' : '99',
-			'NextToken' : ''
+			'NextToken' : 'Invalid Token'
 		}, function(data) {
-			finish(testRun);
+			
+			//valueOf(testRun, true).shouldBeFalse();
+			alert(data);
+			//finish(testRun);
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			finish(testRun);
 		});
 	}
 
 	// End Test Cases for List Domains.
 	// Start Test Cases for Delete Domain.
-	this.testdeleteDomain_as_async = function(testRun) {
+	this.testDeleteDomain_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			DomainName : 'DrillBit12345'
 		}, function(data) {
@@ -152,49 +160,49 @@ module.exports = new function () {
 			}, function(data) {
 				finish(testRun);
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
 
-	this.testdeleteDomainWithInvalidDomain_as_async = function(testRun) {
+	this.testDeleteDomainWithInvalidDomain_as_async = function(testRun) {
 		AWS.SimpleDB.deleteDomain({
 			'DomainName' : '@DrillBitDomain'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteDomainWithInvalidMaximumDomain_as_async = function(testRun) {
+	this.testDeleteDomainWithInvalidMaximumDomain_as_async = function(testRun) {
 		AWS.SimpleDB.deleteDomain({
 			'DomainName' : 'xyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdget'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteDomainWithInvalidMinmumDomain_as_async = function(testRun) {
+	this.testDeleteDomainWithInvalidMinmumDomain_as_async = function(testRun) {
 		AWS.SimpleDB.deleteDomain({
 			'DomainName' : 'xy'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteEmptyDomain_as_async = function(testRun) {
+	this.testDeleteEmptyDomain_as_async = function(testRun) {
 		AWS.SimpleDB.deleteDomain({
 			'DomainName' : ''
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -203,7 +211,7 @@ module.exports = new function () {
 
 	// Start TestCases for BatchPutAttributes
 
-	this.testbatchPutAttributes_as_async = function(testRun) {
+	this.testBatchPutAttributes_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			'DomainName' : 'DrillBit123456'
 		}, function(data) {
@@ -213,121 +221,126 @@ module.exports = new function () {
 				'Item.1.Attribute.1.Value' : 'testAttributeValue',
 				'Item.1.ItemName' : 'testItemName'
 			}, function(data) {
-				finish(testRun);
+				
 				AWS.SimpleDB.batchDeleteAttributes({
 					'DomainName' : 'DrillBit123456',
 					'Item.1.ItemName' : 'testItemName',
+					'Item.1.Attribute.1.Name' : 'testAttributeName',
 					'Item.1.Attribute.1.Value' : 'testAttributeName'
 				}, function(data) {
 					AWS.SimpleDB.deleteDomain({
 						'DomainName' : 'DrillBit123456'
 					}, function(data) {
-
+						finish(testRun);
 					}, function(error) {
-
+						valueOf(testRun, true).shouldBeFalse();
+						
 					});
 				}, function(error) {
-
+					valueOf(testRun, true).shouldBeFalse();
+					//alert('from batchDeleteAttribuets' + error);
 				});
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
+				//alert('From BatchPutAttributes' + error);
 			});
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
+			//alert('From Create domain' + error);
 		});
 
 	}
-	this.testbatchPutAttributesWithInvalidDomain_as_async = function(testRun) {
+	this.testBatchPutAttributesWithInvalidDomain_as_async = function(testRun) {
 		AWS.SimpleDB.batchPutAttributes({
 			'DomainName' : '@testDomain',
 			'Item.1.Attribute.1.Name' : 'testAttributeName',
 			'Item.1.Attribute.1.Value' : 'testAttributeValue',
 			'Item.1.ItemName' : 'testItemName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
-	this.testbatchPutAttributesWithInvalidMinimumLengthDomain_as_async = function(testRun) {
+	this.testBatchPutAttributesWithInvalidMinimumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.batchPutAttributes({
 			'DomainName' : 'xy',
 			'Item.1.Attribute.1.Name' : 'testAttributeName',
 			'Item.1.Attribute.1.Value' : 'testAttributeValue',
 			'Item.1.ItemName' : 'testItemName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testbatchPutAttributesWithInvalidMaximumLengthDomain_as_async = function(testRun) {
+	this.testBatchPutAttributesWithInvalidMaximumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.batchPutAttributes({
 			'DomainName' : 'xyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdget',
 			'Item.1.Attribute.1.Name' : 'testAttributeName',
 			'Item.1.Attribute.1.Value' : 'testAttributeValue',
 			'Item.1.ItemName' : 'testItemName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testbatchPutAttributesEmptyDomain_as_async = function(testRun) {
+	this.testBatchPutAttributesEmptyDomain_as_async = function(testRun) {
 		AWS.SimpleDB.batchPutAttributes({
 			'DomainName' : '',
 			'Item.1.Attribute.1.Name' : 'testAttributeName',
 			'Item.1.Attribute.1.Value' : 'testAttributeValue',
 			'Item.1.ItemName' : 'testItemName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testbatchPutAttributesEmptyItemName_as_async = function(testRun) {
+	this.testBatchPutAttributesEmptyItemName_as_async = function(testRun) {
 		AWS.SimpleDB.batchPutAttributes({
 			'DomainName' : '',
 			'Item.1.Attribute.1.Name' : 'testAttributeName',
 			'Item.1.Attribute.1.Value' : 'testAttributeValue',
 			'Item.1.ItemName' : ''
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testbatchPutAttributesEmptyAttributeName_as_async = function(testRun) {
+	this.testBatchPutAttributesEmptyAttributeName_as_async = function(testRun) {
 		AWS.SimpleDB.batchPutAttributes({
 			'DomainName' : '',
 			'Item.1.Attribute.1.Name' : '',
 			'Item.1.Attribute.1.Value' : 'testAttributeValue',
 			'Item.1.ItemName' : 'testItemName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testbatchPutAttributesEmptyAttributeValue_as_async = function(testRun) {
+	this.testBatchPutAttributesEmptyAttributeValue_as_async = function(testRun) {
 		AWS.SimpleDB.batchPutAttributes({
 			'DomainName' : 'testDomain',
 			'Item.1.Attribute.1.Name' : 'testAttributeName',
 			'Item.1.Attribute.1.Value' : '',
 			'Item.1.ItemName' : 'testItemName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testbatchPutAttributesWithInvalidReplaceValue_as_async = function(testRun) {
+	this.testBatchPutAttributesWithInvalidReplaceValue_as_async = function(testRun) {
 		AWS.SimpleDB.batchPutAttributes({
 			'DomainName' : 'testDomain',
 			'Item.1.Attribute.1.Name' : 'testAttributeName',
@@ -335,7 +348,7 @@ module.exports = new function () {
 			'Item.1.ItemName' : 'testItemName',
 			'Item.1.Attribute.1.Replace' : 'xyz'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -344,7 +357,7 @@ module.exports = new function () {
 
 	// Start Test Cases for BatchDeleteAttributes.
 
-	this.testbatchDeleteAttributes_as_async = function(testRun) {
+	this.testBatchDeleteAttributes_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			'DomainName' : 'Test98345'
 		}, function(data) {
@@ -360,91 +373,91 @@ module.exports = new function () {
 					'Item.1.Attribute.1.Name' : 'testAttributeName',
 					'Item.1.Attribute.1.Value' : 'testAttributeValue'
 				}, function(data) {
-					finish(testRun);
+					
 					AWS.SimpleDB.deleteDomain({
 						'DomainName' : 'Test98345'
 					}, function(data) {
-
+						finish(testRun);
 					}, function(error) {
-
+						valueOf(testRun, true).shouldBeFalse();
 					});
 				}, function(error) {
-					callback.failed(JSON.stringify(error));
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				callback.failed(JSON.stringify(error));
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
-	this.testbatchDeleteAttributesWithInvalidDomain_as_async = function(testRun) {
+	this.testBatchDeleteAttributesWithInvalidDomain_as_async = function(testRun) {
 		AWS.SimpleDB.batchDeleteAttributes({
 			'DomainName' : '@xyz',
 			'Item.1.ItemName' : 'testItemName',
 			'Item.1.Attribute.1.Value' : 'testAttributeName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
-	this.testbatchDeleteAttributesWithMinimumLengthDomain_as_async = function(testRun) {
+	this.testBatchDeleteAttributesWithMinimumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.batchDeleteAttributes({
 			'DomainName' : 'xy',
 			'Item.1.ItemName' : 'testItemName',
 			'Item.1.Attribute.1.Value' : 'testAttributeName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testbatchDeleteAttributesWithMaximumLengthDomain_as_async = function(testRun) {
+	this.testBatchDeleteAttributesWithMaximumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.batchDeleteAttributes({
 			'DomainName' : 'xyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdget',
 			'Item.1.ItemName' : 'testItemName',
 			'Item.1.Attribute.1.Value' : 'testAttributeName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testbatchDeleteAttributesWithEmptyDomain_as_async = function(testRun) {
+	this.testBatchDeleteAttributesWithEmptyDomain_as_async = function(testRun) {
 		AWS.SimpleDB.batchDeleteAttributes({
 			'DomainName' : '',
 			'Item.1.ItemName' : 'testItemName',
 			'Item.1.Attribute.1.Value' : 'testAttributeName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testbatchDeleteAttributesWithEmptyItemName_as_async = function(testRun) {
+	this.testBatchDeleteAttributesWithEmptyItemName_as_async = function(testRun) {
 		AWS.SimpleDB.batchDeleteAttributes({
 			'DomainName' : 'DrillbitDomain',
 			'Item.1.ItemName' : '',
 			'Item.1.Attribute.1.Value' : 'testAttributeName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testbatchDeleteAttributesWithEmptyAttributeValue_as_async = function(testRun) {
+	this.testBatchDeleteAttributesWithEmptyAttributeValue_as_async = function(testRun) {
 		AWS.SimpleDB.batchDeleteAttributes({
 			'DomainName' : 'DrillbitDomain',
 			'Item.1.ItemName' : 'testItemName',
 			'Item.1.Attribute.1.Value' : ''
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -452,7 +465,7 @@ module.exports = new function () {
 	// End Test Cases for BatchDeleteAttributes.
 
 	// Start TestCases for delete Attributes.
-	this.testdeleteAttributes_as_async = function(testRun) {
+	this.testDeleteAttributes_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			DomainName : 'DrillBit12345611'
 		}, function(data) {
@@ -464,98 +477,100 @@ module.exports = new function () {
 			}, function(data) {
 				AWS.SimpleDB.deleteAttributes({
 					'ItemName' : 'testItemName',
-					'DomainName' : 'DrillBit12345611'
+					'DomainName' : 'DrillBit12345611',
+					'Attribute.1.Name' : 'testAttributeName',
+					'Attribute.1.Value' : 'testAttributeValue'
 				}, function(data) {
-					finish(testRun);
+					
 					AWS.SimpleDB.deleteDomain({
 						'DomainName' : 'DrillBit12345611'
 					}, function(data) {
-
+						finish(testRun);
 					}, function(error) {
-
+						valueOf(testRun, true).shouldBeFalse();
 					});
 				}, function(error) {
-					valueOf(testRun, true).shouldBeFalse();finish(testRun);
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			});
 
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
 
-	this.testdeleteAttributesWithInvalidDomain_as_async = function(testRun) {
+	this.testDeleteAttributesWithInvalidDomain_as_async = function(testRun) {
 		AWS.SimpleDB.deleteAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : '@testDomainName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteAttributesWithInvalidMinimumLengthDomain_as_async = function(testRun) {
+	this.testDeleteAttributesWithInvalidMinimumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.deleteAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'xy'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteAttributesWithInvalidMaximumLengthDomain_as_async = function(testRun) {
+	this.testDeleteAttributesWithInvalidMaximumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.deleteAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'xyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdget'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteAttributesWithEmptyDomain_as_async = function(testRun) {
+	this.testDeleteAttributesWithEmptyDomain_as_async = function(testRun) {
 		AWS.SimpleDB.deleteAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : ''
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteAttributesWithEmptyItemName_as_async = function(testRun) {
+	this.testDeleteAttributesWithEmptyItemName_as_async = function(testRun) {
 		AWS.SimpleDB.deleteAttributes({
 			'ItemName' : '',
 			'DomainName' : 'testDomain'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteAttributesWithInvalidExpectedValue_as_async = function(testRun) {
+	this.testDeleteAttributesWithInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.deleteAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'testDomain',
 			'Expected.1.Name' : '',
 			'Expected.1.Value' : 'testValue'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteAttributesInvalidExpectedValue_as_async = function(testRun) {
+	this.testDeleteAttributesInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.deleteAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'testDomain',
@@ -563,25 +578,25 @@ module.exports = new function () {
 			'Expected.1.Value' : 'testValue',
 			'Expected.1.Exists' : 'falses'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteAttributesInvalidExpectedValue_as_async = function(testRun) {
+	this.testDeleteAttributesInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.deleteAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'testDomainName',
 			'Expected.1.Exists' : 'xy'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteAttributesInvalidExpectedValue_as_async = function(testRun) {
+	this.testDeleteAttributesInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.deleteAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'testDomainName',
@@ -589,13 +604,13 @@ module.exports = new function () {
 			'Expected.1.Value' : 'testValue',
 			'Attribute.1.Value' : 'value1,value2'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteAttributesInvalidExpectedValue_as_async = function(testRun) {
+	this.testDeleteAttributesInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.deleteAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'testDomainName',
@@ -603,13 +618,13 @@ module.exports = new function () {
 			'Expected.1.Exists' : 'falses',
 			'Attribute.1.Value' : 'value1,value2'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdeleteAttributesInvalidExpectedValue_as_async = function(testRun) {
+	this.testDeleteAttributesInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.deleteAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'testDomainName',
@@ -617,81 +632,81 @@ module.exports = new function () {
 			'Expected.1.Exists' : 'falses',
 			'Attribute.1.Value' : 'value1,value2'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 	// End Test Cases for deleteAttributes.
 	// Start Test Cases for domainMetadata
-	this.testdomainMetadata_as_async = function(testRun) {
+	this.testDomainMetadata_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			DomainName : 'DrillBit98123456'
 		}, function(data) {
 			AWS.SimpleDB.domainMetadata({
 				'DomainName' : 'DrillBit98123456'
 			}, function(data) {
-				finish(testRun);
+				
 				AWS.SimpleDB.deleteDomain({
 					'DomainName' : 'DrillBit98123456'
 				}, function(data) {
-
+					finish(testRun);
 				}, function(error) {
-
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
 
-	this.testdomainMetadataInvalidDomain_as_async = function(testRun) {
+	this.testDomainMetadataInvalidDomain_as_async = function(testRun) {
 		AWS.SimpleDB.domainMetadata({
 			'DomainName' : 'testDomain'// domain does ot exists
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
-	this.testdomainMetadataWithEmptyDomain_as_async = function(testRun) {
+	this.testDomainMetadataWithEmptyDomain_as_async = function(testRun) {
 		AWS.SimpleDB.domainMetadata({
 			'DomainName' : ''
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdomainMetadataWithInvalidDomain_as_async = function(testRun) {
+	this.testDomainMetadataWithInvalidDomain_as_async = function(testRun) {
 		AWS.SimpleDB.domainMetadata({
 			'DomainName' : '@testDomainName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdomainMetadataWithInvalidMinimumLengthDomain_as_async = function(testRun) {
+	this.testDomainMetadataWithInvalidMinimumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.domainMetadata({
 			'DomainName' : 'xy'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testdomainMetadataWithInvalidMaximumLengthDomain_as_async = function(testRun) {
+	this.testDomainMetadataWithInvalidMaximumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.domainMetadata({
 			'DomainName' : 'xyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdget'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -700,7 +715,7 @@ module.exports = new function () {
 
 	// Start Test Cases for Get Attributes.
 
-	this.testgetAttributes_as_async = function(testRun) {
+	this.testGetAttributes_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			DomainName : 'DrillBit1981236'
 		}, function(data) {
@@ -716,101 +731,103 @@ module.exports = new function () {
 				}, function(data) {
 					AWS.SimpleDB.deleteAttributes({
 						'ItemName' : 'testItemName',
-						'DomainName' : 'DrillBit1981236'
+						'DomainName' : 'DrillBit1981236',
+						'Attribute.1.Name' : 'testAttributeName',
+						'Attribute.1.Value' : 'testAttributeValue'
 					}, function(data) {
 						finish(testRun);
 						AWS.SimpleDB.deleteDomain({
 							'DomainName' : 'DrillBit1981236'
 						}, function(data) {
-
+							finish(testRun);
 						}, function(error) {
-
+							valueOf(testRun, true).shouldBeFalse();
 						});
 					}, function(error) {
-
+						valueOf(testRun, true).shouldBeFalse();
 					});
 				}, function(error) {
-					valueOf(testRun, true).shouldBeFalse();finish(testRun);
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			});
 
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
 
-	this.testgetAttributesWithInvalidConsistemtRead_as_async = function(testRun) {
+	this.testGetAttributesWithInvalidConsistemtRead_as_async = function(testRun) {
 		AWS.SimpleDB.getAttributes({
 			'DomainName' : 'testDomainName',
 			'ItemName' : 'testItemName',
 			'ConsistentRead' : 'xyz'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testgetAttributesWithInvalidDomianName_as_async = function(testRun) {
+	this.testGetAttributesWithInvalidDomianName_as_async = function(testRun) {
 		AWS.SimpleDB.getAttributes({
 			'DomainName' : '@testDomainName',
 			'ItemName' : 'testItemName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testgetAttributesWithInvalidMinimumLengthDomianName_as_async = function(testRun) {
+	this.testGetAttributesWithInvalidMinimumLengthDomianName_as_async = function(testRun) {
 		AWS.SimpleDB.getAttributes({
 			'DomainName' : 'xy',
 			'ItemName' : 'testItemName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testgetAttributesWithInvalidMaximumLengthDomianName_as_async = function(testRun) {
+	this.testGetAttributesWithInvalidMaximumLengthDomianName_as_async = function(testRun) {
 		AWS.SimpleDB.getAttributes({
 			'DomainName' : 'xyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdget',
 			'ItemName' : 'testItemName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testgetAttributesWithEmptyDomianName_as_async = function(testRun) {
+	this.testGetAttributesWithEmptyDomianName_as_async = function(testRun) {
 		AWS.SimpleDB.getAttributes({
 			'DomainName' : '',
 			'ItemName' : 'testItemName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testgetAttributesWithEmptyItemName_as_async = function(testRun) {
+	this.testGetAttributesWithEmptyItemName_as_async = function(testRun) {
 		AWS.SimpleDB.getAttributes({
 			'DomainName' : 'Domain1',
 			'ItemName' : ''
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 	// End Test Cases for Get Attributes.
 	// Start Test Cases for Put Attributes.
-	this.testputAttributes_as_async = function(testRun) {
+	this.testPutAttributes_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			DomainName : 'DrillBit777120'
 		}, function(data) {
@@ -820,7 +837,7 @@ module.exports = new function () {
 				'ItemName' : 'testItemName',
 				'DomainName' : 'DrillBit777120'
 			}, function(data) {
-				finish(testRun);
+				
 				AWS.SimpleDB.deleteAttributes({
 					'ItemName' : 'testItemName',
 					'DomainName' : 'DrillBit777120'
@@ -828,116 +845,116 @@ module.exports = new function () {
 					AWS.SimpleDB.deleteDomain({
 						'DomainName' : 'DrillBit777120'
 					}, function(data) {
-
+						finish(testRun);
 					}, function(error) {
-
+						valueOf(testRun, true).shouldBeFalse();
 					});
 				}, function(error) {
-
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			});
 
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
 
-	this.testputAttributesWithInvalidDomainName_as_async = function(testRun) {
+	this.testPutAttributesWithInvalidDomainName_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'Attribute.1.Name' : 'testAttributeName',
 			'Attribute.1.Value' : 'testAttributeValue',
 			'ItemName' : 'testItemName',
 			'DomainName' : '@testDomainName'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testputAttributesWithInvalidMinimumLengthDomain_as_async = function(testRun) {
+	this.testPutAttributesWithInvalidMinimumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'Attribute.1.Name' : 'testAttributeName',
 			'Attribute.1.Value' : 'testAttributeValue',
 			'ItemName' : 'testItemName',
 			'DomainName' : 'te'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testputAttributesWithInvalidMaximumLengthDomain_as_async = function(testRun) {
+	this.testPutAttributesWithInvalidMaximumLengthDomain_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'Attribute.1.Name' : 'testAttributeName',
 			'Attribute.1.Value' : 'testAttributeValue',
 			'ItemName' : 'testItemName',
 			'DomainName' : 'xyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdgetxyasesdedfghjklqwertyuioplkjhfgdsazxcvbnmlkjuyhyhgtfrdedswasedertyuioplkmnhthththgrdtefrtfhukhtihdget'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testputAttributesWithEmptyDomain_as_async = function(testRun) {
+	this.testPutAttributesWithEmptyDomain_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'Attribute.1.Name' : 'testAttributeName',
 			'Attribute.1.Value' : 'testAttributeValue',
 			'ItemName' : 'testItemName',
 			'DomainName' : ''
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testputAttributesWithEmptyAttributeName_as_async = function(testRun) {
+	this.testPutAttributesWithEmptyAttributeName_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'Attribute.1.Name' : '',
 			'Attribute.1.Value' : 'testAttributeValue',
 			'ItemName' : 'testItemName',
 			'DomainName' : 'Domain1'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testputAttributesWithEmptyAttributeValue_as_async = function(testRun) {
+	this.testPutAttributesWithEmptyAttributeValue_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'Attribute.1.Name' : 'testAttributeName',
 			'Attribute.1.Value' : '',
 			'ItemName' : 'testItemName',
 			'DomainName' : 'Domain1'
 		}, function(data) {
-			finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			finish(testRun);
 		});
 
 	}
 
-	this.testputAttributesWithEmptyItemName_as_async = function(testRun) {
+	this.testPutAttributesWithEmptyItemName_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'Attribute.1.Name' : '',
 			'Attribute.1.Value' : 'test',
 			'ItemName' : 'testItemName',
 			'DomainName' : 'Domain1'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testputAttributesWithInvalidExpectedValue_as_async = function(testRun) {
+	this.testPutAttributesWithInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'Attribute.1.Name' : 'testAttributeName',
 			'Attribute.1.Value' : '',
@@ -946,13 +963,13 @@ module.exports = new function () {
 			'Expected.1.Name' : '',
 			'Expected.1.Value' : 'testValue'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testputAttributesInvalidExpectedValue_as_async = function(testRun) {
+	this.testPutAttributesInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'Domain1',
@@ -960,25 +977,25 @@ module.exports = new function () {
 			'Expected.1.Value' : 'testValue',
 			'Expected.1.Exists' : 'falses'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testputAttributesInvalidExpectedValue_as_async = function(testRun) {
+	this.testPutAttributesInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'Domain1',
 			'Expected.1.Exists' : 'xy'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testputAttributesInvalidExpectedValue_as_async = function(testRun) {
+	this.testPutAttributesInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'Domain1',
@@ -986,13 +1003,13 @@ module.exports = new function () {
 			'Expected.1.Value' : 'testValue',
 			'Attribute.1.Value' : 'value1,value2'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testputAttributesInvalidExpectedValue_as_async = function(testRun) {
+	this.testPutAttributesInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'Domain1',
@@ -1000,13 +1017,13 @@ module.exports = new function () {
 			'Expected.1.Exists' : 'falses',
 			'Attribute.1.Value' : 'value1,value2'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 
-	this.testputAttributesInvalidExpectedValue_as_async = function(testRun) {
+	this.testPutAttributesInvalidExpectedValue_as_async = function(testRun) {
 		AWS.SimpleDB.putAttributes({
 			'ItemName' : 'testItemName',
 			'DomainName' : 'Domain1',
@@ -1014,7 +1031,7 @@ module.exports = new function () {
 			'Expected.X.Exists' : 'falses',
 			'Attribute.X.Value' : 'value1,value2'
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1023,7 +1040,7 @@ module.exports = new function () {
 
 	// Start Test Cases for Select.
 
-	this.testselect_as_async = function(testRun) {
+	this.testSelect_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
 			DomainName : 'DrillBit7787120'
 		}, function(data) {
@@ -1036,7 +1053,7 @@ module.exports = new function () {
 				AWS.SimpleDB.select({
 					'SelectExpression' : 'select * from DrillBit7787120',
 				}, function(data) {
-					finish(testRun);
+					
 					AWS.SimpleDB.deleteAttributes({
 						'ItemName' : 'testItemName',
 						'DomainName' : 'DrillBit7787120'
@@ -1044,50 +1061,53 @@ module.exports = new function () {
 						AWS.SimpleDB.deleteDomain({
 							'DomainName' : 'DrillBit7787120'
 						}, function(data) {
+							finish(testRun);
 						}, function(error) {
+							valueOf(testRun, true).shouldBeFalse();
 						});
 					}, function(error) {
+						valueOf(testRun, true).shouldBeFalse();
 					});
 				}, function(error) {
-					callback.failed(JSON.stringify(error));
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				callback.failed(JSON.stringify(error));
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
-	this.testselectWithInvalidExpression_as_async = function(testRun) {
+	this.testSelectWithInvalidExpression_as_async = function(testRun) {
 		AWS.SimpleDB.select({
 			'SelectExpression' : 34567,
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
-	this.testselectWithEmptyExpression_as_async = function(testRun) {
+	this.testSelectWithEmptyExpression_as_async = function(testRun) {
 		AWS.SimpleDB.select({
 			'SelectExpression' : '',
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
-	this.testselectWithInvalidConsistentReadValue_as_async = function(testRun) {
+	this.testSelectWithInvalidConsistentReadValue_as_async = function(testRun) {
 		AWS.SimpleDB.select({
 			'SelectExpression' : 'valid Expression',
 			'ConsistentRead' : 'gfh'                       //Value must be boolean
 		}, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
-	*/
+	
 	
 	// Populate the array of tests based on the 'hammer' convention
 	this.tests = require('hammer').populateTests(this, 30000);
