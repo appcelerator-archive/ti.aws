@@ -52,8 +52,8 @@ GlobalLogic
 
 			required params : ['DomainName', 'ItemName']
 
+		 * [Amazon Simple Storage Service (S3)  ](https:aws.amazon.com) (Simple Storage Service)
 
-		 * [Amazon Simple Storage Service (S3)  ](https://github.com/SaltwaterC/aws2js/wiki/S3-Client) (Simple Storage Service)
 
 			method : 'getService'
 
@@ -157,114 +157,40 @@ GlobalLogic
 					params : ['bucketName', 'objectName']
 
 			method : 'getObjectAcl', // Xml Parsing Problem.
-			subResource : '?acl',
-			validations : {
-				required : {
 					params : ['bucketName', 'objectName']
-				}
-			}
-		}, {
-			method : 'headObject',
-			verb : 'HEAD',
-			validations : {
-				required : {
-					params : ['bucketName', 'objectName']
-				}
-			}
-		}, {
-			method : 'putObject', //Working on Ios only.Content Length Header Value Cannot be Override in Android.
-			verb : 'PUT',
-			uploadFile : true,
-			validations : {
-				required : {
-					params : ['bucketName', 'objectName']
-				}
-			}
-		}, {
-			method : 'putObjectAcl',
-			contentType : 'application/xml',
-			verb : 'PUT',
-			subResource : '?acl',
-			validations : {
-				required : {
-					params : ['bucketName', 'objectName', 'xmlTemplate']
-				}
-			}
-		}, {
-			method : 'putObjectCopy',
-			verb : 'PUT',
-			validations : {
-				required : {
-					params : ['bucketName', 'objectName', 'copySource']
-				}
-			}
-		}, {
-			method : 'initiateMultipartUpload',
-			verb : 'POST',
-			subResource : '?uploads',
-			validations : {
-				required : {
-					params : ['bucketName', 'objectName']
-				}
-			}
-		}, {
-			method : 'abortMultipartUpload',
-			verb : 'DELETE',
-			subResource : '?',
-			validations : {
-				required : {
-					params : ['bucketName', 'objectName', 'uploadId']
-				}
-			}
-		}, {
-			method : 'completeMultipartUpload',
-			verb : 'POST',
-			subResource : '?',
-			contentType : 'application/xml',
-			validations : {
-				required : {
-					params : ['bucketName', 'objectName', 'uploadId', 'xmlTemplate']
-				}
-			}
-		}, {
-			method : 'uploadPart',
-			verb : 'PUT',
-			uploadFile : true,
-			subResource : '?',
-			validations : {
-				required : {
-					params : ['bucketName', 'objectName', 'uploadId', 'partNumber', 'file']
-				}
-			}
-		}, {
-			method : 'uploadPartCopy',
-			verb : 'PUT',
-			subResource : '?',
-			validations : {
-				required : {
-					params : ['bucketName', 'objectName', 'uploadId', 'partNumber']
-				}
-			}
-		}, {
-			method : 'listParts',
-			subResource : '?',
-			validations : {
-				required : {
-					params : ['bucketName', 'objectName', 'uploadId']
-				}
-			}
-		}]
-		
 
-		property : 'SES',
-		endpoint : "https://email."+regionEndpoint+".amazonaws.com",
-		verb : 'POST',
-		host : 'email.'+regionEndpoint+'.amazonaws.com',
-		algorithm : 'HmacSHA1',
-		contentType : 'application/x-www-form-urlencoded',
-		executor : sesExecutor,
-		isRawMessage : false,
-		children : [{
+			method : 'headObject',
+					params : ['bucketName', 'objectName']
+					
+			method : 'putObject', //Working on Ios only.Content Length Header Value Cannot be Override in Android.
+					params : ['bucketName', 'objectName']
+
+			method : 'putObjectAcl',
+					params : ['bucketName', 'objectName', 'xmlTemplate']
+
+			method : 'putObjectCopy',
+					params : ['bucketName', 'objectName', 'copySource']
+
+			method : 'initiateMultipartUpload',
+					params : ['bucketName', 'objectName']
+
+			method : 'abortMultipartUpload',
+					params : ['bucketName', 'objectName', 'uploadId']
+
+			method : 'completeMultipartUpload',
+					params : ['bucketName', 'objectName', 'uploadId', 'xmlTemplate']
+					
+			method : 'uploadPart',
+					params : ['bucketName', 'objectName', 'uploadId', 'partNumber', 'file']
+
+			method : 'uploadPartCopy',
+					params : ['bucketName', 'objectName', 'uploadId', 'partNumber']
+
+			method : 'listParts',
+					params : ['bucketName', 'objectName', 'uploadId']
+
+		* [Amazon Simple Email Service (SES)](http://aws.amazon.com) (Identity and Access Management)
+		
 			method : 'deleteVerifiedEmailAddress',
 			validations : {
 				required : {
@@ -423,162 +349,73 @@ GlobalLogic
 			}
 		}]
 	}, {
-		property : 'SNS',
-		endpoint : "http://sns."+regionEndpoint+".amazonaws.com",
-		verb : 'POST',
-		executor : snsExecutor,
-		version : '2010-03-31',
-		children : [{
-			method : 'addPermission',
-			validations : {
-				required : {
-					params : ['Label', 'TopicArn']
-				},
-				patternExistsValidator : {
-					params : ['AWSAccountId.member.*', 'ActionName.member.*']
-				}
-			}
-		}, {
-			method : 'confirmSubscription',
-			validations : {
-				required : {
-					params : ['Token', 'TopicArn']
-				}
+		
+		 * [Amazon Simple Notification Service (SNS) ](http://aws.amazon.com)
+		
 
-			}
-		}, {
-			method : 'createTopic',
-			validations : {
-				required : {
-					params : ['Name']
-				}
-			}
-		}, {
-			method : 'deleteTopic',
-			validations : {
-				required : {
-					params : ['TopicArn']
-				}
-			}
-		}, {
-			method : 'getSubscriptionAttributes',
-			validations : {
-				required : {
-					params : ['SubscriptionArn']
-				}
-			}
-		}, {
-			method : 'getTopicAttributes',
-			validations : {
-				required : {
-					params : ['TopicArn']
-				}
-			}
-		}, {
-			method : 'listSubscriptions'
-		}, {
-			method : 'listSubscriptionsByTopic',
-			validations : {
-				required : {
-					params : ['TopicArn']
-				}
-			}
-		}, {
-			method : 'listTopics'
-		}, {
-			method : 'publish',
-			validations : {
-				required : {
-					params : ['TopicArn', 'Message']
-				}
-			}
-		}, {
-			method : 'removePermission',
-			validations : {
-				required : {
+			method : 'addPermission',
 					params : ['Label', 'TopicArn']
-				}
-			}
-		}, {
-			method : 'setSubscriptionAttributes',
-			validations : {
-				required : {
-					params : ['AttributeName', 'AttributeValue', 'SubscriptionArn']
-				}
-			}
-		}, {
-			method : 'setTopicAttributes',
-			validations : {
-				required : {
-					params : ['AttributeName', 'AttributeValue', 'TopicArn']
-				}
-			}
-		}, {
-			method : 'subscribe',
-			validations : {
-				required : {
-					params : ['TopicArn', 'Endpoint', 'Protocol']
-				}
-			}
-		}, {
-			method : 'unsubscribe',
-			validations : {
-				required : {
+					
+			method : 'confirmSubscription',
+					params : ['Token', 'TopicArn']
+
+			method : 'createTopic',
+					params : ['Name']
+
+			method : 'deleteTopic',
+					params : ['TopicArn']
+
+			method : 'getSubscriptionAttributes',
 					params : ['SubscriptionArn']
-				}
-			}
-		}]
-	}, {
+
+			method : 'getTopicAttributes',
+					params : ['TopicArn']
+
+			method : 'listSubscriptions'
+
+			method : 'listSubscriptionsByTopic',
+					params : ['TopicArn']
+
+			method : 'listTopics'
+					params : ['TopicArn', 'Message']
+
+			method : 'removePermission',
+					params : ['Label', 'TopicArn']
+
+			method : 'setSubscriptionAttributes',
+					params : ['AttributeName', 'AttributeValue', 'SubscriptionArn']
+
+			method : 'setTopicAttributes',
+					params : ['AttributeName', 'AttributeValue', 'TopicArn']
+
+			method : 'subscribe',
+					params : ['TopicArn', 'Endpoint', 'Protocol']
+
+			method : 'unsubscribe',
+					params : ['SubscriptionArn']
+
+		
 		property : "STS",
-		endpoint : "https://sts.amazonaws.com",
-		verb : 'POST',
-		version : "2011-06-15",
-		host : "sts.amazonaws.com",
-		executor : stsExecutor,
-		children : [{
 			method : 'getSessionToken'
-		}]
-	}, {
-		property : "DDB",
-		endpoint : "https://dynamodb."+regionEndpoint+".amazonaws.com/",
-		verb : 'POST',
-		host : "dynamodb."+regionEndpoint+".amazonaws.com",
-		algorithm : "HmacSHA256",
-		contentType : "application/x-amz-json-1.0",
-		validations : {
-			required : {
-				params : ['requestJSON']
-			}
-		},
-		executor : dynamoDbExecutor,
-		children : [{
+
+		 * [Amazon DynamoDB](http://aws.amazon.com)
+
+
 			method : 'listTables'
-		}, {
 			method : 'batchWriteItem'
-		}, {
 			method : 'describeTable'
-		}, {
 			method : 'updateTable'
-		}, {
 			method : 'updateItem'
-		}, {
 			method : 'deleteTable'
-		}, {
 			method : 'getItem'
-		}, {
 			method : 'putItem'
-		}, {
 			method : 'scan'
-		}, {
 			method : 'query'
-		}, {
 			method : 'deleteItem'
-		}, {
 			method : 'batchGetItem'
-		}, {
 			method : 'createTable'
-		}]
 				
+		 * [Amazon Simple Queue Service (SQS)](http://aws.amazon.com) (Simple Queue Service)
 		
 
 
