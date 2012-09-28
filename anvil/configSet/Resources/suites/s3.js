@@ -87,58 +87,6 @@ module.exports = new function () {
 				alert(error);
 				//valueOf(testRun, true).shouldBeFalse();
 			});
-		
-		
-		
-// 		
-// 		
-// 		
-// 		
-// 		
-		// AWS.S3.putBucket({
-			// bucketName : bucketName
-		// }, function(data) {
-			// alert('Success');
-			// AWS.S3.putObject({
-				// 'bucketName' : bucketName,
-				// 'objectName' : 'KS_nav_views.png',
-				// 'file' : f
-			// }, function(data) {
-				// AWS.S3.headObject({
-					// 'bucketName' : bucketName,
-					// 'objectName' : 'KS_nav_views.png'
-				// }, function(data) {
-// 					
-					// AWS.S3.deleteObject({
-						// 'bucketName' : bucketName,
-						// 'objectName' : 'KS_nav_views.png'
-					// }, function(data) {
-						// AWS.S3.deleteBucket({
-							// 'bucketName' : bucketName
-						// }, function(data) {
-							// //finish(testRun);
-						// }, function(error) {
-// 
-						// });
-					// }, function(error) {
-// 
-					// });
-				// }, function(error) {
-					// //valueOf(testRun, true).shouldBeFalse();
-					// alert(error);
-				// });
-			// }, function(error) {
-				// alert(error);
-				// //valueOf(testRun, true).shouldBeFalse();
-			// });
-// 			
-// 			
-		// }, function(error) {
-			// // valueOf(testRun, true).shouldBeFalse();Ti.API.debug(error);
-			// alert(error);
-		// });
-// 		
-	}//end testHeadObject_as_async
 	
 	
 	this.testHeadObjectWithEmptybucketName_as_async= function(testRun) {
@@ -223,19 +171,7 @@ module.exports = new function () {
 								'bucketName' : 'test131testaws_M_1',
 								'objectName' : 'KS_nav_views.png'
 							}, function(data) {
-								// AWS.S3.deleteBucket({
-									// 'bucketName' : 'test324'
-								// }, function(data) {
-									// AWS.S3.deleteBucket({
-										// 'bucketName' : 'test231'
-									// }, function(data) {
-// 
-									// }, function(error) {
-// 
-									// });
-								// }, function(error) {
-// 
-								// });
+								
 							}, function(error) {	
 								alert('in delete Object M_1 Copy' + error)
 							});
@@ -246,64 +182,6 @@ module.exports = new function () {
 						alert('in put Object Copy' + error)
 					});
 		
-		
-// 		
-		// AWS.S3.putBucket({
-			// bucketName : 'test231'
-		// }, function(data) {
-			// AWS.S3.putObject({
-				// 'bucketName' : 'test231',
-				// 'objectName' : 'KS_nav_views.png',
-				// 'file' : f
-			// }, function(data) {
-				// AWS.S3.putBucket({
-					// 'bucketName' : 'test324'
-				// }, function(data) {
-					// AWS.S3.putObjectCopy({
-						// 'bucketName' : 'test324',
-						// 'objectName' : 'xyz',
-						// 'copySource' : '/test231/KS_nav_views.png'
-					// }, function(data) {
-						// finish(testRun);
-						// AWS.S3.deleteObject({
-							// 'bucketName' : 'test324',
-							// 'objectName' : 'xyz'
-						// }, function(data) {
-							// AWS.S3.deleteObject({
-								// 'bucketName' : 'test231',
-								// 'objectName' : 'KS_nav_views.png'
-							// }, function(data) {
-								// AWS.S3.deleteBucket({
-									// 'bucketName' : 'test324'
-								// }, function(data) {
-									// AWS.S3.deleteBucket({
-										// 'bucketName' : 'test231'
-									// }, function(data) {
-// 
-									// }, function(error) {
-// 
-									// });
-								// }, function(error) {
-// 
-								// });
-							// }, function(error) {
-// 
-							// });
-						// }, function(error) {
-// 
-						// });
-					// }, function(error) {
-						// alert('in put Object Copy' + error)
-					// });
-				// }, function(error) {
-					// alert('in put bucket 324' + error)
-				// });
-			// }, function(error) {
-				// alert('in put object in bucket321' + error)
-			// });
-		// }, function(error) {
-			// alert('in put bucket 321' + error)
-		// });
 	}
 	
 	this.testputObjectCopyWithInvalidBucketName_as_async= function(testRun) {
