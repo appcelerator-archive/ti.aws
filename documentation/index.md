@@ -16,11 +16,17 @@ GlobalLogic
  * [Amazon SimpleDB](http://aws.amazon.com) (Simple Storage Service)
 	
 	SimpleDBs
-			method : batchPutAttributes
-			required Params: DomainName'
-			
-			method : putAttributes
-			required Params : DomainName, ItemName
+	
+	batchPutAttributes
+	```javascript
+		batchPutAttributes( DomainName )
+	```
+	
+	putAttributes
+	```javascript
+		putAttributes(DomainName, ItemName  )
+	```
+
 
 			method : 'batchDeleteAttributes',
 
@@ -197,150 +203,69 @@ GlobalLogic
 			method : 'listVerifiedEmailAddresses'
 
 			method : 'sendEmail',
-			validations : {
-				required : {
 					params : ['source', 'destination', 'message']
-				}
-			}
-		}, {
-			method : 'sendRawEmail',
-			isRawMessage : true,
-			validations : {
-				required : {
-					params : ['rawMessage']
-				}
-			}
-		}, {
-			method : 'verifyEmailAddress',
-			validations : {
-				required : {
-					params : ['emailAddress']
-				}
-			}
-		}]
-	}, {
-		property : 'SQS',
-		endpoint : "http://sqs."+regionEndpoint+".amazonaws.com",
-		version : '2009-02-01',
-		children : [{
-			method : 'createQueue',
-			version : '2011-10-01',
-			validations : {
-				required : {
-					params : ['QueueName']
-				}
-			}
 
-		}, {
-			method : 'listQueues',
-			version : '2011-10-01',
-			arrayOverride : ['/ListQueuesResponse/ListQueuesResult/QueueUrl']
-		}, {
-			method : 'getQueueUrl',
-			version : '2011-10-01',
-			validations : {
-				required : {
+			method : 'sendRawEmail',
+					params : ['rawMessage']
+
+			method : 'verifyEmailAddress',
+					params : ['emailAddress']
+
+* [Amazon Simple Queue Service (SQS)](http://aws.amazon.com) (Simple Queue Service)
+
+
+
+			method : 'createQueue',
 					params : ['QueueName']
-				}
-			}
-		}, {
+
+			method : 'listQueues',
+
+			method : 'getQueueUrl',
+					params : ['QueueName']
+
 			method : 'addPermission',
-			version : '2011-10-01'
-		}, {
+
 			method : 'setQueueAttributes',
-			validations : {
-				required : {
 					params : ['AWSAccountId', 'QueueName', 'Attribute.Name', 'Attribute.Value']
-				}
-			}
-		}, {
+
 			method : 'getQueueAttributes',
-			validations : {
-				required : {
 					params : ['AWSAccountId', 'QueueName']
-				}
-			},
+
 			patternExistsValidator : {
 				params : ['AttributeName.*']
-			}
-		}, {
+
 			method : 'sendMessage',
-			version : '2011-10-01',
-			validations : {
-				required : {
 					params : ['AWSAccountId', 'QueueName', 'MessageBody']
-				}
-			}
-		}, {
+
 			method : 'sendMessageBatch',
-			version : '2011-10-01',
-			validations : {
-				required : {
 					params : ['AWSAccountId', 'QueueName']
-				}
-			},
-			patternExistsValidator : {
-				params : ['SendMessageBatchRequestEntry.*.Id', 'SendMessageBatchRequestEntry.*.MessageBody']
-			}
-		}, {
+					
 			method : 'receiveMessage',
-			validations : {
-				required : {
 					params : ['AWSAccountId', 'QueueName']
-				}
-			}
-		}, {
+
 			method : 'deleteMessage',
-			validations : {
-				required : {
 					params : ['ReceiptHandle', 'AWSAccountId', 'QueueName']
-				}
-			}
-		}, {
+
 			method : 'deleteMessageBatch',
-			version : '2011-10-01',
-			validations : {
-				required : {
 					params : ['AWSAccountId', 'QueueName']
-				}
-			},
+
 			patternExistsValidator : {
 				params : ['DeleteMessageBatchRequestEntry.*.Id', 'DeleteMessageBatchRequestEntry.*.ReceiptHandle']
-			}
-		}, {
+
 			method : 'deleteQueue',
-			validations : {
-				required : {
 					params : ['AWSAccountId', 'QueueName']
-				}
-			}
-		}, {
+
 			method : 'changeMessageVisibility',
-			validations : {
-				required : {
 					params : ['AWSAccountId', 'QueueName', 'ReceiptHandle', 'VisibilityTimeout']
-				}
-			}
-		}, {
+
 			method : 'changeMessageVisibilityBatch',
-			version : '2011-10-01',
-			validations : {
-				required : {
 					params : ['AWSAccountId', 'QueueName']
-				}
-			},
+
 			patternExistsValidator : {
 				params : ['ChangeMessageVisibilityBatchRequestEntry.*.Id', 'ChangeMessageVisibilityBatchRequestEntry.*.ReceiptHandle', 'ChangeMessageVisibilityBatchRequestEntry.*.VisibilityTimeout']
-			}
-		}, {
+
 			method : 'removePermission',
-			validations : {
-				required : {
 					params : ['AWSAccountId', 'QueueName', 'Label']
-				}
-			}
-		}]
-	}, {
 		
 		 * [Amazon Simple Notification Service (SNS) ](http://aws.amazon.com)
 		
@@ -405,7 +330,6 @@ GlobalLogic
 			method : 'batchGetItem'
 			method : 'createTable'
 				
-		 * [Amazon Simple Queue Service (SQS)](http://aws.amazon.com) (Simple Queue Service)
 		
 
 
