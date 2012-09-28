@@ -12,16 +12,28 @@ module.exports = new function () {
 	var emailId;
 	var uploadId = '';
 	var ETag = '';
-	var bucketName = 'test131testaws'
-	
+	var bucketName1 = 'test131testaws_M_1';
+	var bucketName2 = 'test131testaws_M_2';
 	this.init = function(testUtils) {
 		finish = testUtils.finish;
 		valueOf = testUtils.valueOf;
 		AWS = require('ti.aws');
 		AWS.authorize(Titanium.App.Properties.getString('aws.key'), Titanium.App.Properties.getString('aws.secret'));
+		
 		emailId = Titanium.App.Properties.getString('email-id');
 		uploadId = '';
 		ETag = '';
+		AWS.S3.putBucket({
+			bucketName : bucketName1
+		}, function(data) {},
+		   function(error){
+		   });
+		AWS.S3.putBucket({
+			bucketName : bucketName2
+		}, function(data) {},
+		   function(error){
+		   });
+		
 	}//end init
 	
 	this.name = "s3";
@@ -42,59 +54,99 @@ module.exports = new function () {
 	}//end testSimple
 	
 	this.testHeadObject_as_async= function(testRun) {
-		var f = Titanium.Filesystem.getFile('KS_nav_views.png');
-		valueOf(testRun, f).shouldNotBeNull();
+		var f = Titanium.Filesystem.getFile('KS_nav_views1.png');
 		
-		AWS.S3.putBucket({
-			bucketName : bucketName
-		}, function(data) {
-			/*
-			AWS.S3.putObject({
-				'bucketName' : bucketName
-				'objectName' : 'KS_nav_views.png',
+		alert(Titanium.App.Properties.getString('aws.key'));
+		alert(Titanium.App.Properties.getString('aws.secret'));
+		alert('in call before valuof' + f);
+		valueOf(testRun, f).shouldNotBeNull();
+		alert('in call');	
+		AWS.S3.putObject({
+				'bucketName' : bucketName1,
+				'objectName' : 'KS_nav_views1.png',
 				'file' : f
 			}, function(data) {
 				AWS.S3.headObject({
-					'bucketName' : bucketName,
-					'objectName' : 'KS_nav_views.png'
+					'bucketName' : bucketName1,
+					'objectName' : 'KS_nav_views1.png'
 				}, function(data) {
-					finish(testRun);
+					
 					AWS.S3.deleteObject({
-						'bucketName' : bucketName,
-						'objectName' : 'KS_nav_views.png'
+						'bucketName' : bucketName1,
+						'objectName' : 'KS_nav_views1.png'
 					}, function(data) {
-						AWS.S3.deleteBucket({
-							'bucketName' : bucketName
-						}, function(data) {
-
-						}, function(error) {
-
-						});
+						
 					}, function(error) {
 
 					});
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					//valueOf(testRun, true).shouldBeFalse();
+					alert('from put object  ' + error);
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				alert(error);
+				//valueOf(testRun, true).shouldBeFalse();
 			});
-			*/
-			finish(testRun);
-		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();Ti.API.debug(error);
-		});
 		
-		finish(testRun);
+		
+		
+// 		
+// 		
+// 		
+// 		
+// 		
+		// AWS.S3.putBucket({
+			// bucketName : bucketName
+		// }, function(data) {
+			// alert('Success');
+			// AWS.S3.putObject({
+				// 'bucketName' : bucketName,
+				// 'objectName' : 'KS_nav_views.png',
+				// 'file' : f
+			// }, function(data) {
+				// AWS.S3.headObject({
+					// 'bucketName' : bucketName,
+					// 'objectName' : 'KS_nav_views.png'
+				// }, function(data) {
+// 					
+					// AWS.S3.deleteObject({
+						// 'bucketName' : bucketName,
+						// 'objectName' : 'KS_nav_views.png'
+					// }, function(data) {
+						// AWS.S3.deleteBucket({
+							// 'bucketName' : bucketName
+						// }, function(data) {
+							// //finish(testRun);
+						// }, function(error) {
+// 
+						// });
+					// }, function(error) {
+// 
+					// });
+				// }, function(error) {
+					// //valueOf(testRun, true).shouldBeFalse();
+					// alert(error);
+				// });
+			// }, function(error) {
+				// alert(error);
+				// //valueOf(testRun, true).shouldBeFalse();
+			// });
+// 			
+// 			
+		// }, function(error) {
+			// // valueOf(testRun, true).shouldBeFalse();Ti.API.debug(error);
+			// alert(error);
+		// });
+// 		
 	}//end testHeadObject_as_async
 	
-	/*
+	
 	this.testHeadObjectWithEmptybucketName_as_async= function(testRun) {
 		AWS.S3.headObject({
 			'bucketName' : '',
 			'objectName' : 'image.part.63'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -105,7 +157,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'objectName' : 'image.part.63'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -116,7 +168,7 @@ module.exports = new function () {
 			'bucketName' : 'test12398',
 			'objectName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -127,7 +179,7 @@ module.exports = new function () {
 			'bucketName' : 'velocity-gl',
 			'objectName' : 'image.63'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -137,7 +189,7 @@ module.exports = new function () {
 		AWS.S3.headBucket({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -147,70 +199,111 @@ module.exports = new function () {
 		AWS.S3.headBucket({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}//end testHeadObjectWithEmptybucketName_as_async
 	
-	this.testputObjectCopy_as_async= function(testRun) {
+	this.testPutObjectCopy_as_async= function(testRun) {
 		var f = Titanium.Filesystem.getFile('KS_nav_views.png');
-		AWS.S3.putBucket({
-			bucketName : 'test231'
-		}, function(data) {
-			AWS.S3.putObject({
-				'bucketName' : 'test231',
-				'objectName' : 'KS_nav_views.png',
-				'file' : f
-			}, function(data) {
-				AWS.S3.putBucket({
-					'bucketName' : 'test324'
-				}, function(data) {
-					AWS.S3.putObjectCopy({
-						'bucketName' : 'test324',
+		
+		
+			AWS.S3.putObjectCopy({
+						'bucketName' : 'test131testaws_M_2',
 						'objectName' : 'xyz',
-						'copySource' : '/test231/KS_nav_views.png'
+						'copySource' : '/test131testaws_M_1/KS_nav_views1.png'
 					}, function(data) {
-						finish(testRun);
+						//finish(testRun);
 						AWS.S3.deleteObject({
-							'bucketName' : 'test324',
+							'bucketName' : 'test131testaws_M_2',
 							'objectName' : 'xyz'
 						}, function(data) {
 							AWS.S3.deleteObject({
-								'bucketName' : 'test231',
+								'bucketName' : 'test131testaws_M_1',
 								'objectName' : 'KS_nav_views.png'
 							}, function(data) {
-								AWS.S3.deleteBucket({
-									'bucketName' : 'test324'
-								}, function(data) {
-									AWS.S3.deleteBucket({
-										'bucketName' : 'test231'
-									}, function(data) {
-
-									}, function(error) {
-
-									});
-								}, function(error) {
-
-								});
-							}, function(error) {
-
+								// AWS.S3.deleteBucket({
+									// 'bucketName' : 'test324'
+								// }, function(data) {
+									// AWS.S3.deleteBucket({
+										// 'bucketName' : 'test231'
+									// }, function(data) {
+// 
+									// }, function(error) {
+// 
+									// });
+								// }, function(error) {
+// 
+								// });
+							}, function(error) {	
+								alert('in delete Object M_1 Copy' + error)
 							});
 						}, function(error) {
-
+							alert('in delete Object M_2 Copy' + error)
 						});
 					}, function(error) {
-						Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+						alert('in put Object Copy' + error)
 					});
-				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
-				});
-			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
-			});
-		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
-		});
+		
+		
+// 		
+		// AWS.S3.putBucket({
+			// bucketName : 'test231'
+		// }, function(data) {
+			// AWS.S3.putObject({
+				// 'bucketName' : 'test231',
+				// 'objectName' : 'KS_nav_views.png',
+				// 'file' : f
+			// }, function(data) {
+				// AWS.S3.putBucket({
+					// 'bucketName' : 'test324'
+				// }, function(data) {
+					// AWS.S3.putObjectCopy({
+						// 'bucketName' : 'test324',
+						// 'objectName' : 'xyz',
+						// 'copySource' : '/test231/KS_nav_views.png'
+					// }, function(data) {
+						// finish(testRun);
+						// AWS.S3.deleteObject({
+							// 'bucketName' : 'test324',
+							// 'objectName' : 'xyz'
+						// }, function(data) {
+							// AWS.S3.deleteObject({
+								// 'bucketName' : 'test231',
+								// 'objectName' : 'KS_nav_views.png'
+							// }, function(data) {
+								// AWS.S3.deleteBucket({
+									// 'bucketName' : 'test324'
+								// }, function(data) {
+									// AWS.S3.deleteBucket({
+										// 'bucketName' : 'test231'
+									// }, function(data) {
+// 
+									// }, function(error) {
+// 
+									// });
+								// }, function(error) {
+// 
+								// });
+							// }, function(error) {
+// 
+							// });
+						// }, function(error) {
+// 
+						// });
+					// }, function(error) {
+						// alert('in put Object Copy' + error)
+					// });
+				// }, function(error) {
+					// alert('in put bucket 324' + error)
+				// });
+			// }, function(error) {
+				// alert('in put object in bucket321' + error)
+			// });
+		// }, function(error) {
+			// alert('in put bucket 321' + error)
+		// });
 	}
 	
 	this.testputObjectCopyWithInvalidBucketName_as_async= function(testRun) {
@@ -219,7 +312,7 @@ module.exports = new function () {
 			'objectName' : 'xyz',
 			'copySource' : '/test12398/strus2.pdf'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -231,7 +324,7 @@ module.exports = new function () {
 			'objectName' : 'xyz',
 			'copySource' : '/test12398/strus2.pdf'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -243,7 +336,7 @@ module.exports = new function () {
 			'objectName' : '',
 			'copySource' : '/test12398/strus2.pdf'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -255,7 +348,7 @@ module.exports = new function () {
 			'objectName' : 'validname',
 			'copySource' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -267,13 +360,13 @@ module.exports = new function () {
 			'objectName' : 'validname',
 			'copySource' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 	
-	this.testgetObjectTorrent_as_async= function(testRun) {
+	this.testGetObjectTorrent_as_async= function(testRun) {
 		var f = Titanium.Filesystem.getFile('KS_nav_views.png');
 		AWS.S3.putBucket({
 			bucketName : 'test453'
@@ -303,13 +396,13 @@ module.exports = new function () {
 
 					});
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -319,7 +412,7 @@ module.exports = new function () {
 			'objectName' : 'Spring.pdf'
 		}, function(data) {
 
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -330,7 +423,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'objectName' : 'Spring.pdf'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -341,7 +434,7 @@ module.exports = new function () {
 			'bucketName' : 'pankaj2344',
 			'objectName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 
@@ -353,13 +446,13 @@ module.exports = new function () {
 			'bucketName' : 'pankaj2344',
 			'objectName' : 'image'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 	
-	this.testinitiateMultipartUpload_as_async= function(testRun) {
+	this.testInitiateMultipartUpload_as_async= function(testRun) {
 		var f = Titanium.Filesystem.getFile('KS_nav_views.png');
 		AWS.S3.putBucket({
 			bucketName : 'test572'
@@ -389,17 +482,17 @@ module.exports = new function () {
 
 					});
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
-	this.testuploadPart_as_async= function(testRun) {
+	this.testUploadPart_as_async= function(testRun) {
 		var f = Titanium.Filesystem.getFile('KS_nav_views.png');
 		AWS.S3.putBucket({
 			bucketName : 'test692'
@@ -438,20 +531,20 @@ module.exports = new function () {
 
 						});
 					}, function(error) {
-						Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+						valueOf(testRun, true).shouldBeFalse();
 					});
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
-	this.testuploadPartCopy_as_async= function(testRun) {
+	this.testUploadPartCopy_as_async= function(testRun) {
 		var f = Titanium.Filesystem.getFile('KS_nav_views.png');
 		AWS.S3.putBucket({
 			bucketName : 'test794'
@@ -511,29 +604,29 @@ module.exports = new function () {
 
 								});
 							}, function(error) {
-								Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+								valueOf(testRun, true).shouldBeFalse();
 							});
 						}, function(error) {
-							Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+							valueOf(testRun, true).shouldBeFalse();
 						});
 					}, function(error) {
-						Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+						valueOf(testRun, true).shouldBeFalse();
 					});
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
-	*/
+	
 	
 	// Complete MultiPart Upload is used for completing the process of uploading in MultiPart.
 
-	/*completeMultipartUpload_as_async= function(testRun) {
+	this.testCompleteMultipartUpload_as_async= function(testRun) {
 		AWS.S3.putBucket({
 			bucketName : 'test953'
 		}, function(data) {
@@ -632,10 +725,10 @@ module.exports = new function () {
 		}, function(error) {
 			alert('Some error occured' + JSON.stringify(error));
 		});
-	},*/
+	},
 	
-	/*
-	this.testputObject_as_async= function(testRun) {
+	
+	this.testPutObject_as_async= function(testRun) {
 		var f = Titanium.Filesystem.getFile('KS_nav_views.png');
 		AWS.S3.putBucket({
 			bucketName : 'test535'
@@ -661,14 +754,14 @@ module.exports = new function () {
 
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
-	this.testlistMultipartUploads_as_async= function(testRun) {
+	this.testListMultipartUploads_as_async= function(testRun) {
 
 		AWS.S3.putBucket({
 			bucketName : 'test723'
@@ -685,15 +778,15 @@ module.exports = new function () {
 
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 
 	 //delete Multiple Objects is used for deleting multiple Objects from a Single Bucket.
-	this.testdeleteMultipleObjects_as_async= function(testRun) {
+	this.testDeleteMultipleObjects_as_async= function(testRun) {
 		AWS.S3.putBucket({
 			bucketName : 'test024'
 		}, function(data) {
@@ -722,20 +815,20 @@ module.exports = new function () {
 
 						});
 					}, function(error) {
-						Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+						valueOf(testRun, true).shouldBeFalse();
 					});
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
-	this.testgetBucketPolicy_as_async= function(testRun) {
+	this.testGetBucketPolicy_as_async= function(testRun) {
 
 		AWS.S3.putBucket({
 			bucketName : 'DrillBitGetBucketPolicy'
@@ -774,7 +867,7 @@ module.exports = new function () {
 					});
 				}, function(error) {
 
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				});
 
 			}, function(error) {
@@ -783,12 +876,12 @@ module.exports = new function () {
 			});
 		}, function(error) {
 
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
 	//Start Test Cases for put Bucket
-	this.testputBucket_as_async= function(testRun) {
+	this.testPutBucket_as_async= function(testRun) {
 		AWS.S3.putBucket({
 			bucketName : 'DrillBitPutBucket'
 		}, function(data) {
@@ -803,7 +896,7 @@ module.exports = new function () {
 			});
 		}, function(error) {
 
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
@@ -812,7 +905,7 @@ module.exports = new function () {
 		AWS.S3.putBucket({
 			bucketName : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -820,7 +913,7 @@ module.exports = new function () {
 	
 	// End Test Cases for Put Bucket.
 	// Start Test Cases for putBucketACL
-	this.testputBucketAcl_as_async= function(testRun) {
+	this.testPutBucketAcl_as_async= function(testRun) {
 		AWS.S3.putBucket({
 			bucketName : 'DrillBitPutBucketAcl'
 		}, function(data) {
@@ -844,7 +937,7 @@ module.exports = new function () {
 			});
 		}, function(error) {
 
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -853,7 +946,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -864,7 +957,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -875,7 +968,7 @@ module.exports = new function () {
 			'bucketName' : 't16est12354',
 			'xmlTemplate' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -886,13 +979,13 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName></DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 	
-	this.testputBucketLifeCycle_as_async= function(testRun) {
+	this.testPutBucketLifeCycle_as_async= function(testRun) {
 		AWS.S3.putBucket({
 			bucketName : 'test17'
 		}, function(data) {
@@ -914,10 +1007,10 @@ module.exports = new function () {
 
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -926,7 +1019,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -937,7 +1030,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -948,7 +1041,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -959,13 +1052,13 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<LifecycleConfiguration><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></LifecycleConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 	
-	this.testputBucketPolicy_as_async= function(testRun) {
+	this.testPutBucketPolicy_as_async= function(testRun) {
 		AWS.S3.putBucket({
 			bucketName : 'DrillBitPutBucketPolicy'
 		}, function(data) {
@@ -1003,7 +1096,7 @@ module.exports = new function () {
 			});
 		}, function(error) {
 
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1025,7 +1118,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : JSON.stringify(jsonObject)
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1049,7 +1142,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : JSON.stringify(jsonObject)
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1061,7 +1154,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1084,13 +1177,13 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : JSON.stringify(jsonObject)
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 	
-	this.testputBucketLogging_as_async= function(testRun) {
+	this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.putBucket({
 			bucketName : 'DrillBitPutBucketLogging'
 		}, function(data) {
@@ -1105,10 +1198,10 @@ module.exports = new function () {
 				}, function(error) {
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1117,7 +1210,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01"><LoggingEnabled><TargetBucket>pankaj1234567</TargetBucket><TargetPrefix>pankaj1234567-access_log-/</TargetPrefix><TargetGrants><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>WRITE</Permission></Grant></TargetGrants></LoggingEnabled></BucketLoggingStatus>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1128,7 +1221,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01"><LoggingEnabled><TargetBucket>pankaj1234567</TargetBucket><TargetPrefix>pankaj1234567-access_log-/</TargetPrefix><TargetGrants><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>WRITE</Permission></Grant></TargetGrants></LoggingEnabled></BucketLoggingStatus>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1139,7 +1232,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1150,13 +1243,13 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01"><LoggingEnabled><TargetPrefix>pankaj1234567-access_log-/</TargetPrefix><TargetGrants><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>WRITE</Permission></Grant></TargetGrants></LoggingEnabled></BucketLoggingStatus>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
 	
-	this.testputBucketNotification_as_async= function(testRun) {
+	this.testPutBucketNotification_as_async= function(testRun) {
 		AWS.S3.putBucket({
 			bucketName : 'DrillBitPutBucketNotification'
 		}, function(data) {
@@ -1171,10 +1264,10 @@ module.exports = new function () {
 				}, function(error) {
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1183,7 +1276,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : '<NotificationConfiguration><TopicConfiguration><Topic>arn:aws:sns:us-east-1:704687501311:myTopic</Topic><Event>s3:ReducedRedundancyLostObject</Event></TopicConfiguration></NotificationConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1194,7 +1287,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<NotificationConfiguration><TopicConfiguration><Topic>arn:aws:sns:us-east-1:704687501311:myTopic</Topic><Event>s3:ReducedRedundancyLostObject</Event></TopicConfiguration></NotificationConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1205,7 +1298,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1216,7 +1309,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<NotificationConfiguration><TopicConfiguration><Topic>arn:aws:sns:us-east-1:704687:myTopic</Topic><Event>s3:ReducedRedundancyLostObject</Event></TopicConfiguration></NotificationConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1227,7 +1320,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : '<RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Payer>Requester</Payer></RequestPaymentConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1238,7 +1331,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Payer>Requester</Payer></RequestPaymentConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1249,7 +1342,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1260,7 +1353,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"></RequestPaymentConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1281,10 +1374,10 @@ module.exports = new function () {
 				}, function(error) {
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1293,7 +1386,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : '<VersioningConfiguration xmlns= "http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status><MfaDelete>Disabled</MfaDelete></VersioningConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1304,7 +1397,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : '<VersioningConfiguration xmlns= "http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status><MfaDelete>Disabled</MfaDelete></VersioningConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1315,7 +1408,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1326,7 +1419,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : '<VersioningConfiguration xmlns= "http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status></VersioningConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1360,11 +1453,11 @@ module.exports = new function () {
 				});
 			}, function(error) {
 
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
 
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1373,7 +1466,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument><Suffix>index.html</Suffix></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1384,7 +1477,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument><Suffix>index.html</Suffix></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1395,7 +1488,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1406,7 +1499,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'xmlTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1419,7 +1512,7 @@ module.exports = new function () {
 			'objectName' : 'KS_nav_ui.png',
 			'file' : f
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1432,7 +1525,7 @@ module.exports = new function () {
 			'objectName' : 'KS_nav_ui.png',
 			'file' : f
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1445,7 +1538,7 @@ module.exports = new function () {
 			'objectName' : '',
 			'file' : f
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1482,13 +1575,13 @@ module.exports = new function () {
 
 					})
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1498,7 +1591,7 @@ module.exports = new function () {
 			'objectName' : 'myFile1.png',
 			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1510,7 +1603,7 @@ module.exports = new function () {
 			'objectName' : 'myFile1.png',
 			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1522,7 +1615,7 @@ module.exports = new function () {
 			'objectName' : '',
 			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1534,7 +1627,7 @@ module.exports = new function () {
 			'objectName' : '',
 			'xmlTemplate' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1544,7 +1637,7 @@ module.exports = new function () {
 		AWS.S3.getService({}, function(data) {
 			finish(testRun);
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1565,10 +1658,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1576,7 +1669,7 @@ module.exports = new function () {
 		AWS.S3.getBucket({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1586,7 +1679,7 @@ module.exports = new function () {
 		AWS.S3.getBucket({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1609,10 +1702,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1620,7 +1713,7 @@ module.exports = new function () {
 		AWS.S3.getBucketAcl({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1630,7 +1723,7 @@ module.exports = new function () {
 		AWS.S3.getBucketAcl({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1659,15 +1752,15 @@ module.exports = new function () {
 
 					})
 				}, function(error) {
-					callback.failed('Some error occured  ' + JSON.stringify(error));
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
 
-				callback.failed('Some error occured  ' + JSON.stringify(error));
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
 
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
@@ -1676,7 +1769,7 @@ module.exports = new function () {
 		AWS.S3.getBucketLifecycle({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1686,7 +1779,7 @@ module.exports = new function () {
 		AWS.S3.getBucketLifecycle({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1696,7 +1789,7 @@ module.exports = new function () {
 		AWS.S3.getBucketPolicy({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1706,7 +1799,7 @@ module.exports = new function () {
 		AWS.S3.getBucketPolicy({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1729,10 +1822,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1740,7 +1833,7 @@ module.exports = new function () {
 		AWS.S3.getBucketLocation({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1750,7 +1843,7 @@ module.exports = new function () {
 		AWS.S3.getBucketLocation({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1773,10 +1866,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1784,7 +1877,7 @@ module.exports = new function () {
 		AWS.S3.getBucketLogging({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1794,7 +1887,7 @@ module.exports = new function () {
 		AWS.S3.getBucketLogging({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1817,10 +1910,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1828,7 +1921,7 @@ module.exports = new function () {
 		AWS.S3.getBucketNotification({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1838,7 +1931,7 @@ module.exports = new function () {
 		AWS.S3.getBucketNotification({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1861,10 +1954,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1872,7 +1965,7 @@ module.exports = new function () {
 		AWS.S3.getBucketObjectVersions({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1882,7 +1975,7 @@ module.exports = new function () {
 		AWS.S3.getBucketObjectVersions({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1905,10 +1998,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1916,7 +2009,7 @@ module.exports = new function () {
 		AWS.S3.getBucketRequestPayment({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1926,7 +2019,7 @@ module.exports = new function () {
 		AWS.S3.getBucketRequestPayment({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1949,10 +2042,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -1960,7 +2053,7 @@ module.exports = new function () {
 		AWS.S3.getBucketVersioning({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1970,7 +2063,7 @@ module.exports = new function () {
 		AWS.S3.getBucketVersioning({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1994,13 +2087,13 @@ module.exports = new function () {
 					}, function(error) {
 					});
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -2008,7 +2101,7 @@ module.exports = new function () {
 		AWS.S3.getBucketWebsite({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2018,7 +2111,7 @@ module.exports = new function () {
 		AWS.S3.getBucketWebsite({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2028,7 +2121,7 @@ module.exports = new function () {
 		AWS.S3.listMultipartUploads({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2038,7 +2131,7 @@ module.exports = new function () {
 		AWS.S3.listMultipartUploads({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2053,10 +2146,10 @@ module.exports = new function () {
 			}, function(data) {
 				finish(testRun);
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -2064,7 +2157,7 @@ module.exports = new function () {
 		AWS.S3.deleteBucket({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2074,7 +2167,7 @@ module.exports = new function () {
 		AWS.S3.deleteBucket({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2099,13 +2192,13 @@ module.exports = new function () {
 					}, function(error) {
 					});
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -2113,7 +2206,7 @@ module.exports = new function () {
 		AWS.S3.deleteBucketLifecycle({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2123,7 +2216,7 @@ module.exports = new function () {
 		AWS.S3.deleteBucketLifecycle({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2161,13 +2254,13 @@ module.exports = new function () {
 					}, function(error) {
 					});
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				});
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -2175,7 +2268,7 @@ module.exports = new function () {
 		AWS.S3.deleteBucketPolicy({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2185,7 +2278,7 @@ module.exports = new function () {
 		AWS.S3.deleteBucketPolicy({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2216,15 +2309,15 @@ module.exports = new function () {
 					});
 				}, function(error) {
 
-					callback.failed('Some error occured  ' + JSON.stringify(error));
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
 
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
 
-			callback.failed('Some error occured  ' + JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
@@ -2233,7 +2326,7 @@ module.exports = new function () {
 		AWS.S3.deleteBucketWebsite({
 			'bucketName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2243,7 +2336,7 @@ module.exports = new function () {
 		AWS.S3.deleteBucketWebsite({
 			'bucketName' : 'xyzw'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2272,13 +2365,13 @@ module.exports = new function () {
 
 					})
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -2287,7 +2380,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'objectName' : 'image.part.63'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2298,7 +2391,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'objectName' : 'image.part.63'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2309,7 +2402,7 @@ module.exports = new function () {
 			'bucketName' : 'velocity-gl',
 			'objectName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2320,7 +2413,7 @@ module.exports = new function () {
 			'bucketName' : 'pankaj123456',
 			'objectName' : 'xyz'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2331,7 +2424,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'xmlTemplate' : '<Delete><Object><Key>sample1.txt</Key></Object><Object><Key>sample2.txt</Key></Object></Delete>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2344,7 +2437,7 @@ module.exports = new function () {
 		}, function(data) {
 			finish(testRun);
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -2353,7 +2446,7 @@ module.exports = new function () {
 			'bucketName' : 'velocity-gl',
 			'xmlTemplate' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2364,7 +2457,7 @@ module.exports = new function () {
 			'bucketName' : 'velocity-gl',
 			'xmlTemplate' : '<Delete><Object><Key>sample1.txt</Key></Object><Object></Object></Delete>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2400,13 +2493,13 @@ module.exports = new function () {
 
 					})
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -2415,7 +2508,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'objectName' : 'image.part.63'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2426,7 +2519,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'objectName' : 'image.part.63'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2437,7 +2530,7 @@ module.exports = new function () {
 			'bucketName' : 'pankaj123456',
 			'objectName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2448,7 +2541,7 @@ module.exports = new function () {
 			'bucketName' : 'velocity-gl',
 			'objectName' : 'image.63'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2484,13 +2577,13 @@ module.exports = new function () {
 
 					})
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -2499,7 +2592,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'objectName' : 'image.part.63'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2510,7 +2603,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'objectName' : 'image.part.63'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2521,7 +2614,7 @@ module.exports = new function () {
 			'bucketName' : 'pankaj123456',
 			'objectName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2532,7 +2625,7 @@ module.exports = new function () {
 			'bucketName' : 'velocity-gl',
 			'objectName' : 'image.63'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2575,16 +2668,16 @@ module.exports = new function () {
 
 						});
 					}, function(error) {
-						Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+						valueOf(testRun, true).shouldBeFalse();
 					})
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -2595,7 +2688,7 @@ module.exports = new function () {
 			'uploadId' : uploadId
 
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2607,7 +2700,7 @@ module.exports = new function () {
 			'objectName' : 'image.part.63',
 			'uploadId' : uploadId
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2619,7 +2712,7 @@ module.exports = new function () {
 			'objectName' : '',
 			'uploadId' : uploadId
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2631,7 +2724,7 @@ module.exports = new function () {
 			'objectName' : 'image.63',
 			'uploadId' : uploadId
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2643,7 +2736,7 @@ module.exports = new function () {
 			'objectName' : '',
 			'uploadId' : uploadId
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2655,7 +2748,7 @@ module.exports = new function () {
 			'objectName' : 'image.63',
 			'uploadId' : uploadId
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2667,7 +2760,7 @@ module.exports = new function () {
 			'objectName' : '',
 			'uploadId' : uploadId
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2679,7 +2772,7 @@ module.exports = new function () {
 			'objectName' : 'image.63',
 			'uploadId' : uploadId
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2690,7 +2783,7 @@ module.exports = new function () {
 			'bucketName' : '',
 			'objectName' : 'Rahul.png'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2701,7 +2794,7 @@ module.exports = new function () {
 			'bucketName' : 'xyzw',
 			'objectName' : 'Rahul.png'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2712,7 +2805,7 @@ module.exports = new function () {
 			'bucketName' : 'test12398',
 			'objectName' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2766,16 +2859,16 @@ module.exports = new function () {
 
 						})
 					}, function(error) {
-						Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+						valueOf(testRun, true).shouldBeFalse();
 					})
 				}, function(error) {
-					Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
@@ -2785,7 +2878,7 @@ module.exports = new function () {
 			'objectName' : 'Rahul.png',
 			'uploadId' : 'WDy5XnIR1AM6mo1yYTOCfNvkNxSCv4OW8vlMCbHAc2Se6XKkXFRlv_nKIY7IQ3PM0DSzWiSyodqcUC8V.lhufQ--'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2797,7 +2890,7 @@ module.exports = new function () {
 			'objectName' : 'Rahul.png',
 			'uploadId' : 'WDy5XnIR1AM6mo1yYTOCfNvkNxSCv4OW8vlMCbHAc2Se6XKkXFRlv_nKIY7IQ3PM0DSzWiSyodqcUC8V.lhufQ--'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2809,7 +2902,7 @@ module.exports = new function () {
 			'objectName' : '',
 			'uploadId' : 'WDy5XnIR1AM6mo1yYTOCfNvkNxSCv4OW8vlMCbHAc2Se6XKkXFRlv_nKIY7IQ3PM0DSzWiSyodqcUC8V.lhufQ--'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2821,7 +2914,7 @@ module.exports = new function () {
 			'objectName' : 'imag',
 			'uploadId' : 'WDy5XnIR1AM6mo1yYTOCfNvkNxSCv4OW8vlMCbHAc2Se6XKkXFRlv_nKIY7IQ3PM0DSzWiSyodqcUC8V.lhufQ--'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2833,7 +2926,7 @@ module.exports = new function () {
 			'objectName' : 'Rahul.png',
 			'uploadId' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2845,7 +2938,7 @@ module.exports = new function () {
 			'objectName' : 'Rahul.png',
 			'uploadId' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2859,7 +2952,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'partNumber' : '1'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2874,7 +2967,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'partNumber' : '1'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2888,7 +2981,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'partNumber' : '1'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2902,7 +2995,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'partNumber' : '1'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2916,7 +3009,7 @@ module.exports = new function () {
 			'uploadId' : '',
 			'partNumber' : '1'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2930,7 +3023,7 @@ module.exports = new function () {
 			'uploadId' : '',
 			'partNumber' : '1'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2944,7 +3037,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'partNumber' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2958,7 +3051,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'partNumber' : 'xy'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2972,7 +3065,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'partNumber' : '2'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2986,7 +3079,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'partNumber' : '2'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -2999,7 +3092,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"&quot;038969b6c419420d05e62ead4a9dd88e&quot;"</ETag></CompleteMultipartUpload>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -3012,7 +3105,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '""</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -3025,7 +3118,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -3038,7 +3131,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -3051,7 +3144,7 @@ module.exports = new function () {
 			'uploadId' : '',
 			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -3064,7 +3157,7 @@ module.exports = new function () {
 			'uploadId' : 'bQZXGLyBw6hwwp9P9pk_Rk17Y5escQ_E949jTPySaJEvcrUfEAPE7Ng--',
 			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -3077,7 +3170,7 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'xmlTemplate' : ''
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -3090,12 +3183,12 @@ module.exports = new function () {
 			'uploadId' : uploadId,
 			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>1</PartNumber><ETag>"a54357aff0632cce46d942af68356b38"</ETag></Part><Part><ETag>"0c78aef83f66abc1fa1e8477f296d394"</ETag></Part><Part><PartNumber>3</PartNumber><ETag>"acbd18db4cc2f85cedef654fccc4a4d8"</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
-			Ti.API.debug(error);valueOf(testRun, true).shouldBeFalse();
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
-	*/
+	
 	// Populate the array of tests based on the 'hammer' convention
 	this.tests = require('hammer').populateTests(this, 30000);
 	
