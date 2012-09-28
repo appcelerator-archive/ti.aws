@@ -14,9 +14,8 @@ GlobalLogic
 
 
  * [Amazon SimpleDB](http://aws.amazon.com) (Simple Storage Service)
-
-	SimpleDB
 	
+	SimpleDBs
 			method : batchPutAttributes
 			required Params: DomainName'
 			
@@ -51,8 +50,7 @@ GlobalLogic
 
 			required params : ['DomainName', 'ItemName']
 
-		 * [Amazon Simple Storage Service (S3)  ](https:aws.amazon.com) (Simple Storage Service)
-
+* [Amazon Simple Storage Service (S3)  ](https:aws.amazon.com) (Simple Storage Service)
 
 			method : 'getService'
 
@@ -188,21 +186,16 @@ GlobalLogic
 			method : 'listParts',
 					params : ['bucketName', 'objectName', 'uploadId']
 
-		* [Amazon Simple Email Service (SES)](http://aws.amazon.com) (Identity and Access Management)
+* [Amazon Simple Email Service (SES)](http://aws.amazon.com) (Identity and Access Management)
 		
 			method : 'deleteVerifiedEmailAddress',
-			validations : {
-				required : {
 					params : ['emailAddress']
-				}
-			}
-		}, {
+
 			method : 'getSendQuota'
-		}, {
+
 			method : 'getSendStatistics'
-		}, {
 			method : 'listVerifiedEmailAddresses'
-		}, {
+
 			method : 'sendEmail',
 			validations : {
 				required : {
