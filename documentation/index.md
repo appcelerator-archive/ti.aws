@@ -13,7 +13,6 @@ GlobalLogic
 ## Supported
 
 
-
  * [Amazon SimpleDB](http://aws.amazon.com) (Simple Storage Service)
 
 	SimpleDB
@@ -394,13 +393,11 @@ GlobalLogic
 			method : 'unsubscribe',
 					params : ['SubscriptionArn']
 
-		
-		property : "STS",
+		* [STS]()
 			method : 'getSessionToken'
 
 		 * [Amazon DynamoDB](http://aws.amazon.com)
-
-
+			
 			method : 'listTables'
 			method : 'batchWriteItem'
 			method : 'describeTable'
