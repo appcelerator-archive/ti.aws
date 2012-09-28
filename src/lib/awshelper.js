@@ -116,14 +116,14 @@ awsHelper.generateS3Params = function(params) {
 	if (params.hasOwnProperty('bucketName')) {
 		//check if objectName is passed by user if yes then include it as part of stringtosign data
 		if (params.hasOwnProperty('objectName') || params.hasOwnProperty('key')) {
+			//copySource is used by 'Put object copy and Upload part ' api's, which needs to be part of stringtosign
+			if (params.hasOwnProperty('copySource')) {
+				params.canonicalizedAmzHeaders = '\n' + 'x-amz-copy-source:' + params.copySource;
+			} else {
+				params.canonicalizedAmzHeaders = '';
+			}
 			//check if versionId is passed by user if yes then include it as part of stringtosign data
 			if (params.hasOwnProperty('versionId')) {
-				//copySource is used by 'Put object copy and Upload part ' api's, which needs to be part of stringtosign
-				if (params.hasOwnProperty('copySource')) {
-					params.canonicalizedAmzHeaders = '\n' + 'x-amz-copy-source:' + params.copySource;
-				} else {
-					params.canonicalizedAmzHeaders = '';
-				}
 				if (params.hasOwnProperty('uploadId')) {
 					if (params.hasOwnProperty('partNumber')) {
 						params.stringToSign = params.verb + '\n' + params.contentMD5 + '\n' + params.contentType + '\n' + params.curDate + params.canonicalizedAmzHeaders + '\n/' + params.bucketName + '/' + params.objectName + params.subResource + 'partNumber=' + params.partNumber + '&' + 'uploadId=' + params.uploadId;
