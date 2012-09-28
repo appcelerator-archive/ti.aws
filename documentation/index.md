@@ -26,19 +26,21 @@ GlobalLogic
 	```javascript
 		putAttributes(DomainName, ItemName  )
 	```
+	
+	batchDeleteAttributes
+	```javascript
+		batchDeleteAttributes(DomainName) 
+	```
 
 
-			method : 'batchDeleteAttributes',
-
-					params : ['DomainName']
-
-
+	```javascript
 			method : 'listDomains',
+			```
 
 			method : 'createDomain',
-			
-				required : {
-					params : ['DomainName']
+			```javascript
+				createDomain ( DomainName );
+			```
 
 			method : 'deleteDomain',
 					params : ['DomainName']
