@@ -13,7 +13,7 @@ GlobalLogic
 ## Supported
 
 
- * [Amazon SimpleDB](http://aws.amazon.com) (Simple Storage Service)
+* [Amazon SimpleDB](http://aws.amazon.com) (Simple Storage Service)
 	
 	SimpleDBs
 	
@@ -482,25 +482,72 @@ GlobalLogic
 		* [STS]()
 			getSessionToken'
 			```javascript
+			```
 
-		 * [Amazon DynamoDB](http://aws.amazon.com)
+* [Amazon DynamoDB](http://aws.amazon.com)
 			
-			listTables'
-			batchWriteItem'
-			describeTable'
-			updateTable'
-			updateItem'
-			deleteTable'
-			getItem'
-			putItem'
-			scan'
-			query'
-			deleteItem'
-			batchGetItem'
-			createTable'
-				
-		
-
+	listTables
+	```javascript
+	listTables();
+	```
+	batchWriteItem
+	```javascript
+	batchWriteItem();
+	```
+	
+	describeTable
+	```javascript
+	describeTable();
+	```
+	
+	updateTable
+	```javascript
+	updateTable();
+	```
+	
+	updateItem
+	```javascript
+	updateItem();
+	```
+	
+	deleteTable
+	```javascript
+	deleteTable();
+	```
+	
+	getItem
+	```javascript
+	getItem();
+	```
+	
+	putItem
+	```javascript
+	putItem();
+	```'
+	
+	scan
+	```javascript
+		scan();
+	```
+	
+	query
+	```javascript
+		query();
+	```
+	
+	deleteItem
+	```javascript
+		deleteItem();
+	```
+	
+	batchGetItem
+	```javascript
+		batchGetItem();
+	```
+	createTable
+	```javascript
+		createTable();
+	```
 
 ## License
 
