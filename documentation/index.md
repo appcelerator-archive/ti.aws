@@ -291,103 +291,129 @@ GlobalLogic
 	listParts
 	```javascript
 		listParts ['bucketName', 'objectName', 'uploadId']
-		```
-
+	```
+	
 * [Amazon Simple Email Service (SES)](http://aws.amazon.com) (Identity and Access Management)
-		
-			deleteVerifiedEmailAddress',
-			```javascript
-					params : ['emailAddress']
-
-			getSendQuota'
-			```javascript
-
-			getSendStatistics'
-			```javascript
-			listVerifiedEmailAddresses'
-			```javascript
-
-			sendEmail',
-			```javascript
-					params : ['source', 'destination', 'message']
-
-			sendRawEmail',
-			```javascript
-					params : ['rawMessage']
-
-			verifyEmailAddress',
-			```javascript
-					params : ['emailAddress']
-
+	
+	deleteVerifiedEmailAddress
+	```javascript
+		deleteVerifiedEmailAddress (emailAddress);
+	```
+	
+	getSendQuota
+	```javascript
+		getSendQuota()
+	```
+	
+	getSendStatistics
+	```javascript
+		getSendStatistics()
+	```
+	
+	listVerifiedEmailAddresses
+	```javascript
+		listVerifiedEmailAddresses()
+	```
+	
+	sendEmail
+	```javascript
+		sendEmail(source, destination, message)
+	```
+	
+	sendRawEmail
+	```javascript
+		sendRawEmail(rawMessage)
+	```
+	
+	verifyEmailAddress
+	```javascript
+		verifyEmailAddress (emailAddress)
+	```
+	
 * [Amazon Simple Queue Service (SQS)](http://aws.amazon.com) (Simple Queue Service)
 
 
+		createQueue
+		```javascript
+				createQueue ['QueueName']
+		```
+		
+		listQueues
+		```javascript
+			listQueues()
+		```
 
-			createQueue',
-			```javascript
-					params : ['QueueName']
+		getQueueUrl
+		```javascript
+				getQueueUrl  ['QueueName']
+		```
 
-			listQueues',
-			```javascript
+		addPermission
+		```javascript
+			addPermission()
+		```
+		
+		setQueueAttributes
+		```javascript
+			setQueueAttributes : ['AWSAccountId', 'QueueName', 'Attribute.Name', 'Attribute.Value']
+		```
+		
+		getQueueAttributes
+		```javascript
+				getQueueAttributes ['AWSAccountId', 'QueueName']
+		```
 
-			getQueueUrl',
-			```javascript
-					params : ['QueueName']
+		patternExistsValidator
+		```javascript
+		 	patternExistsValidator['AttributeName.*']
+		```
 
-			addPermission',
-			```javascript
+		sendMessage
+		```javascript
+				sendMessage (AWSAccountId, QueueName,MessageBody)
+		```
 
-			setQueueAttributes',
-			```javascript
-					params : ['AWSAccountId', 'QueueName', 'Attribute.Name', 'Attribute.Value']
-
-			getQueueAttributes',
-			```javascript
-					params : ['AWSAccountId', 'QueueName']
-
-			patternExistsValidator : {
-				```javascript
-				params : ['AttributeName.*']
-
-			sendMessage',
-			```javascript
-					params : ['AWSAccountId', 'QueueName', 'MessageBody']
-			```
-
-			sendMessageBatch',
-			```javascript
-					params : ['AWSAccountId', 'QueueName']
-			```
-					
-			receiveMessage',
-			```javascript
-					params : ['AWSAccountId', 'QueueName']
-
-			deleteMessage',
-			```javascript
-					params : ['ReceiptHandle', 'AWSAccountId', 'QueueName']
-
-			deleteMessageBatch',
-			```javascript
-					params : ['AWSAccountId', 'QueueName']
-
-			patternExistsValidator
-				```javascript
-				params : ['DeleteMessageBatchRequestEntry.*.Id', 'DeleteMessageBatchRequestEntry.*.ReceiptHandle']
-
-			deleteQueue
-			```javascript
-					params : ['AWSAccountId', 'QueueName']
-
-			changeMessageVisibility
-			```javascript
-					params : ['AWSAccountId', 'QueueName', 'ReceiptHandle', 'VisibilityTimeout']
-
-			changeMessageVisibilityBatch
-			```javascript
-					params : ['AWSAccountId', 'QueueName']
-					
-			patternExistsValidator
+		sendMessageBatch',
+		```javascript
+				params : ['AWSAccountId', 'QueueName']
+		```
+		
+		receiveMessage
+		```javascript
+				receiveMessage : ['AWSAccountId', 'QueueName']
+		```
+		
+		deleteMessage
+		```javascript
+				deleteMessage : ['ReceiptHandle', 'AWSAccountId', 'QueueName']
+		```
+		
+		deleteMessageBatch
+		```javascript
+				deleteMessageBatch : ['AWSAccountId', 'QueueName']
+		```
+		
+		patternExistsValidator
+		```javascript
+			patternExistsValidator : ['DeleteMessageBatchRequestEntry.*.Id', 'DeleteMessageBatchRequestEntry.*.ReceiptHandle']
+		```
+		
+		deleteQueue
+		```javascript
+				deleteQueue ['AWSAccountId', 'QueueName']
+		```
+		
+		changeMessageVisibility
+		```javascript
+				params : ['AWSAccountId', 'QueueName', 'ReceiptHandle', 'VisibilityTimeout']
+		```
+		
+		changeMessageVisibilityBatch
+		```javascript
+				params : ['AWSAccountId', 'QueueName']
+		```
+				
+		patternExistsValidator
 				```javascript
 				params : ['ChangeMessageVisibilityBatchRequestEntry.*.Id', 'ChangeMessageVisibilityBatchRequestEntry.*.ReceiptHandle', 'ChangeMessageVisibilityBatchRequestEntry.*.VisibilityTimeout']
 
