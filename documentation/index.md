@@ -31,306 +31,447 @@ GlobalLogic
 	```javascript
 		batchDeleteAttributes(DomainName) 
 	```
-
-
+	
+	listDomains
 	```javascript
-			method : 'listDomains',
-			```
+		listDomains()
+	```
 
-			method : 'createDomain',
-			```javascript
-				createDomain ( DomainName );
-			```
-
-			method : 'deleteDomain',
-					params : ['DomainName']
-
-			method : 'select',
-
-					params : ['SelectExpression']
-
-			method : 'domainMetadata',
-
-			method : 'getAttributes',
-					params : ['DomainName', 'ItemName']
-
-			method : 'deleteAttributes',
-
-			required params : ['DomainName', 'ItemName']
-
+	createDomain
+	```javascript
+		createDomain ( DomainName );
+	```
+	
+	deleteDomain
+	```javascript
+		deleteDomain(DomainName);
+	```
+	
+	select
+	```javascript
+		select(SelectExpression);
+	```
+	
+	domainMetadata
+	```javascript
+		domainMetadata();
+	```
+	
+	getAttributes
+	```javascript	
+		getAttributes(DomainName,ItemName);
+	```
+	
+	deleteAttributes
+	```javascript
+		deleteAttributes(DomainName, ItemName);
+	```
+	
 * [Amazon Simple Storage Service (S3)  ](https:aws.amazon.com) (Simple Storage Service)
 
-			method : 'getService'
-
-			method : 'getPresignedUrl',
-					params : ['bucketName', 'expires']
-
-			method : 'listVersions',
-					params : ['bucketName']
-
-			method : 'deleteVersion',
-					params : ['bucketName', 'key', 'versionId']
-
-			method : 'deleteBucket',
-					params : ['bucketName']
-			
-			method : 'deleteBucketLifecycle',
-					params : ['bucketName']
-
-			method : 'deleteBucketPolicy',
-					params : ['bucketName']
-
-			method : 'deleteBucketWebsite',
-					params : ['bucketName']
-
-			method : 'listObjects',
-					params : ['bucketName']
-
-			method : 'getBucketAcl', // Xml Parsing Problem.
-					params : ['bucketName']
-
-			method : 'getBucketLifecycle',
-					params : ['bucketName']
-
-			method : 'getBucketPolicy',
-					params : ['bucketName']
-					
-			method : 'getBucketLocation',
-					params : ['bucketName']
-
-			method : 'getBucketLogging',
-					params : ['bucketName']
-
-			method : 'getBucketNotification',
-					params : ['bucketName']
-
-			method : 'getBucketObjectVersions',
-					params : ['bucketName']
-
-			method : 'getBucketRequestPayment',
-					params : ['bucketName']
-
-			method : 'getBucketVersioning',
-					params : ['bucketName']
-
-			method : 'getBucketWebsite',
-					params : ['bucketName']
-				
-			method : 'getObjectMetadata',
-					params : ['bucketName']
-					
-			method : 'listMultipartUploads',
-					params : ['bucketName']
-					
-			method : 'putBucket',
-					params : ['bucketName']
-
-			method : 'putBucketAcl',
-					params : ['bucketName', 'xmlTemplate']
-
-			method : 'putBucketLifecycle',
-					params : ['bucketName', 'xmlTemplate']
-
-			method : 'putBucketPolicy',
-					params : ['bucketName', 'xmlTemplate']
-
-			method : 'putBucketLogging',
-					params : ['bucketName', 'xmlTemplate']
-
-			method : 'putBucketNotification',
-					params : ['bucketName', 'xmlTemplate']
-
-			method : 'putBucketRequestPayment',
-					params : ['bucketName', 'xmlTemplate']
-
-			method : 'putBucketVersioning',
-					params : ['bucketName', 'xmlTemplate']
-
-			method : 'putBucketWebsite',
-					params : ['bucketName', 'xmlTemplate']
-
-			method : 'deleteObject',
-					params : ['bucketName', 'objectName']
-
-			method : 'deleteMultipleObjects',
-					params : ['bucketName', 'xmlTemplate']
-
-			method : 'getObject', // Returning Blob Data.
-					params : ['bucketName', 'objectName']
-
-			method : 'getObjectTorrent', // Returning Blob Data.
-					params : ['bucketName', 'objectName']
-
-			method : 'getObjectAcl', // Xml Parsing Problem.
-					params : ['bucketName', 'objectName']
-
-			method : 'headObject',
-					params : ['bucketName', 'objectName']
-					
-			method : 'putObject', //Working on Ios only.Content Length Header Value Cannot be Override in Android.
-					params : ['bucketName', 'objectName']
-
-			method : 'putObjectAcl',
-					params : ['bucketName', 'objectName', 'xmlTemplate']
-
-			method : 'putObjectCopy',
-					params : ['bucketName', 'objectName', 'copySource']
-
-			method : 'initiateMultipartUpload',
-					params : ['bucketName', 'objectName']
-
-			method : 'abortMultipartUpload',
-					params : ['bucketName', 'objectName', 'uploadId']
-
-			method : 'completeMultipartUpload',
-					params : ['bucketName', 'objectName', 'uploadId', 'xmlTemplate']
-					
-			method : 'uploadPart',
-					params : ['bucketName', 'objectName', 'uploadId', 'partNumber', 'file']
-
-			method : 'uploadPartCopy',
-					params : ['bucketName', 'objectName', 'uploadId', 'partNumber']
-
-			method : 'listParts',
-					params : ['bucketName', 'objectName', 'uploadId']
+	getService
+	```javascript
+		getService
+	```
+	
+	getPresignedUrl
+	```javascript
+		getPresignedUrl(bucketName, expires)
+	```
+	
+	listVersions
+	```javascript
+		listVersions(bucketName)
+	```
+	
+	deleteVersion
+	```javascript
+		deleteVersion(bucketName, key, versionId)
+	```
+	
+	deleteBucket
+	```javascript
+		deleteBucket(bucketName)
+	```
+	
+	deleteBucketLifecycle
+	```javascript
+		deleteBucketLifecycle (bucketName)
+	```
+	
+	deleteBucketPolicy
+	```javascript
+		deleteBucketPolicy(bucketName)
+	```
+	
+	deleteBucketWebsite
+	```javascript
+		deleteBucketWebsite(bucketName)
+	```
+	
+	listObjects
+	```javascript
+		listObjects(bucketName)
+	```
+	
+	getBucketAcl', // Xml Parsing Problem.
+	```javascript
+		getBucketAcl(bucketName);
+	```
+	
+	getBucketLifecycle
+	```javascript
+		getBucketLifecycle(bucketName)
+	```
+	
+	getBucketPolicy
+	```javascript
+		getBucketPolicy(bucketName)
+	```
+	
+	getBucketLocation
+	```javascript
+		getBucketLocation(bucketName)
+	```
+	
+	getBucketLogging
+	```javascript
+	 	getBucketLogging(bucketName)
+	```
+	
+	getBucketNotification
+	```javascript
+		getBucketNotification  ['bucketName']
+	```
+	
+	getBucketObjectVersions
+	```javascript
+	 	getBucketObjectVersions ['bucketName']
+	```
+	
+	getBucketRequestPayment
+	```javascript
+		getBucketRequestPayment ['bucketName']
+	```
+	
+	getBucketVersioning
+	```javascript
+		getBucketVersioning ['bucketName']
+	```
+	
+	getBucketWebsite
+	```javascript
+		getBucketWebsite ['bucketName']
+	```
+	
+	getObjectMetadata
+	```javascript
+		getObjectMetadata ['bucketName']
+	```
+	
+	listMultipartUploads
+	```javascript
+		listMultipartUploads ['bucketName']
+	```
+	
+	putBucket
+	```javascript
+	 	putBucket ['bucketName']
+	```
+	
+	putBucketAcl
+	```javascript
+		 putBucketAcl ['bucketName', 'xmlTemplate']
+	```
+	
+	putBucketLifecycle
+	```javascript
+		 putBucketLifecycle ['bucketName', 'xmlTemplate']
+	```
+	
+	putBucketPolicy
+	```javascript
+		putBucketPolicy ['bucketName', 'xmlTemplate']
+	```
+	
+	putBucketLogging
+	```javascript
+		putBucketLogging ['bucketName', 'xmlTemplate']
+	```
+	
+	putBucketNotification
+	```javascript
+		putBucketNotification ['bucketName', 'xmlTemplate']
+	```
+	
+	putBucketRequestPayment
+	```javascript
+		putBucketRequestPayment ['bucketName', 'xmlTemplate']
+	```
+	
+	putBucketVersioning
+	```javascript
+		putBucketVersioning ['bucketName', 'xmlTemplate']
+	```
+	
+	putBucketWebsite
+	```javascript
+		putBucketWebsite ['bucketName', 'xmlTemplate']
+	```
+	
+	deleteObject
+	```javascript
+		deleteObject ['bucketName', 'objectName']
+	```
+	
+	deleteMultipleObjects
+	```javascript
+		deleteMultipleObjects ['bucketName', 'xmlTemplate']
+	```
+	
+	getObject   // Returning Blob Data.
+	```javascript
+		getObject ['bucketName', 'objectName']
+	```
+	
+	getObjectTorrent  // Returning Blob Data.
+	```javascripts
+		getObjectTorrent  ['bucketName', 'objectName']
+	```
+	
+	getObjectAcl  // Xml Parsing Problem.
+	```javascript
+	 	getObjectAcl ['bucketName', 'objectName']
+	```
+	
+	headObject
+	```javascript
+		headObject ['bucketName', 'objectName']
+	```				
+	putObject   //Working on Ios only.Content Length Header Value Cannot be Override in Android.
+	```javascript
+		putObject ['bucketName', 'objectName']
+	'''
+	
+	putObjectAcl
+	```javascript
+		putObjectAcl ['bucketName', 'objectName', 'xmlTemplate']
+	```
+	
+	putObjectCopy
+	```javascript
+		params : ['bucketName', 'objectName', 'copySource']
+	```	
+	
+	initiateMultipartUpload
+	```javascript
+		initiateMultipartUpload ['bucketName', 'objectName']
+	```
+	
+	abortMultipartUpload
+	```javascript
+		abortMultipartUpload ['bucketName', 'objectName', 'uploadId']
+	'''
+	
+	completeMultipartUpload
+	```javascript
+		completeMultipartUpload : ['bucketName', 'objectName', 'uploadId', 'xmlTemplate']
+	'''
+	
+	uploadPart
+	```javascript
+		uploadPart ['bucketName', 'objectName', 'uploadId', 'partNumber', 'file']
+	'''
+	
+	uploadPartCopy
+	```javascript
+		uploadPartCopy ['bucketName', 'objectName', 'uploadId', 'partNumber']
+	```
+	
+	listParts
+	```javascript
+		listParts ['bucketName', 'objectName', 'uploadId']
+		```
 
 * [Amazon Simple Email Service (SES)](http://aws.amazon.com) (Identity and Access Management)
 		
-			method : 'deleteVerifiedEmailAddress',
+			deleteVerifiedEmailAddress',
+			```javascript
 					params : ['emailAddress']
 
-			method : 'getSendQuota'
+			getSendQuota'
+			```javascript
 
-			method : 'getSendStatistics'
-			method : 'listVerifiedEmailAddresses'
+			getSendStatistics'
+			```javascript
+			listVerifiedEmailAddresses'
+			```javascript
 
-			method : 'sendEmail',
+			sendEmail',
+			```javascript
 					params : ['source', 'destination', 'message']
 
-			method : 'sendRawEmail',
+			sendRawEmail',
+			```javascript
 					params : ['rawMessage']
 
-			method : 'verifyEmailAddress',
+			verifyEmailAddress',
+			```javascript
 					params : ['emailAddress']
 
 * [Amazon Simple Queue Service (SQS)](http://aws.amazon.com) (Simple Queue Service)
 
 
 
-			method : 'createQueue',
+			createQueue',
+			```javascript
 					params : ['QueueName']
 
-			method : 'listQueues',
+			listQueues',
+			```javascript
 
-			method : 'getQueueUrl',
+			getQueueUrl',
+			```javascript
 					params : ['QueueName']
 
-			method : 'addPermission',
+			addPermission',
+			```javascript
 
-			method : 'setQueueAttributes',
+			setQueueAttributes',
+			```javascript
 					params : ['AWSAccountId', 'QueueName', 'Attribute.Name', 'Attribute.Value']
 
-			method : 'getQueueAttributes',
+			getQueueAttributes',
+			```javascript
 					params : ['AWSAccountId', 'QueueName']
 
 			patternExistsValidator : {
+				```javascript
 				params : ['AttributeName.*']
 
-			method : 'sendMessage',
+			sendMessage',
+			```javascript
 					params : ['AWSAccountId', 'QueueName', 'MessageBody']
+			```
 
-			method : 'sendMessageBatch',
+			sendMessageBatch',
+			```javascript
 					params : ['AWSAccountId', 'QueueName']
+			```
 					
-			method : 'receiveMessage',
+			receiveMessage',
+			```javascript
 					params : ['AWSAccountId', 'QueueName']
 
-			method : 'deleteMessage',
+			deleteMessage',
+			```javascript
 					params : ['ReceiptHandle', 'AWSAccountId', 'QueueName']
 
-			method : 'deleteMessageBatch',
+			deleteMessageBatch',
+			```javascript
 					params : ['AWSAccountId', 'QueueName']
 
-			patternExistsValidator : {
+			patternExistsValidator
+				```javascript
 				params : ['DeleteMessageBatchRequestEntry.*.Id', 'DeleteMessageBatchRequestEntry.*.ReceiptHandle']
 
-			method : 'deleteQueue',
+			deleteQueue
+			```javascript
 					params : ['AWSAccountId', 'QueueName']
 
-			method : 'changeMessageVisibility',
+			changeMessageVisibility
+			```javascript
 					params : ['AWSAccountId', 'QueueName', 'ReceiptHandle', 'VisibilityTimeout']
 
-			method : 'changeMessageVisibilityBatch',
+			changeMessageVisibilityBatch
+			```javascript
 					params : ['AWSAccountId', 'QueueName']
-
-			patternExistsValidator : {
+					
+			patternExistsValidator
+				```javascript
 				params : ['ChangeMessageVisibilityBatchRequestEntry.*.Id', 'ChangeMessageVisibilityBatchRequestEntry.*.ReceiptHandle', 'ChangeMessageVisibilityBatchRequestEntry.*.VisibilityTimeout']
 
-			method : 'removePermission',
+				```javascript
+			removePermission',
 					params : ['AWSAccountId', 'QueueName', 'Label']
 		
 		 * [Amazon Simple Notification Service (SNS) ](http://aws.amazon.com)
 		
 
-			method : 'addPermission',
+			```javascript
+			addPermission',
 					params : ['Label', 'TopicArn']
 					
-			method : 'confirmSubscription',
+					```javascript
+			confirmSubscription',
 					params : ['Token', 'TopicArn']
 
-			method : 'createTopic',
+					```javascript
+			createTopic',
 					params : ['Name']
 
-			method : 'deleteTopic',
+					```javascript
+			deleteTopic',
 					params : ['TopicArn']
 
-			method : 'getSubscriptionAttributes',
+					```javascript
+			getSubscriptionAttributes',
 					params : ['SubscriptionArn']
 
-			method : 'getTopicAttributes',
+					```javascript
+			getTopicAttributes',
 					params : ['TopicArn']
 
-			method : 'listSubscriptions'
+					```javascript
+			listSubscriptions'
 
-			method : 'listSubscriptionsByTopic',
+			```javascript
+			listSubscriptionsByTopic',
 					params : ['TopicArn']
 
-			method : 'listTopics'
+					```javascript
+			listTopics'
 					params : ['TopicArn', 'Message']
 
-			method : 'removePermission',
+					```javascript
+			removePermission',
 					params : ['Label', 'TopicArn']
 
-			method : 'setSubscriptionAttributes',
+					```javascript
+			setSubscriptionAttributes',
 					params : ['AttributeName', 'AttributeValue', 'SubscriptionArn']
 
-			method : 'setTopicAttributes',
+			setTopicAttributes',
+			```javascript
 					params : ['AttributeName', 'AttributeValue', 'TopicArn']
 
-			method : 'subscribe',
+			subscribe',
+			```javascript
 					params : ['TopicArn', 'Endpoint', 'Protocol']
 
-			method : 'unsubscribe',
+			unsubscribe',
+			```javascript
 					params : ['SubscriptionArn']
 
 		* [STS]()
-			method : 'getSessionToken'
+			getSessionToken'
+			```javascript
 
 		 * [Amazon DynamoDB](http://aws.amazon.com)
 			
-			method : 'listTables'
-			method : 'batchWriteItem'
-			method : 'describeTable'
-			method : 'updateTable'
-			method : 'updateItem'
-			method : 'deleteTable'
-			method : 'getItem'
-			method : 'putItem'
-			method : 'scan'
-			method : 'query'
-			method : 'deleteItem'
-			method : 'batchGetItem'
-			method : 'createTable'
+			listTables'
+			batchWriteItem'
+			describeTable'
+			updateTable'
+			updateItem'
+			deleteTable'
+			getItem'
+			putItem'
+			scan'
+			query'
+			deleteItem'
+			batchGetItem'
+			createTable'
 				
 		
 
