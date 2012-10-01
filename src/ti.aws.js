@@ -835,7 +835,6 @@ sessionOBJ.bedFrame.build(AWS, {
 		}, {
 			method : 'abortMultipartUpload',
 			verb : 'DELETE',
-			subResource : '?',
 			validations : {
 				required : {
 					params : ['bucketName', 'objectName', 'uploadId']
@@ -844,7 +843,6 @@ sessionOBJ.bedFrame.build(AWS, {
 		}, {
 			method : 'completeMultipartUpload',
 			verb : 'POST',
-			subResource : '?',
 			contentType : 'application/xml',
 			validations : {
 				required : {
@@ -855,7 +853,6 @@ sessionOBJ.bedFrame.build(AWS, {
 			method : 'uploadPart',
 			verb : 'PUT',
 			uploadFile : true,
-			subResource : '?',
 			validations : {
 				required : {
 					params : ['bucketName', 'objectName', 'uploadId', 'partNumber', 'file']
@@ -864,7 +861,6 @@ sessionOBJ.bedFrame.build(AWS, {
 		}, {
 			method : 'uploadPartCopy',
 			verb : 'PUT',
-			subResource : '?',
 			validations : {
 				required : {
 					params : ['bucketName', 'objectName', 'uploadId', 'partNumber']
@@ -872,7 +868,6 @@ sessionOBJ.bedFrame.build(AWS, {
 			}
 		}, {
 			method : 'listParts',
-			subResource : '?',
 			validations : {
 				required : {
 					params : ['bucketName', 'objectName', 'uploadId']
