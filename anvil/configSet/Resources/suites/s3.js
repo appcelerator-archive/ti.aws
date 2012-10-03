@@ -136,10 +136,7 @@ module.exports = new function () {
 			finish(testRun);
 		});
 	}//end testHeadObjectWithEmptybucketName_as_async
-	
-	// Commeting out the headbucket tests since headbucket call is throwing exception
-	
-/*	
+
 	
 	this.testHeadBucketWithEmptybucketName_as_async= function(testRun) {
 		AWS.S3.headBucket({
@@ -161,7 +158,7 @@ module.exports = new function () {
 		});
 	}//end testHeadObjectWithEmptybucketName_as_async
 	
-*/
+
 	this.testPutObjectCopy_as_async= function(testRun) {
 		var f = Titanium.Filesystem.getFile(filename1);
 		
@@ -376,66 +373,70 @@ module.exports = new function () {
 	
 	
 	// Complete MultiPart Upload is used for completing the process of uploading in MultiPart.
-
-	// this.testCompleteMultipartUpload_as_async= function(testRun) {
-// 		
-			// var f = Titanium.Filesystem.getFile('testfile_3.pdf');
-			// AWS.S3.putObject({
-				// 'bucketName' : bucketName1,
-				// 'objectName' : 'testfile_3.pdf',
-				// 'file' : f
-			// }, function(data) {
-// 				
-					// var f1 = Titanium.Filesystem.getFile('testfile_4.pdf');
-					// AWS.S3.putObject({
-						// 'bucketName' : bucketName2,
-						// 'objectName' : 'testfile_4.pdf',
-						// 'file' : f
-					// }, function(data) {
+	
+	 this.testCompleteMultipartUpload_as_async= function(testRun) {
+ 		
+			 var f = Titanium.Filesystem.getFile('testfile_3.pdf');
+			 AWS.S3.putObject({
+				 'bucketName' : bucketName1,
+				 'objectName' : 'testfile_3.pdf',
+				 'file' : f
+			 }, function(data) {
+ 				
+					 var f1 = Titanium.Filesystem.getFile('testfile_4.pdf');
+					 AWS.S3.putObject({
+						 'bucketName' : bucketName2,
+						 'objectName' : 'testfile_4.pdf',
+						 'file' : f
+					 }, function(data) {
 						// alert('putObject success');
-						// AWS.S3.initiateMultipartUpload({
-							// 'bucketName' : bucketName1,
-							// 'objectName' : 'testfile_3.pdf'
-						// }, function(data) {
+						 AWS.S3.initiateMultipartUpload({
+							 'bucketName' : bucketName1,
+							 'objectName' : 'testfile_3.pdf'
+						 }, function(data) {
 							// alert('initiateMultipartUpload success');
-							// test = data.UploadId;
-							// AWS.S3.uploadPartCopy({
-								// 'bucketName' : bucketName1,
-								// 'objectName' : 'testfile_3.pdf',
-								// 'copySource' : '/' + bucketName2 +  '/testfile_4.pdf',
-								// 'uploadId' : data.UploadId,
-								// 'partNumber' : '2'
-							// }, function(data) {
+							 test = data.UploadId;
+							 AWS.S3.uploadPartCopy({
+								 'bucketName' : bucketName1,
+								 'objectName' : 'testfile_3.pdf',
+								 'copySource' : '/' + bucketName2 +  '/testfile_4.pdf',
+								 'uploadId' : data.UploadId,
+								 'partNumber' : '2'
+							 }, function(data) {
 								// alert('uploadPartCopy success' + data.ETag);
-								// Ti.API.info(JSON.stringify(data));
-								// AWS.S3.completeMultipartUpload({
-									// 'bucketName' : bucketName1,
-									// 'objectName' : 'testfile_3.pdf',
-									// 'uploadId' : test,
-									// 'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>' + data.ETag + '</ETag></Part></CompleteMultipartUpload>'
-								// }, function(data) {
+								 Ti.API.info(JSON.stringify(data));
+								 AWS.S3.completeMultipartUpload({
+									 'bucketName' : bucketName1,
+									 'objectName' : 'testfile_3.pdf',
+									 'uploadId' : test,
+									 'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>' + data.ETag + '</ETag></Part></CompleteMultipartUpload>'
+								 }, function(data) {
 									// alert('completeMultipartUpload success');
-									// Ti.API.info(JSON.stringify(data));
-									// //finish(testRun);
-								// }, function(error) {
-									// alert('Some error occured' + JSON.stringify(error));
-									// //callback.failed('Some error occured'+JSON.stringify(error));
-								// });
-							// }, function(error) {
-								// alert('Some error occured' + JSON.stringify(error));
-							// });
-						// }, function(error) {
-							// alert('Some error occured' + JSON.stringify(error));
-						// });
-					// }, function(error) {
-						// alert('Some error occured' + JSON.stringify(error));
-					// });
-// 				
-			// }, function(error) {
-				// alert('Some error occured' + JSON.stringify(error));
-			// });
-	// }
-// 	
+									 Ti.API.info(JSON.stringify(data));
+									 finish(testRun);
+								 }, function(error) {
+									 //alert('Some error occured' + JSON.stringify(error));
+									valueOf(testRun, true).shouldBeFalse();
+								 });
+							 }, function(error) {
+								 //alert('Some error occured' + JSON.stringify(error));
+								 valueOf(testRun, true).shouldBeFalse();
+							 });
+						 }, function(error) {
+							 // alert('Some error occured' + JSON.stringify(error));
+							 valueOf(testRun, true).shouldBeFalse();
+						 });
+					 }, function(error) {
+						 // alert('Some error occured' + JSON.stringify(error));
+						 valueOf(testRun, true).shouldBeFalse();
+					 });
+ 				
+			 }, function(error) {
+				 // alert('Some error occured' + JSON.stringify(error));
+				 valueOf(testRun, true).shouldBeFalse();
+			 });
+	 }
+ 	
 	
 	this.testPutObject_as_async= function(testRun) {
 		var f = Titanium.Filesystem.getFile(filename1);
@@ -1207,7 +1208,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	}
 	
 	// commeting out the getBucket tests as the getBucket API is thriwing exceptions
-	/*
+	
 	 this.testGetBucket_as_async= function(testRun) {
 			 AWS.S3.getBucket({
 				 'bucketName' : 'test953'
@@ -1238,7 +1239,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			finish(testRun);
 		});
 	}
-	*/
+	
 	this.testGetBucketAcl_as_async= function(testRun) {
 
 		
