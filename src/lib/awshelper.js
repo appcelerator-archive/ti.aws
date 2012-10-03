@@ -158,7 +158,7 @@ awsHelper.validateApi = function(thisRef, cbOnError, params) {
 		if(errorResponse != "") {//means validations failed
 			if(cbOnError) {
 				var error = sessionOBJ.xmlToJSON.toJSON(errorResponse, true);
-				cbOnError(error);
+				cbOnError(error, null);
 				return false;
 			}
 		}
@@ -177,26 +177,54 @@ awsHelper.prepareExecutor = function(thisRef) {
 /***
  * Function handles http error callback
  * */
-awsHelper.httpError = function(thisRef, cbOnError) {
+awsHelper.httpError = function(thisRef, e, cbOnError)
+{
 	if(cbOnError) {
-		var error = sessionOBJ.xmlToJSON.toJSON(thisRef.responseText, false);
-		error.summary = thisRef.responseText;
-		//!! THIS WAS PASSING THE ORIGINAL RESPONSE TEXT INSTEAD OF THE CONVERTED JSON OBJECT
-		cbOnError(error);
+		var response = sessionOBJ.xmlToJSON.toJSON(thisRef.responseText, false);
+		if (!response.message) {
+			response.message = e.error || 'HTTP request failed';
+		}
+		response.requestUri = thisRef.location;
+		response.statusText = thisRef.statusText;
+		response.status = thisRef.status;
+
+		cbOnError(response.message, response);
 	}
 }
+
 /***
  * Function handles http success callback
  * */
-awsHelper.httpSuccess = function(thisRef, cbOnData) {
+awsHelper.httpSuccess = function(thisRef, data, cbOnData)
+{
+	if (cbOnData) {
+		var headers;
+	    if (thisRef.getResponseHeaders) {
+	        // iOS
+	        headers = thisRef.getResponseHeaders();
+	    } else if (thisRef.allResponseHeaders) {
+			// Android
+			headers = {};
+			var rawHeaders = thisRef.allResponseHeaders;
+			var pairs = rawHeaders.split('\n');
+			for (var p = 0; p < pairs.length; p++) {
+				var keyValues = pairs[p].split(':');
+				headers[keyValues.shift()] = keyValues.join(':');
+			}
+	    } else {
+		    Ti.API.error("Unsupported platform! Don\'t know how to get headers from Ti.Network.HTTPClient!");
+	    }
 
-	//Print the XML Retrieved from the Service
-	jsResp = sessionOBJ.xmlToJSON.toJSON(thisRef.responseText, false);
-	//Build a JavaScript Object from the XML
+		var response = {
+			requestUri: thisRef.location,
+			statusCode: thisRef.status,
+			statusText: thisRef.statusText,
+			headers: headers,
+			data: data
+		};
 
-	//Check if this is a proper response, or an Error Response, and call the necessary callback Method
-	if(cbOnData)
-		cbOnData(jsResp);
+		cbOnData(response.data, response);
+	}
 }
 /***
  * Function creates HTTP request
@@ -207,10 +235,10 @@ awsHelper.createHttpObject = function(cbOnData, cbOnError) {
 	xhr.setRequestHeader('User-Agent', customUserAgent);
 	
 	xhr.onload = function(response) {
-		awsHelper.httpSuccess(this, cbOnData);
+		awsHelper.httpSuccess(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false), cbOnData);
 	};
 	xhr.onerror = function(e) {
-		awsHelper.httpError(this, cbOnError);
+		awsHelper.httpError(this, e, cbOnError);
 	}
 	return xhr;
 }
