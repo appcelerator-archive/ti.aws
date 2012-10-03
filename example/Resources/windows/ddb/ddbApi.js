@@ -29,13 +29,11 @@ windowFunctions['createTable'] = function(evt) {
 	"KeySchema" : {
 	"HashKeyElement" : {
 	"AttributeName" : "name",
-	"AttributeType" : "S",
-	//"AttributeValue" : "pankaj"
+	"AttributeType" : "S"
 	},
 	"RangeKeyElement" : {
 	"AttributeName" : "1234",
-	"AttributeType" : "N",
-	//"AttributeValue" : "12345"
+	"AttributeType" : "N"
 	}
 	},
 	"ProvisionedThroughput" : {
@@ -88,7 +86,7 @@ windowFunctions['putItem'] = function(evt) {
 				"Item" : {
 					"name" : { "S" : 'test'}, //Required
 					"1234" : { "N" : "12345"}, //Required
-					'testatr' : { 'S' : 'apcell tester'}
+					'testatr' : { 'S' : 'appcel tester'}
 				}
 			} //Required
 		};

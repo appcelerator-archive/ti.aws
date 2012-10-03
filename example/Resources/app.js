@@ -7,7 +7,10 @@
  *
  * These are defined in the "windows" folder and its children.
  *
- * That's it! Enjoy.
+ * The app requires you to put in your AWS secret and keys in tiapp.xml and based on that some 
+ * example apis for each service may need some tweaking to work correctly. E.g. S3 service examples
+ * may need changing the bucketname, physical path of a file you want to upload in the bucket or 
+ * for SES service changing the e-mail addresses which are verified in AWS system. etc.
  */
 	
 	// Define our window store.

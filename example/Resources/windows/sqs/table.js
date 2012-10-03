@@ -13,10 +13,8 @@ windowFunctions['SQS'] = function (evt) {
           'Deleting Queue',
           'listQueues',
           'getQueueUrl',
-          
           'Add Permission',
           'Remove Permission',
-          
           'setQueueAttributes',
           'getQueueAttributes',
           'sendMessage',
@@ -24,8 +22,6 @@ windowFunctions['SQS'] = function (evt) {
           'receiveMessage',
           'deleteMessage',
           'deleteMessageBatch',
-         
-          
           'changeMessageVisibility',
           'changeMessageVisibilityBatch',
           

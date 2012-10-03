@@ -1,3 +1,5 @@
+// The SES service with AWS account having no production privilege requires all sender and receiver email
+// addresses to be verified in SES system. So please make sure that those are managed correcetly.
 windowFunctions['verifyEmailAddress'] = function(evt) {
 	
 
@@ -29,9 +31,6 @@ windowFunctions['deleteVerifiedEmailAddress'] = function(evt) {
 	
 
 };
-
-
-
 windowFunctions['getSendQuota'] = function(evt) {
 	
 
@@ -127,7 +126,7 @@ windowFunctions['sendRawEmail'] = function(evt) { //doesn't work
 	  
 	  var param = [
 	  				'From: appcel321@gmail.com',
-					'To: etcarev@appcelerator.com',
+					'To: appcel321@gmail.com',
 					'Cc: appcel321@gmail.com',
 					'Subject: Hello Message',
 					'MIME-Version: 1.0',
@@ -143,13 +142,6 @@ windowFunctions['sendRawEmail'] = function(evt) { //doesn't work
 
 	AWS.SES.sendRawEmail({
 		'rawMessage' : Ti.Utils.base64encode(param)
-		
-		//'rawMessage' : Ti.Utils.base64encode('From:'+'appcel321@gmail.com'+'\nTo:'+'etcarev@appcelerator.com'+'\nSubject:'+'Test Email'+'\nContent-Type:'+'text/plain'+'\nMIME-Version:'+'1.0'+'/n/n')
-		
-		
-		//'rawMessage' : ('From:'+'appcel321@gmail.com'+'\nTo:'+'etcarev@appcelerator.com'+'\nSubject:'+'Test Email'+'\nContent-Type:'+'text/plain'+'\nMIME-Version:'+'1.0'+'/n/n')				
-		//'rawMessage' : ''				
-		//rawMessage : {'From' : 'etcarev@appcelerator.com', 'To' : 'tcarev@appcelerator.com', 'Subject' : 'A Sample Email'}		
 		},
 		function(response){
 			alert('Success: '+ JSON.stringify(response));

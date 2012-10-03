@@ -10,24 +10,19 @@ windowFunctions['DDB'] = function (evt) {
         top: offset + u,
         data: createRows([
         		'getSessionToken',
-        		'createTable', //+
-        		'listTables', //+
-        		'putItem', //+
-        		'updateItem', //new
-        		'updateTable', //new
-        		'query', //+
-        		'deleteItem', //+
-        		'describeTable', //+
-        		'deleteTable', //+
-        		'batchWriteItem', //+
-        		'batchGetItem', //+
+        		'createTable', 
+        		'listTables', 
+        		'putItem', 
+        		'updateItem', 
+        		'updateTable', 
+        		'query', 
+        		'deleteItem', 
+        		'describeTable', 
+        		'deleteTable', 
+        		'batchWriteItem', 
+        		'batchGetItem', 
         		//////////////
-        		'scan', //new
-        		
-        		
-        		
-        		
-            
+        		'scan' //
         ])
     });
     table.addEventListener('click', handleOpenWindow);

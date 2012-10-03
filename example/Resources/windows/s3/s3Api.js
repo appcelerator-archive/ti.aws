@@ -1,8 +1,13 @@
-
+// Some things to be aware of:
+// AWS requires each bucketName to be a unique name in S3's global namespace
+// Deleting bucket does not release the bucketname from the global namespace right away
+// so if you create, delete, recreate in succession, it may not work
+// In order to make the app work with your AWS credentials, you will have 
 windowFunctions['putBucket'] = function(evt) {
 	
 		AWS.S3.putBucket({
-				'bucketName' : 'test092612_2'
+		// you may need to choose diff bucketname if this one is not available 
+				'bucketName' : 'test092612_2' 
 			},
 			function(response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -16,10 +21,11 @@ windowFunctions['putBucket'] = function(evt) {
 	
 };
 
-
+// For all tests below, we will assume that bucket created above still exists. 
 windowFunctions['putBucketPolicy'] = function(evt) {
 		var jsonObject = {
 				"Version" : "2008-10-17",
+				//canonical user ID - look up your AWS account and grab one from there
 				"Id" : "bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364",
 				"Statement" : [{
 					"Effect" : 'Allow',
@@ -53,13 +59,14 @@ windowFunctions['putBucketPolicy'] = function(evt) {
 
 windowFunctions['putObject'] = function(evt) {
 	
+	// By default Titanium will look for this file in Resources directory of example app
+	// So if you decide to change the file, just make sure it exists in Resources directory
+    var f = Titanium.Filesystem.getFile('KS_nav_views.png');
 	
-    //var f = Titanium.Filesystem.getFile('KS_nav_views.png');
-	var f = Titanium.Filesystem.getFile('/Users/etcarev/sample.pdf');
 	
 	AWS.S3.putObject({
 			'bucketName' : 'test092612_1',
-			'objectName' : 'sample.pdf',
+			'objectName' : 'KS_nav_views.png',
 			'file' : f
 			},
 			function(data) {
@@ -95,7 +102,7 @@ windowFunctions['getObject'] = function(evt) {
 
 	AWS.S3.getObject({
 			 'bucketName' : 'test092612_1',
-			 'objectName' : 'IMG_0008.JPG'
+			 'objectName' : 'KS_nav_views.png'
 			},
 			function(response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -114,7 +121,7 @@ windowFunctions['putObjectCopy'] = function(evt) {
 	AWS.S3.putObjectCopy({
 			'bucketName' : 'test092612_1',
 			'objectName' : 'IMG_0008_2.JPG',
-			'copySource' : 'https://s3.amazonaws.com/test092612_1/IMG_0008.JPG'
+			'copySource' : 'https://s3.amazonaws.com/test092612_1/KS_nav_views.png'
 			},
 			function(response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -133,7 +140,7 @@ windowFunctions['headObject'] = function(evt) {
 	
 	AWS.S3.headObject({
 			'bucketName' : 'test092612_1',
-			'objectName' : 'IMG_0008.JPG'
+			'objectName' : 'KS_nav_views.png'
 		},
 			function(data) {
 				alert('Success: '+ JSON.stringify(data));
@@ -169,7 +176,7 @@ windowFunctions['deleteObject'] = function(evt) {
 	
 	AWS.S3.deleteObject({
 			'bucketName' : 'test092612_1',
-			'objectName' : 'sample.pdf'
+			'objectName' : 'KS_nav_views.png'
 			},
 			function(response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -187,7 +194,7 @@ windowFunctions['deleteMultipleObjects'] = function(evt) {
 	
 	AWS.S3.deleteMultipleObjects({
 			'bucketName' : 'test092612_1',
-			'xmlTemplate' : '<Delete><Object><Key>IMG_0008_2.JPG</Key></Object><Object><Key>test.jpg</Key></Object></Delete>'
+			'xmlTemplate' : '<Delete><Object><Key>KS_nav_views.png</Key></Object><Object><Key>test.jpg</Key></Object></Delete>'
 			
 			},
 			function(response) {
@@ -204,7 +211,7 @@ windowFunctions['deleteMultipleObjects'] = function(evt) {
 
 
 
-
+// Please note that AWS
 
 windowFunctions['deleteBucket'] = function(evt) {
 	
@@ -227,7 +234,7 @@ windowFunctions['getObjectTorrent'] = function(evt) {
 	
 	AWS.S3.getObjectTorrent({
 			'bucketName' : 'test092612_1',
-			'objectName' : 'IMG_0008.JPG'
+			'objectName' : 'KS_nav_views.png'
 			},
 			function(response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -246,7 +253,7 @@ windowFunctions['initiateMultipartUpload'] = function(evt) {
 	
 	AWS.S3.initiateMultipartUpload({
 			'bucketName' : 'test092612_1',
-			'objectName' : 'IMG_0008.JPG'
+			'objectName' : 'KS_nav_views.png'
 			},
 			function(response) {
 				uploadId = response.UploadId;
@@ -266,7 +273,7 @@ windowFunctions['listParts'] = function(evt) {
 	
 	AWS.S3.listParts({
 			'bucketName' : 'test092612_1',
-			'objectName' : 'IMG_0008.JPG',
+			'objectName' : 'KS_nav_views.png',
 			'uploadId' : uploadId
 			},
 			function(response) {
@@ -282,7 +289,7 @@ windowFunctions['listParts'] = function(evt) {
 };
 
 
-windowFunctions['uploadPart'] = function(evt) { //???? doesn't return 
+windowFunctions['uploadPart'] = function(evt) {
 	
 	AWS.S3.initiateMultipartUpload({
 			'bucketName' : 'test092612_1',
@@ -292,10 +299,10 @@ windowFunctions['uploadPart'] = function(evt) { //???? doesn't return
 				alert('Success: '+ JSON.stringify(data));
 				Ti.API.info(JSON.stringify(data));
 				var uploadId = data.UploadId;
-				var f1 = Titanium.Filesystem.getFile('/Users/etcarev/dl600.pdf');
+				var f1 = Titanium.Filesystem.getFile('testfile.pdf');
 				AWS.S3.uploadPart({
 							'bucketName' : 'test092612_1',
-							'objectName' : 'sample.pdf',
+							'objectName' : 'testfile.pdf',
 							'file' : f1,
 							'uploadId' : uploadId,
 							'partNumber' : '1'
@@ -324,7 +331,7 @@ windowFunctions['uploadPartCopy'] = function(evt) {
 	
 	AWS.S3.initiateMultipartUpload({
 			'bucketName' : 'test092612_1',
-			'objectName' : 'sample.pdf'
+			'objectName' : 'testfile_2.pdf'
 		},
 		function(data) {
 			// alert('Success: '+ JSON.stringify(data));
@@ -333,42 +340,20 @@ windowFunctions['uploadPartCopy'] = function(evt) {
 			alert(uploadId);
 			AWS.S3.uploadPartCopy({
 						'bucketName' : 'test092612_1',
-						'objectName' : 'sample.pdf',
-						'copySource' : '/test131testaws_M_1/testfile.pdf',
+						'objectName' : 'testfile.pdf',
+						'copySource' : '/test092612_1/testfile.pdf',
 						'uploadId' : uploadId,
 						'partNumber' : '2'
 					},
 				function(data) {
 				alert('Success: '+ JSON.stringify(data));
-				Ti.API.info(JSON.stringify(response));
-				AWS.S3.completeMultipartUpload({
-					'bucketName' : 'test953',
-					'objectName' : 'ATC.pdf',
-					'uploadId' : test,
-					'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>' + data.ETag + '</ETag></Part></CompleteMultipartUpload>'
-				
-					},  function(error) {
-				  		alert('3');
-						alert('Error: '+ JSON.stringify(error));
-						Ti.API.info(JSON.stringify(error));
-				
-		
-		  			},  function(error) {
-						alert('Error: '+ JSON.stringify(error));
-						Ti.API.info(JSON.stringify(error));
-		
-				});					
-				
-					
-				
-		
+				Ti.API.info(JSON.stringify(response));				
 		  	},  function(error) {
 		  		alert('3');
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 		
 			});
-		
 
   	},  function(error) {
 		alert('Error: '+ JSON.stringify(error));
