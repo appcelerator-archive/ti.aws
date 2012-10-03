@@ -1,20 +1,4 @@
-if ( false )
-{
-	var APP = {
-		appName: 'App Name',
-		platform : Ti.Platform.osname,
-		height : Ti.Platform.displayCaps.platformHeight,
-		width : Ti.Platform.displayCaps.platformWidth
-	}//end APP
-	
-	APP.AppTabGroup = require('/samples/highscores/UIAppTabGroup');APP.AppTabGroup.APP = APP;
-	APP.AppTabGroup.init({});
-	
-	//start the APP
-	APP.AppTabGroup.open();
-}//end if	
-else
-{
+
 /*
  * We'll follow a really simple paradigm in this example app. It's going to be a hierarchy of tables where you can drill
  * in to individual examples for each Amazon WebService namespace.
@@ -113,7 +97,6 @@ else
 	var awsAccountId = Ti.App.Properties.getString('aws-account-id');
 	var tableName = Ti.App.Properties.getString('ddbTableName');
 	
-	AWS=require('ti.aws'); //Make the AWS Module publically available across the App
 	AWS.authorize(accessKey, secretKey);
 			
 	var win = Ti.UI.createWindow({
@@ -136,4 +119,3 @@ else
 	table.addEventListener('click', handleOpenWindow);
 	win.add(table);
 	win.open();
-}//end else
