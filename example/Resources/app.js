@@ -96,22 +96,25 @@ else
 	function error(e) {
 	    alert((e.error && e.message) || JSON.stringify(e));
 	}
-
-	Ti.App.AWS = require('ti.aws'); //Make the AWS Module publically available across the App	
+    
+	AWS = require('ti.aws'); //Make the AWS Module publically available across the App	
 	// Include the window hierarchy.
 	Ti.include(
 	    'windows/simpledb/table.js',
 	    'windows/s3/table.js',
 	    'windows/ses/table.js',
 	    'windows/sqs/table.js',
-	    'windows/sns/table.js'
+	    'windows/sns/table.js',
+	    'windows/ddb/table.js'
 	);
 	
 	var accessKey=Ti.App.Properties.getString('aws.access_key');
 	var secretKey=Ti.App.Properties.getString('aws.secret_key');
+	var awsAccountId = Ti.App.Properties.getString('aws-account-id');
+	var tableName = Ti.App.Properties.getString('ddbTableName');
 	
-	Ti.App.AWS=require('ti.aws'); //Make the AWS Module publically available across the App
-	Ti.App.AWS.authorize(accessKey, secretKey);
+	AWS=require('ti.aws'); //Make the AWS Module publically available across the App
+	AWS.authorize(accessKey, secretKey);
 			
 	var win = Ti.UI.createWindow({
 		backgroundColor: '#fff',
@@ -126,7 +129,8 @@ else
 			'S3',
 			'SES',
 			'SQS',
-			'SNS'
+			'SNS',
+			'DDB'
 		])
 	});
 	table.addEventListener('click', handleOpenWindow);
