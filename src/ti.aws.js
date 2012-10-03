@@ -159,7 +159,7 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 
 	if (this.method == 'getPresignedUrl') {
 		var url = 'https://' + params.bucketName + this.endpoint + '?AWSAccessKeyId=' + sessionOBJ.accessKeyId + '&Expires=' + params.expires + '&Signature=' + signature;
-		cbOnData(url);
+		cbOnData(url, null);
 		return;
 	}
 
@@ -201,24 +201,17 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 
 		if (this.connectionType == "GET" || this.connectionType == "POST" || method == "uploadPartCopy") {// Api's other then GET and POST does not return any xml as part of response object so passing the complete obect back to client
 			if (method === "getObjectTorrent" || method === "getObject" || method === "getBucketPolicy") {
-				if (cbOnData) {
-					cbOnData(this.responseText);
-				}
+				awsHelper.httpSuccess(this, this.responseText, cbOnData);
 			} else {
-				if (cbOnData) {
-					cbOnData(sessionOBJ.xmlToJSON.toJSON(this.responseText, true));
-				}
+				awsHelper.httpSuccess(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, true), cbOnData);
 			}
-
 		} else {// Api's other then GET and POST does not return any xml as part of response object so passing the complete obect back to client
-			if (cbOnData) {
-				cbOnData(this.responseText);
-			}
+			awsHelper.httpSuccess(this, this.responseText, cbOnData);
 		}
 	};
 
 	xhr.onerror = function(e) {
-		awsHelper.httpError(this, cbOnError);
+		awsHelper.httpError(this, e, cbOnError);
 	}
 	if (params.hasOwnProperty('xmlTemplate')) {//for sending xml in request object
 		xhr.send(params.xmlTemplate);
@@ -276,10 +269,11 @@ var stsExecutor = function(params, cbOnData, cbOnError) {
 		Ti.App.Properties.setString('tempSecretAccessKey', jsResp["GetSessionTokenResult"][0]["Credentials"][0]["SecretAccessKey"][0]);
 		Ti.App.Properties.setString('tempAccessKeyID', jsResp["GetSessionTokenResult"][0]["Credentials"][0]["AccessKeyId"][0]);
 		Ti.App.Properties.setString('tempExpiration', jsResp["GetSessionTokenResult"][0]["Credentials"][0]["Expiration"][0]);
-		cbOnData(response);
+
+		awsHelper.httpSuccess(this, jsResp, cbOnData);
 	};
 	xhr.onerror = function(e) {
-		cbOnError(e);
+		awsHelper.httpError(this, e, cbOnError);
 	}
 	sUrl = sessionOBJ.awsHelper.generatePayload(params, sessionOBJ.accessKeyId, sessionOBJ.secretKey, this.endpoint);
 
@@ -321,7 +315,7 @@ var dynamoDbExecutor = function(params, cbOnData, cbOnError) {
 
 			dynamoDBCall(thisRef, params, cbOnData, cbOnError);
 		}, function(error) {
-			cbOnError(this.responseText);
+			cbOnError(this.responseText, null);
 		});
 	} else {
 		dynamoDBCall(thisRef, params, cbOnData, cbOnError);
@@ -356,10 +350,10 @@ var dynamoDBCall = function(thisRef, params, cbOnData, cbOnError) {
 
 	var xhr = Ti.Network.createHTTPClient();
 	xhr.onload = function(response) {
-		cbOnData(this.responseText);
+		awsHelper.httpSuccess(this, this.responseText, cbOnData);
 	};
 	xhr.onerror = function(e) {
-		cbOnError(this.responseText);
+		awsHelper.httpError(this, e, cbOnError);
 	}
 
 	xhr.open(thisRef.verb, thisRef.endpoint);
@@ -558,7 +552,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}
 		}, {
-			method : 'listObjects',
+			method : 'getBucket',
 			validations : {
 				required : {
 					params : ['bucketName']
@@ -639,6 +633,14 @@ sessionOBJ.bedFrame.build(AWS, {
 		}, {
 			method : 'getBucketWebsite',
 			subResource : '?website',
+			validations : {
+				required : {
+					params : ['bucketName']
+				}
+			}
+		}, {
+			method : 'headBucket',
+			verb : 'HEAD',
 			validations : {
 				required : {
 					params : ['bucketName']
@@ -835,7 +837,6 @@ sessionOBJ.bedFrame.build(AWS, {
 		}, {
 			method : 'abortMultipartUpload',
 			verb : 'DELETE',
-			subResource : '?',
 			validations : {
 				required : {
 					params : ['bucketName', 'objectName', 'uploadId']
@@ -844,7 +845,6 @@ sessionOBJ.bedFrame.build(AWS, {
 		}, {
 			method : 'completeMultipartUpload',
 			verb : 'POST',
-			subResource : '?',
 			contentType : 'application/xml',
 			validations : {
 				required : {
@@ -855,7 +855,6 @@ sessionOBJ.bedFrame.build(AWS, {
 			method : 'uploadPart',
 			verb : 'PUT',
 			uploadFile : true,
-			subResource : '?',
 			validations : {
 				required : {
 					params : ['bucketName', 'objectName', 'uploadId', 'partNumber', 'file']
@@ -864,7 +863,6 @@ sessionOBJ.bedFrame.build(AWS, {
 		}, {
 			method : 'uploadPartCopy',
 			verb : 'PUT',
-			subResource : '?',
 			validations : {
 				required : {
 					params : ['bucketName', 'objectName', 'uploadId', 'partNumber']
@@ -872,7 +870,6 @@ sessionOBJ.bedFrame.build(AWS, {
 			}
 		}, {
 			method : 'listParts',
-			subResource : '?',
 			validations : {
 				required : {
 					params : ['bucketName', 'objectName', 'uploadId']
