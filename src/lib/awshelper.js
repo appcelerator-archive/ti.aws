@@ -112,41 +112,68 @@ awsHelper.generateSQSURL = function(actionName, params, accessKeyId, secretKey, 
  * more on the signing string here --http://docs.amazonwebservices.com/AmazonS3/2006-03-01/dev/RESTAuthentication.html
  */
 awsHelper.generateS3Params = function(params) {
-	//check if the bucket name is passed by the user. If its passed then include it as part of stringtosign data
-	if (params.hasOwnProperty('bucketName')) {
-		//check if objectName is passed by user if yes then include it as part of stringtosign data
-		if (params.hasOwnProperty('objectName') || params.hasOwnProperty('key')) {
-			//copySource is used by 'Put object copy and Upload part ' api's, which needs to be part of stringtosign
-			if (params.hasOwnProperty('copySource')) {
-				params.canonicalizedAmzHeaders = '\n' + 'x-amz-copy-source:' + params.copySource;
-			} else {
-				params.canonicalizedAmzHeaders = '';
-			}
-			//check if versionId is passed by user if yes then include it as part of stringtosign data
-			if (params.hasOwnProperty('versionId')) {
-				if (params.hasOwnProperty('uploadId')) {
-					if (params.hasOwnProperty('partNumber')) {
-						params.stringToSign = params.verb + '\n' + params.contentMD5 + '\n' + params.contentType + '\n' + params.curDate + params.canonicalizedAmzHeaders + '\n/' + params.bucketName + '/' + params.objectName + params.subResource + 'partNumber=' + params.partNumber + '&' + 'uploadId=' + params.uploadId;
-						params.url = params.url.concat(params.bucketName + '/' + params.objectName + params.subResource + 'partNumber=' + params.partNumber + '&' + 'uploadId=' + params.uploadId);
-					} else {
-						params.stringToSign = params.verb + '\n' + params.contentMD5 + '\n' + params.contentType + '\n' + params.curDate + params.canonicalizedAmzHeaders + '\n/' + params.bucketName + '/' + params.objectName + params.subResource + 'uploadId=' + params.uploadId;
-						params.url = params.url.concat(params.bucketName + '/' + params.objectName + params.subResource + 'uploadId=' + params.uploadId);
-					}
-				} else {
-					params.stringToSign = params.verb + '\n' + params.contentMD5 + '\n' + params.contentType + '\n' + params.curDate + params.canonicalizedAmzHeaders + '\n/' + params.bucketName + '/' + params.key + '?versionId=' + params.versionId;
-				}
-			} else {
-				params.stringToSign = params.verb + '\n' + params.contentMD5 + '\n' + params.contentType + '\n' + params.curDate + params.canonicalizedAmzHeaders + '\n/' + params.bucketName + '/' + params.objectName + params.subResource;
-				params.url = params.url.concat(params.bucketName + '/' + params.objectName + params.subResource);
-			}
-		} else {
-			params.stringToSign = params.verb + '\n' + params.contentMD5 + '\n' + params.contentType + '\n' + params.curDate + '\n/' + params.bucketName + '/' + params.subResource;
-			params.url = params.url.concat(params.bucketName + '/' + params.subResource);
-		}
-	} else {
-		params.stringToSign = params.verb + '\n' + params.contentMD5 + '\n' + params.contentType + '\n' + params.curDate + '\n/' + params.subResource;
+	// The stringToSign and url properties of the params are created by concatenating various values to them.
+	// This is really done in 2 parts:
+	//   Part 1 is the base URL construction
+	//   Part 2 is the query string construction
+
+	//copySource is used by 'Put object copy and Upload part ' api's, which needs to be part of stringtosign
+	var canonicalizedAmzHeaders = '';
+	if (params.hasOwnProperty('copySource') && (params.hasOwnProperty('objectName'))) {
+		canonicalizedAmzHeaders = 'x-amz-copy-source:' + params.copySource + '\n';
 	}
-	return;
+
+	params.stringToSign = params.verb + '\n' + params.contentMD5 + '\n' + params.contentType + '\n' + params.curDate + '\n' + canonicalizedAmzHeaders + '/';
+
+	// Now construct the query string part of the parameters
+	var urlPart = '';
+
+	// If there is a bucketName then we need to build it out
+	if (params.hasOwnProperty('bucketName')) {
+		urlPart += params.bucketName + '/';
+		if (params.hasOwnProperty('objectName')) {
+			urlPart += params.objectName;
+		} else if (params.hasOwnProperty('key')) {
+			urlPart += params.key;
+		}
+	}
+
+	urlPart += params.subResource;
+
+	// If there is a bucketName then there may be some additional query parameters to append
+	if (params.hasOwnProperty('bucketName')) {
+		var queryString = '';
+		if (params.uploadId) {
+			var queryStringArray = [];
+			if (params.partNumber) {
+				queryStringArray.push('partNumber=' + params.partNumber);
+			}
+			if (params.uploadId) {
+				queryStringArray.push('uploadId=' + params.uploadId);
+			}
+			if (params.versionId) {
+				queryStringArray.push('versionId=' + params.versionId);
+			}
+			queryString = queryStringArray.join('&');
+		} else if (params.versionId) {
+			queryString = 'versionId=' + params.versionId;
+		}
+
+		if (queryString.length > 0) {
+			if (params.subResource === '?') {
+				urlPart += queryString;
+			} else if (params.subResource === '') {
+				urlPart += '?' + queryString;
+			} else {
+				urlPart += '&' + queryString;
+			}
+		}
+
+		// Append the query string parameters to the original URL
+		params.url += urlPart;
+	}
+
+	params.stringToSign += urlPart;
 }
 /***
  * Function does the validation of apis
@@ -155,12 +182,13 @@ awsHelper.generateS3Params = function(params) {
 awsHelper.validateApi = function(thisRef, cbOnError, params) {
 	if(thisRef.validations) {
 		var errorResponse = sessionOBJ.utility.validateParams(params, thisRef.validations);
-		if(errorResponse != "") {//means validations failed
+		if (errorResponse != "") {//means validations failed
 			if(cbOnError) {
-				var error = sessionOBJ.xmlToJSON.toJSON(errorResponse, true);
-				cbOnError(error, null);
-				return false;
+				var response = sessionOBJ.xmlToJSON.toJSON(errorResponse, true);
+				response.message = 'Parameter validation failed';
+				cbOnError(response.message, response);
 			}
+			return false;
 		}
 	}
 	return true;
@@ -181,12 +209,19 @@ awsHelper.httpError = function(thisRef, e, cbOnError)
 {
 	if(cbOnError) {
 		var response = sessionOBJ.xmlToJSON.toJSON(thisRef.responseText, false);
+		if (response.Message) {
+			if (response.Message instanceof Array) {
+				response.message = response.Message[0];
+			} else {
+				response.message = response.Message;
+			}
+		}
 		if (!response.message) {
 			response.message = e.error || 'HTTP request failed';
 		}
 		response.requestUri = thisRef.location;
+		response.statusCode = thisRef.status;
 		response.statusText = thisRef.statusText;
-		response.status = thisRef.status;
 
 		cbOnError(response.message, response);
 	}
