@@ -1,154 +1,159 @@
+// The SES service with AWS account having no production privilege requires all sender and receiver email
+// addresses to be verified in SES system. So please make sure that those are managed correcetly.
 windowFunctions['verifyEmailAddress'] = function(evt) {
-	var win = createWindow();
-	var offset = addBackButton(win);
+	
 
-	var table = Ti.UI.createTableView({
-		top : 44
-	});
-	win.add(table);
-	var arrDomains = [];
-
-	Ti.App.AWS.SES.verifyEmailAddress({
-		'emailAddress' : 'amit.sood@globallogic.com'
-	}, function(response) {
-		
-	}, function(error) {
-		
-
-	});
-	win.open();
-
+	AWS.SES.verifyEmailAddress({
+		'emailAddress' : 'appcel321@gmail.com'
+		}, function(response) {
+			alert('Success: '+ JSON.stringify(response));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
+		}, function(error) {
+			alert('Error: '+ JSON.stringify(error));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
+	
+		});
 };
+
 windowFunctions['deleteVerifiedEmailAddress'] = function(evt) {
-	var win = createWindow();
-	var offset = addBackButton(win);
+	
 
-	var table = Ti.UI.createTableView({
-		top : 44
-	});
-	win.add(table);
-	var arrDomains = [];
-
-	Ti.App.AWS.SES.deleteVerifiedEmailAddress({
-		'emailAddress' : 'test@test.com'
-	}, function(response) {
-		
-	}, function(error) {
-		
-
-	});
-	win.open();
+	AWS.SES.deleteVerifiedEmailAddress({
+			'emailAddress' : 'appcel321@gmail.com'
+		}, function(response) {
+			alert('Success: '+ JSON.stringify(response));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
+		}, function(error) {
+			alert('Error: '+ JSON.stringify(error));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
+				
+		});
+	
 
 };
 windowFunctions['getSendQuota'] = function(evt) {
-	var win = createWindow();
-	var offset = addBackButton(win);
+	
 
-	var table = Ti.UI.createTableView({
-		top : 44
-	});
-	win.add(table);
-	var arrDomains = [];
-
-	Ti.App.AWS.SES.getSendQuota({}, function(response) {
-
-	}, function(error) {
-
-	});
-	win.open();
-
+	AWS.SES.getSendQuota({
+		
+		}, function(response) {
+			alert('Success: '+ JSON.stringify(response));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
+		}, function(error) {
+			alert('Error: '+ JSON.stringify(error));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
+	
+		});
 };
+
 windowFunctions['getSendStatistics'] = function(evt) {
-	var win = createWindow();
-	var offset = addBackButton(win);
+	
 
-	var table = Ti.UI.createTableView({
-		top : 44
-	});
-	win.add(table);
-	var arrDomains = [];
+	AWS.SES.getSendStatistics({
 
-	Ti.App.AWS.SES.getSendStatistics({
-
-	}, function(response) {
-
-	}, function(error) {
-
-	});
-	win.open();
+		}, function(response) {
+			alert('Success: '+ JSON.stringify(response));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
+		}, function(error) {
+			alert('Error: '+ JSON.stringify(error));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
+	
+		});
+	
 
 };
 windowFunctions['listVerifiedEmailAddresses'] = function(evt) {
-	var win = createWindow();
-	var offset = addBackButton(win);
+	
 
-	var table = Ti.UI.createTableView({
-		top : 44
-	});
-	win.add(table);
-	var arrDomains = [];
+	AWS.SES.listVerifiedEmailAddresses({
 
-	Ti.App.AWS.SES.listVerifiedEmailAddresses({
-
-	}, function(response) {
-
-	}, function(error) {
-
-	});
-	win.open();
+		}, function(response) {
+			alert('Success: '+ JSON.stringify(response));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
+		}, function(error) {
+			alert('Error: '+ JSON.stringify(error));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
+	
+		});
+	
 
 };
 windowFunctions['sendEmail'] = function(evt) {
-	var win = createWindow();
-	var offset = addBackButton(win);
+	
 
-	var table = Ti.UI.createTableView({
-		top : 44
-	});
-	win.add(table);
-	var arrDomains = [];
-
-	Ti.App.AWS.SES.sendEmail({
-		source : 'test@test.com',
-		destination : {
-			to : ['test@test.com'],
-			cc : ['test@test.com'],
-			bcc : ['test@test.com']
-		},
-		message : {
-			subject : 'Hello Message',
-			body : {
-				text : 'Hi... This is a test message.'
+	AWS.SES.sendEmail({
+			source : 'appcel321@gmail.com',
+			destination : {
+				to : ['etcarev@appcelerator.com'],
+				cc : ['appcel321@gmail.com'],
+				bcc : ['appcel321@gmail.com']
+			},
+			message : {
+				subject : 'Hello Message',
+				body : {
+					text : 'Hi... This is a test message.'
+				}
 			}
-		}
-		
-	});
-	win.open();
+			}, function(response) {
+				alert('Success: '+ JSON.stringify(response));
+				Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
+		}, function(error) {
+				alert('Error: '+ JSON.stringify(error));
+				Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
+			
+		});
+	
 
 };
 
-windowFunctions['sendRawEmail'] = function(evt) {
-	var win = createWindow();
-	var offset = addBackButton(win);
+windowFunctions['sendRawEmail'] = function(evt) { //doesn't work
+			
+   // var param =  ['Received: from smtp-out.gmail.com (123.45.67.89) by',
+   				// 'in.appcelerator.com (87.65.43.210); Fri, 17 Dec 2010 14:26:22',
+   				// 'From: "Andrew" <appcel321@gmail.com>',
+	            // 'To: "Bob" <etcarev@appcelerator.com>', 
+	            // 'Date: Fri, 17 Dec 2010 14:26:21 -0800',
+	            // 'Subject: Hello',
+	            // 'Message-ID: <61967230-7A45-4A9D-BEC9-87CBCF2211C9@appcelerator.com>',
+	            // 'Accept-Language: en-US',
+	            // 'Content-Language: en-US',
+	            // 'Content-Type: text/plain; charset="us-ascii"',
+	            // 'Content-Transfer-Encoding: quoted-printable',
+	            // 'MIME-Version: 1.0',
+	            // ' ',             
+	            // 'Hello, I hope you are having a good day.',                 
+	            // '-Andrew'].join('\n');
+	  
+	  var param = [
+	  				'From: appcel321@gmail.com',
+					'To: appcel321@gmail.com',
+					'Cc: appcel321@gmail.com',
+					'Subject: Hello Message',
+					'MIME-Version: 1.0',
+					'Content-Type: text/plain; charset=UTF-8',
+					'Content-Transfer-Encoding: 7bit',
+					'Date: Tue, 2 Oct 2012 22:08:17 +0000',
+					'Message-ID: <0000013a2385bac5-2d3d2d38-17fa-4c85-a6d4-1eec0a14a90e-000000@email.amazonses.com>',
+					'X-SES-Outgoing: 199.255.192.134',
+					' ',
+					'Hi... This is a test message.'
+	  			].join('/n');
+	
 
-	var table = Ti.UI.createTableView({
-		top : 44
-	});
-	win.add(table);
-	var arrDomains = [];
-
-	Ti.App.AWS.SES.sendRawEmail({
-		rawMessage : Ti.Utils.base64encode('From:'+'rahul0789@gmail.com'+'\nTo:'+'amit.sood@globallogic.com'+'\nSubject:'+'Test Email'+'\nContent-Type:'+'text/plain'+'\nMIME-Version:'+'1.0'+'/n/n')				
-	},
-	function(response){
-			alert('Success: '+response);
-			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+response);
+	AWS.SES.sendRawEmail({
+		'rawMessage' : Ti.Utils.base64encode(param)
+		},
+		function(response){
+			alert('Success: '+ JSON.stringify(response));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
+			
 		},
 		function(error){
-			alert('Error: '+error);
-			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+error);
+			//alert('Error: '+ JSON.stringify(error));
+			alert('error');
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
 			//error handling code here.
 		});
-	win.open();
+	
 
 };

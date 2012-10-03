@@ -9,21 +9,37 @@ windowFunctions['SNS'] = function (evt) {
         backgroundColor: '#fff',
         top: offset + u,
         data: createRows([
-            'addPermission',
-            'confirmSubscription',
-            'createTopic',
-            'deleteTopic',
-            'getSubscriptionAttributes',
-            'getTopicAttributes',
-            'listSubscriptions',
-            'listSubscriptionsByTopic',
-            'listTopics',
-            'publish',
-            'removePermission',
-            'setSubscriptionAttributes',
-            'setTopicAttributes',
-            'subscribe',
-            'unsubscribe'
+        		'createTopic',
+        		'getTopicAttributes',
+        		'listTopics',
+        		'subscribe',
+        		'confirmSubscription',
+        		'getSubscriptionAttributes',
+        		'listSubscriptions',
+        		'listSubscriptionsByTopic',
+        		'unsubscribe',
+        		'addPermission',
+        		'removePermission',
+        		'publish',
+        		'deleteTopic',
+        		
+        	
+        	
+            
+           
+           
+           
+            
+             
+           
+            // ,
+            
+           
+            // 
+            // 'setSubscriptionAttributes',
+            // 'setTopicAttributes',
+            
+           
         ])
     });
     table.addEventListener('click', handleOpenWindow);
