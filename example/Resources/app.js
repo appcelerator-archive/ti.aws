@@ -1,20 +1,4 @@
-if ( false )
-{
-	var APP = {
-		appName: 'App Name',
-		platform : Ti.Platform.osname,
-		height : Ti.Platform.displayCaps.platformHeight,
-		width : Ti.Platform.displayCaps.platformWidth
-	}//end APP
-	
-	APP.AppTabGroup = require('/samples/highscores/UIAppTabGroup');APP.AppTabGroup.APP = APP;
-	APP.AppTabGroup.init({});
-	
-	//start the APP
-	APP.AppTabGroup.open();
-}//end if	
-else
-{
+
 /*
  * We'll follow a really simple paradigm in this example app. It's going to be a hierarchy of tables where you can drill
  * in to individual examples for each Amazon WebService namespace.
@@ -23,7 +7,10 @@ else
  *
  * These are defined in the "windows" folder and its children.
  *
- * That's it! Enjoy.
+ * The app requires you to put in your AWS secret and keys in tiapp.xml and based on that some 
+ * example apis for each service may need some tweaking to work correctly. E.g. S3 service examples
+ * may need changing the bucketname, physical path of a file you want to upload in the bucket or 
+ * for SES service changing the e-mail addresses which are verified in AWS system. etc.
  */
 	
 	// Define our window store.
@@ -96,22 +83,24 @@ else
 	function error(e) {
 	    alert((e.error && e.message) || JSON.stringify(e));
 	}
-
-	Ti.App.AWS = require('ti.aws'); //Make the AWS Module publically available across the App	
+    
+	AWS = require('ti.aws'); //Make the AWS Module publically available across the App	
 	// Include the window hierarchy.
 	Ti.include(
 	    'windows/simpledb/table.js',
 	    'windows/s3/table.js',
 	    'windows/ses/table.js',
 	    'windows/sqs/table.js',
-	    'windows/sns/table.js'
+	    'windows/sns/table.js',
+	    'windows/ddb/table.js'
 	);
 	
 	var accessKey=Ti.App.Properties.getString('aws.access_key');
 	var secretKey=Ti.App.Properties.getString('aws.secret_key');
+	var awsAccountId = Ti.App.Properties.getString('aws-account-id');
+	var tableName = Ti.App.Properties.getString('ddbTableName');
 	
-	Ti.App.AWS=require('ti.aws'); //Make the AWS Module publically available across the App
-	Ti.App.AWS.authorize(accessKey, secretKey);
+	AWS.authorize(accessKey, secretKey);
 			
 	var win = Ti.UI.createWindow({
 		backgroundColor: '#fff',
@@ -126,10 +115,10 @@ else
 			'S3',
 			'SES',
 			'SQS',
-			'SNS'
+			'SNS',
+			'DDB'
 		])
 	});
 	table.addEventListener('click', handleOpenWindow);
 	win.add(table);
 	win.open();
-}//end else

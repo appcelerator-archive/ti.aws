@@ -1,5 +1,5 @@
 Ti.include(
-    'listDomains.js'
+    'simpledbApi.js'
 );
 
 windowFunctions['SimpleDb'] = function (evt) {
@@ -10,6 +10,16 @@ windowFunctions['SimpleDb'] = function (evt) {
         top: offset + u,
         data: createRows([
             'List Domains',
+            'createDomain',
+            'deleteDomain',
+            'batchPutAttributes',
+            'batchDeleteAttributes',
+            'domainMetadata',
+            'putAttributes',
+            'getAttributes',
+            'select',
+            
+            
         ])
     });
     table.addEventListener('click', handleOpenWindow);

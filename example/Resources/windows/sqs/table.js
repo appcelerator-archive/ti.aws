@@ -10,8 +10,11 @@ windowFunctions['SQS'] = function (evt) {
         top: offset + u,
         data: createRows([
           'createQueue',
+          'Deleting Queue',
           'listQueues',
           'getQueueUrl',
+          'Add Permission',
+          'Remove Permission',
           'setQueueAttributes',
           'getQueueAttributes',
           'sendMessage',
@@ -19,10 +22,10 @@ windowFunctions['SQS'] = function (evt) {
           'receiveMessage',
           'deleteMessage',
           'deleteMessageBatch',
-          'deleteQueue',
           'changeMessageVisibility',
           'changeMessageVisibilityBatch',
-          'removePermission'
+          
+          
         ])
     });
     table.addEventListener('click', handleOpenWindow);
