@@ -12,13 +12,11 @@ windowFunctions['SimpleDb'] = function (evt) {
             'List Domains',
             'createDomain',
             'domainMetadata',
-            'getAttributes I1',
-            'getAttributes I2',
-            'putAttributes I1',
-            'batchPutAttributes I1, I2',
-            'batchDeleteAttributes I1, I2',
-            'deleteAttributes I1',
-            'deleteAttributes I2',
+            'getAttributes',           
+            'putAttributes',
+            'batchPutAttributes',
+            'batchDeleteAttributes',
+            'deleteAttributes',
             'select',
             'deleteDomain'
         ])

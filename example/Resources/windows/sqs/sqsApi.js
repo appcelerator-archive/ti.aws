@@ -1,14 +1,17 @@
+
+// In order to make the app work with your AWS credentials, you will have to put your AWS secret, keys and accountID in tiapp.xml 
+
 windowFunctions['createQueue'] = function(evt) {
 	
 	
 	AWS.SQS.createQueue({
 		'QueueName' : 'TestQueue676767',
 		//'Label' : 'Test'
-	}, function(response) {
+	}, function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-	}, function(error) {
+	}, function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -17,16 +20,16 @@ windowFunctions['createQueue'] = function(evt) {
 };
 
 
-windowFunctions['Deleting Queue'] = function(evt) {
+windowFunctions['deletingQueue'] = function(evt) {
 
 	AWS.SQS.deleteQueue({
 	'QueueName' : 'TestQueue676767',
 	'AWSAccountId' : awsAccountId
-	}, function(response) {
+	}, function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
-		Ti.API.info(JSON.stringify(response));
+		Ti.API.info(JSON.stringify(data)+ JSON.stringify(response));
 
-	}, function(error) {
+	}, function(message, error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -39,11 +42,11 @@ windowFunctions['listQueues'] = function(evt) {
 	
 	AWS.SQS.listQueues({
 		
-	}, function(response) {
+	}, function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-	}, function(error) {
+	}, function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -56,11 +59,11 @@ windowFunctions['getQueueUrl'] = function(evt) {
 	
 	AWS.SQS.getQueueUrl({
 		'QueueName' : 'TestQueue676767'
-	}, function(response) {
+	}, function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-	}, function(error) {
+	}, function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -68,7 +71,7 @@ windowFunctions['getQueueUrl'] = function(evt) {
 	
 };
 
-windowFunctions['Add Permission'] = function(evt) {
+windowFunctions['addPermission'] = function(evt) {
 	
 	
 	AWS.SQS.addPermission({
@@ -84,7 +87,7 @@ windowFunctions['Add Permission'] = function(evt) {
 		alert('Success: '+ JSON.stringify(data) + JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-		}, function(error) {
+		}, function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -93,17 +96,17 @@ windowFunctions['Add Permission'] = function(evt) {
 };
 		
 
-windowFunctions['Remove Permission'] = function(evt) {
+windowFunctions['removePermission'] = function(evt) {
 	
 		AWS.SQS.removePermission({
 			'QueueName' : 'TestQueue676767',
 			'AWSAccountId' : awsAccountId,
 			'Label' : 'AddPermissionTest'
-			}, function(response) {
+			}, function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info(JSON.stringify(response));
 		
-				}, function(error) {
+				}, function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 		
@@ -122,11 +125,11 @@ windowFunctions['setQueueAttributes'] = function(evt) {
 		'QueueName': 'TestQueue676767',
 		'Attribute.Name':'VisibilityTimeout',
 		'Attribute.Value':'35'
-	}, function(response) {
+	}, function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-	}, function(error) {
+	}, function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -142,11 +145,11 @@ windowFunctions['getQueueAttributes'] = function(evt) {
 		'QueueName': 'TestQueue676767',
 		'AttributeName.1' : 'All'
 		
-	}, function(response) {
+	}, function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-	}, function(error) {
+	}, function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -161,11 +164,11 @@ windowFunctions['sendMessage'] = function(evt) {
 		'QueueName': 'TestQueue676767',
 		'MessageBody' : 'This is test message in SQS.'
 		
-	}, function(response) {
+	}, function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-	}, function(error) {
+	}, function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -181,11 +184,11 @@ windowFunctions['sendMessageBatch'] = function(evt) {
 		'SendMessageBatchRequestEntry.1.Id' : 'test_msg_092512',
 		'SendMessageBatchRequestEntry.1.MessageBody' : 'This is testApp Test Cases Message Body'
 		
-	}, function(response) {
+	}, function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-	}, function(error) {
+	}, function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -207,12 +210,12 @@ windowFunctions['receiveMessage'] = function(evt) {
 		// 'QueueName': 'TestQueue676767'
 		// },
 		
-		function(response) {
+		function(data, response) {
 		
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-	}, function(error) {
+	}, function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -229,8 +232,8 @@ windowFunctions['deleteMessage'] = function(evt) {
 	
 	AWS.SQS.receiveMessage(paramsxx,
 			
-		function(response) {
-			var recieptHandle = response.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+		function(data, response) {
+			var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
 			
 			AWS.SQS.deleteMessage({
 			'AWSAccountId': awsAccountId,
@@ -238,17 +241,17 @@ windowFunctions['deleteMessage'] = function(evt) {
 			'ReceiptHandle' : recieptHandle
 				},
 					
-					function(response) {
+					function(data, response) {
 					alert('Success. Message deleted: '+ JSON.stringify(response));
 					Ti.API.info(JSON.stringify(response));
 			
-				}, function(error) {
+				}, function(message,error) {
 					alert('Error from deleteMessage: '+ JSON.stringify(error));
 					Ti.API.info(JSON.stringify(error));
 			
 				});
 
-	}, function(error) {
+	}, function(message,error) {
 		 alert('Error from receiveMessage: '+ JSON.stringify(error));
 		 Ti.API.info(JSON.stringify(error));
 
@@ -264,8 +267,8 @@ windowFunctions['deleteMessageBatch'] = function(evt) {
 	
 	AWS.SQS.receiveMessage(paramsxx,
 			
-		function(response) {
-			var recieptHandle = response.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+		function(data, response) {
+			var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
 			
 			AWS.SQS.deleteMessageBatch({
 			'AWSAccountId': awsAccountId,
@@ -274,17 +277,17 @@ windowFunctions['deleteMessageBatch'] = function(evt) {
 			'ReceiptHandle' : recieptHandle
 					},
 						
-						function(response) {
+						function(data, response) {
 						alert('Success. Message Batch deleted: '+ JSON.stringify(response));
 						Ti.API.info(JSON.stringify(response));
 				
-					}, function(error) {
+					}, function(message,error) {
 						alert('Error from deleteMessageBatch: '+ JSON.stringify(error));
 						Ti.API.info(JSON.stringify(error));
 				
 					});
 
-	}, function(error) {
+	}, function(message,error) {
 		 alert('Error from receiveMessage: '+ JSON.stringify(error));
 		 Ti.API.info(JSON.stringify(error));
 
@@ -300,8 +303,8 @@ windowFunctions['changeMessageVisibility'] = function(evt) {
 	
 	AWS.SQS.receiveMessage(paramsxx,
 			
-		function(response) {
-			var recieptHandle = response.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+		function(data, response) {
+			var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
 			
 			AWS.SQS.changeMessageVisibility({
 					'AWSAccountId': awsAccountId,
@@ -310,17 +313,17 @@ windowFunctions['changeMessageVisibility'] = function(evt) {
 					'ReceiptHandle' : recieptHandle
 					},
 					
-					function(response) {
+					function(data, response) {
 						alert('Success. changeMessageVisibility: '+ JSON.stringify(response));
 						Ti.API.info(JSON.stringify(response));
 			
-				 }, function(error) {
+				 }, function(message,error) {
 						alert('Error from changeMessageVisibility: '+ JSON.stringify(error));
 						Ti.API.info(JSON.stringify(error));
 			
 				});
 
-	}, function(error) {
+	}, function(message,error) {
 		 alert('Error from receiveMessage: '+ JSON.stringify(error));
 		 Ti.API.info(JSON.stringify(error));
 
@@ -336,8 +339,8 @@ windowFunctions['changeMessageVisibilityBatch'] = function(evt) {
 	
 	AWS.SQS.receiveMessage(paramsxx,
 			
-		function(response) {
-			var recieptHandle = response.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+		function(data, response) {
+			var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
 			
 			AWS.SQS.changeMessageVisibilityBatch({
 					'AWSAccountId': awsAccountId,
@@ -348,17 +351,17 @@ windowFunctions['changeMessageVisibilityBatch'] = function(evt) {
 					
 				},
 					
-					function(response) {
+					function(data, response) {
 					alert('Success. changeMessageVisibilityBatch: '+ JSON.stringify(response));
 					Ti.API.info(JSON.stringify(response));
 			
-				}, function(error) {
+				}, function(message,error) {
 					alert('Error from changeMessageVisibilityBatch: '+ JSON.stringify(error));
 					Ti.API.info(JSON.stringify(error));
 			
 				});
 
-	}, function(error) {
+	}, function(message,error) {
 		 alert('Error from receiveMessage: '+ JSON.stringify(error));
 		 Ti.API.info(JSON.stringify(error));
 
