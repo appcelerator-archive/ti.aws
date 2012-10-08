@@ -80,8 +80,8 @@ windowFunctions['Add Permission'] = function(evt) {
 		'ActionName.1' : 'SendMessage'
 		
 		
-		}, function(response) {
-		alert('Success: '+ JSON.stringify(response));
+		}, function(data, response) {
+		alert('Success: '+ JSON.stringify(data) + JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
 		}, function(error) {

@@ -11,28 +11,23 @@ windowFunctions['S3'] = function (evt) {
         top: offset + u,
         data: createRows([
         		'putBucket',
+        		'headBucket',   
+        		'getBucket',	
         		'putBucketPolicy',
         		'putObject',
-        		'getObject',
-        		'putObjectCopy',
         		'headObject',
-        		'headBucket',
-        		'deleteObject',
-        		'deleteMultipleObjects',
-        		'deleteBucket',
+        		'getObject',
         		'getObjectTorrent',
+        		'putObjectCopy', 		
+        		'listMultipartUploads',
         		'initiateMultipartUpload',
         		'listParts',
         		'uploadPart',
         		'uploadPartCopy',
-        		'getBucket'
-        		
-        		
-        		
-        		
-        		
-        		//'getSessionToken',
-        ])
+        		'deleteObject',
+        		'deleteMultipleObjects',
+        		'deleteBucket'	
+        ])	
     });
     table.addEventListener('click', handleOpenWindow);
     win.add(table);

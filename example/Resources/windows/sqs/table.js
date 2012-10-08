@@ -23,9 +23,7 @@ windowFunctions['SQS'] = function (evt) {
           'deleteMessage',
           'deleteMessageBatch',
           'changeMessageVisibility',
-          'changeMessageVisibilityBatch',
-          
-          
+          'changeMessageVisibilityBatch'
         ])
     });
     table.addEventListener('click', handleOpenWindow);

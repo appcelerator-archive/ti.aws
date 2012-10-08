@@ -21,8 +21,7 @@ windowFunctions['DDB'] = function (evt) {
         		'deleteTable', 
         		'batchWriteItem', 
         		'batchGetItem', 
-        		//////////////
-        		'scan' //
+        		'scan'
         ])
     });
     table.addEventListener('click', handleOpenWindow);
