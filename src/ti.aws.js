@@ -214,7 +214,7 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	};
 
 	xhr.onerror = function(e) {
-		awsHelper.httpError(this, e, cbOnError);
+		awsHelper.httpError(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false), e, cbOnError);
 	}
 	if (params.hasOwnProperty('xmlTemplate')) {//for sending xml in request object
 		xhr.send(params.xmlTemplate);
@@ -277,7 +277,7 @@ var stsExecutor = function(params, cbOnData, cbOnError) {
 		awsHelper.httpSuccess(this, jsResp, cbOnData);
 	};
 	xhr.onerror = function(e) {
-		awsHelper.httpError(this, e, cbOnError);
+		awsHelper.httpError(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false), e, cbOnError);
 	}
 	sUrl = sessionOBJ.awsHelper.generatePayload(params, sessionOBJ.accessKeyId, sessionOBJ.secretKey, this.endpoint);
 
@@ -358,7 +358,7 @@ var dynamoDBCall = function(thisRef, params, cbOnData, cbOnError) {
 		awsHelper.httpSuccess(this, this.responseText, cbOnData);
 	};
 	xhr.onerror = function(e) {
-		awsHelper.httpError(this, e, cbOnError);
+		awsHelper.httpError(this, JSON.parse(this.responseText), e, cbOnError);
 	}
 
 	xhr.open(thisRef.verb, thisRef.endpoint);

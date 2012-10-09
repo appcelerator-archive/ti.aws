@@ -205,20 +205,35 @@ awsHelper.prepareExecutor = function(thisRef) {
 /***
  * Function handles http error callback
  * */
-awsHelper.httpError = function(thisRef, e, cbOnError)
+
+awsHelper.findMessageText = function(obj) {
+	if (obj.message) {
+		return obj.message;
+	} else if (obj.Message) {
+		if (obj.Message instanceof Array) {
+			return obj.Message[0];
+		} else {
+			return obj.Message
+		}
+	} else if (obj.Error) {
+		if (obj.Error instanceof Array) {
+			return awsHelper.findMessageText(obj.Error[0]);
+		} else {
+			return obj.Error;
+		}
+	} else if (obj.Errors) {
+		if (obj.Errors instanceof Array) {
+			return awsHelper.findMessageText(obj.Errors[0]);
+		}
+	}
+	return null;
+}
+
+awsHelper.httpError = function(thisRef, jsonResponse, e, cbOnError)
 {
 	if(cbOnError) {
-		var response = sessionOBJ.xmlToJSON.toJSON(thisRef.responseText, false) || {}
-		if (response.Message) {
-			if (response.Message instanceof Array) {
-				response.message = response.Message[0];
-			} else {
-				response.message = response.Message;
-			}
-		}
-		if (!response.message) {
-			response.message = e.error || 'HTTP request failed';
-		}
+		var response = jsonResponse || {};
+		response.message = awsHelper.findMessageText(response) || e.error || 'HTTP request failed';
 		response.requestUri = thisRef.location;
 		response.statusCode = thisRef.status;
 		response.statusText = thisRef.statusText;
@@ -272,7 +287,7 @@ awsHelper.createHttpObject = function(cbOnData, cbOnError) {
 		awsHelper.httpSuccess(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false), cbOnData);
 	};
 	xhr.onerror = function(e) {
-		awsHelper.httpError(this, e, cbOnError);
+		awsHelper.httpError(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false), e, cbOnError);
 	}
 	return xhr;
 }
