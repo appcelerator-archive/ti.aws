@@ -13,7 +13,12 @@
 */
 
 var testSuites = [
-	{ name: "sns" }
+	{ name:"ddb"},
+	{ name: "sqs" },
+	{ name:"simpleDB"},
+	{ name:"sns"},
+	{ name:"s3"},
+	{ name:"ses"}
 ];
 
 var suites = require('hammer').populateSuites(testSuites);
