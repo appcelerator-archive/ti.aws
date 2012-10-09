@@ -91,7 +91,7 @@ xmlToJS.convert = function convert(xml) {
  */
 
 xmlToJS.toJSON = function toJSON(response, isClean) {
-	if(( typeof response === 'string') && (response !== null || response !== '')) {
+	if(( typeof response === 'string') && (response !== null && response !== '')) {
 		//For a clean xml string
 		if(isClean) {
 			//Returning the JSON response after calling the convert function with Titanium XML document of service response
