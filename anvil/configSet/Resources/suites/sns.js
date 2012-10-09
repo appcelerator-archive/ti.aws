@@ -160,8 +160,10 @@ module.exports = new function () {
 			});
 		}
 		/**
-		 *Test case for Confirming Subscription.
+		 *Test case for Confirming Subscription. -- This needs to be run just like the unsubscribe api 
+		 * As the token specified here expires after some time.
 		 */
+		/**
 		this.testConfirmSubscription_as_async = function(testRun) {
 				var params = {
 			//		'Token' : Titanium.App.Properties.getString('token'),
@@ -171,12 +173,12 @@ module.exports = new function () {
 				AWS.SNS.confirmSubscription(params, function(data) {
 					finish(testRun);
 					}
-					, function(error) {
-						alert(error);
+					, function(error,response) {
+						alert(error + JSON.stringify(response));
 						//valueOf(testRun, true).shouldBeFalse();
 					});	
 				
-		}
+		} **/
 		//*************Confirm Subscription test cases end**************
 
 		//****************Delete Topic test cases start.*****************
@@ -212,7 +214,7 @@ module.exports = new function () {
 		 */
 		this.testDeleteTopic_as_async = function(testRun) {
 			var params = {
-				'Name' : 'DrillBitTestTopicForDeletion'//Required
+				'Name' : 'AnvilTestTopicForDeletion'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//Creating a topic for deletion
 				arn = data.CreateTopicResult[0].TopicArn[0];
@@ -261,64 +263,8 @@ module.exports = new function () {
 		/**
 		 *Test case for getting SubscriptionAttributes.
 		 */
-		// this.testGetSubscriptionAttributes_as_async = function(testRun) {
-			// var params = {
-				// 'QueueName' : 'DrillBitTestQueue886'
-			// };
-			// AWS.SQS.createQueue(params, function(data) {//Creating queue
-				// var queueUrl = data.CreateQueueResult[0].QueueUrl[0];
-				// var params = {
-					// 'Name' : 'DrillBitTestTopic12345'//Required
-				// };
-				// AWS.SNS.createTopic(params, function(data) {//Craeting topic
-					// arn = data.CreateTopicResult[0].TopicArn[0];
-					// var params = {
-						// 'Endpoint' : 'arn:aws:sqs:us-east-1:723565023896:Appcel_AWS_TestQueue_1', //Required
-						// 'Protocol' : 'sqs', //Required
-						// 'TopicArn' : 'arn:aws:sns:us-east-1:723565023896:Appcel_AWS_TestTopic_2'//Required
-					// };
-					// AWS.SNS.subscribe(params, function(data) {//Calling subscribe
-						// var subscriptionArn = data.SubscribeResult[0].SubscriptionArn[0];
-						// var params = {
-							// 'SubscriptionArn' : subscriptionArn//Required
-						// }
-						// AWS.SNS.getSubscriptionAttributes(params, function(data) {//Calling getSubscriptionAttributes
-							// finish(testRun);
-							// AWS.SNS.unsubscribe(params, function(data) {//unsubscribing
-								// var params = {
-									// 'AWSAccountId' : awsAccountId,
-									// 'QueueName' : 'DrillBitTestQueue886'
-								// };
-								// AWS.SQS.deleteQueue(params, function(data) {//Deleting queue
-									// var params = {
-										// 'TopicArn' : arn//Required
-									// };
-									// AWS.SNS.deleteTopic(params, function(data) {//Calling delete topic for deleting the topic
-// 
-									// }, function(error) {
-									// });
-								// }, function(error) {
-								// });
-							// }, function(error) {
-							// });
-						// }, function(error) {
-							// valueOf(testRun, true).shouldBeFalse();finish(testRun);
-						// });
-					// }, function(error) {
-						// valueOf(testRun, true).shouldBeFalse();finish(testRun);
-					// });
-				// }, function(error) {
-					// valueOf(testRun, true).shouldBeFalse();finish(testRun);
-				// });
-			// }, function(error) {
-				// valueOf(testRun, true).shouldBeFalse();finish(testRun);
-			// });
-		// }
-		//*************GetSubscriptionAttributes test cases end**************
-
-		//*************GetTopicAttributes test cases start****************
-
-		this.testGetSubscriptionAttributes_as_async = function(testRun) {
+		
+			this.testGetSubscriptionAttributes_as_async = function(testRun) {
 			var params = {
 				'SubscriptionArn' : 'arn:aws:sns:us-east-1:723565023896:Appcel_AWS_TestTopic_2:1244cdca-7379-4879-9664-e72f56471eb7'//Required
 			};
@@ -330,9 +276,10 @@ module.exports = new function () {
 						valueOf(testRun, true).shouldBeFalse();
 					});
 					
-			}	
+			}
+		//*************GetSubscriptionAttributes test cases end**************
 
-
+		//*************GetTopicAttributes test cases start***************
 		/**
 		 *Test case for getting TopicAttributes WithEmpty TopicArn.
 		 */
@@ -364,7 +311,7 @@ module.exports = new function () {
 		 */
 		this.testGetTopicAttributes_as_async = function(testRun) {
 			var params = {
-				'Name' : 'DrillBitTestTopic12'//Required
+				'Name' : 'AnvilTestTopic12'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//Creating a topic
 				arn = data.CreateTopicResult[0].TopicArn[0];
@@ -434,7 +381,7 @@ module.exports = new function () {
 		 */
 		this.testListSubscriptionsByTopic_as_async = function(testRun) {
 			var params = {
-				'Name' : 'DrillBitTestTopic123'//Required
+				'Name' : 'AnvilTestTopic123'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//creating a topic
 				arn = data.CreateTopicResult[0].TopicArn[0];
@@ -504,7 +451,7 @@ module.exports = new function () {
 		 */
 		this.testPublish_as_async = function(testRun) {
 			var params = {
-				'Name' : 'DrillBitTestTopic1234'//Required
+				'Name' : 'AnvilTestTopic1234'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//creating a topic
 				arn = data.CreateTopicResult[0].TopicArn[0];
@@ -563,7 +510,7 @@ module.exports = new function () {
 		 */
 		this.testRemovePermission_as_async = function(testRun) {
 			var params = {
-				'Name' : 'DrillBitTestTopic1234'//Required
+				'Name' : 'AnvilTestTopic1234'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//Craeting a topic
 				arn = data.CreateTopicResult[0].TopicArn[0];
@@ -695,16 +642,16 @@ module.exports = new function () {
 		 */
 		// this.testSetSubscriptionAttributes_as_async = function(testRun) {
 			// var params = {
-				// 'QueueName' : 'DrillBitTestQueue884'
+				// 'QueueName' : 'AnvilTestQueue884'
 			// };
 			// AWS.SQS.createQueue(params, function(data) {//Creating queue
 				// var params = {
-					// 'Name' : 'DrillBitTestTopic12346'//Required
+					// 'Name' : 'AnvilTestTopic12346'//Required
 				// };
 				// AWS.SNS.createTopic(params, function(data) {//Creating topic
 					// arn = data.CreateTopicResult[0].TopicArn[0];
 					// var params = {
-						// 'Endpoint' : 'arn:aws:sqs:us-east-1:'+awsAccountId+':DrillBitTestQueue884', //Required
+						// 'Endpoint' : 'arn:aws:sqs:us-east-1:'+awsAccountId+':AnvilTestQueue884', //Required
 						// 'Protocol' : 'sqs', //Required
 						// 'TopicArn' : arn//Required
 					// };
@@ -723,7 +670,7 @@ module.exports = new function () {
 							// AWS.SNS.unsubscribe(params, function(data) {//Calling unsubscribe
 								// var params = {
 									// 'AWSAccountId' : awsAccountId,
-									// 'QueueName' : 'DrillBitTestQueue884'
+									// 'QueueName' : 'AnvilTestQueue884'
 								// };
 								// AWS.SQS.deleteQueue(params, function(data) {//deleting the queue
 									// var params = {
@@ -850,7 +797,7 @@ module.exports = new function () {
 		 */
 		this.testSetTopicAttributes_as_async = function(testRun) {
 			var params = {
-				'Name' : 'DrillBitTestTopic1234'//Required
+				'Name' : 'AnvilTestTopic1234'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//creating a topic
 				arn = data.CreateTopicResult[0].TopicArn[0];
@@ -973,17 +920,17 @@ module.exports = new function () {
 		 */
 		this.testSubscribe_as_async = function(testRun) {
 			var params = {
-				'QueueName' : 'DrillBitTestQueue888'
+				'QueueName' : 'AnvilTestQueue888'
 			};
 			AWS.SQS.createQueue(params, function(data) {// Creating queue
 				var queueUrl = data.CreateQueueResult[0].QueueUrl[0];
 				var params = {
-					'Name' : 'DrillBitTestTopic12343'//Required
+					'Name' : 'AnvilTestTopic12343'//Required
 				};
 				AWS.SNS.createTopic(params, function(data) {//Creating topic
 					arn = data.CreateTopicResult[0].TopicArn[0];
 					var params = {
-						'Endpoint' : 'arn:aws:sqs:us-east-1:'+awsAccountId+':DrillBitTestQueue888', //Required
+						'Endpoint' : 'arn:aws:sqs:us-east-1:'+awsAccountId+':AnvilTestQueue888', //Required
 						'Protocol' : 'sqs', //Required
 						'TopicArn' : arn//Required
 					};
@@ -996,7 +943,7 @@ module.exports = new function () {
 						AWS.SNS.unsubscribe(params, function(data) {//Calling unsubscribe
 							var params = {
 								'AWSAccountId' : awsAccountId,
-								'QueueName' : 'DrillBitTestQueue888'
+								'QueueName' : 'AnvilTestQueue888'
 							};
 							AWS.SQS.deleteQueue(params, function(data) {//Deleting the queue
 								var params = {
@@ -1054,17 +1001,17 @@ module.exports = new function () {
 		 */
 		// this.testUnsubscribe_as_async = function(testRun) {
 			// var params = {
-				// 'QueueName' : 'DrillBitTestQueue889'
+				// 'QueueName' : 'AnvilTestQueue889'
 			// };
 			// AWS.SQS.createQueue(params, function(data) {
 				// var queueUrl = data.CreateQueueResult[0].QueueUrl[0];
 				// var params = {
-					// 'Name' : 'DrillBitTestTopic12342'//Required
+					// 'Name' : 'AnvilTestTopic12342'//Required
 				// };
 				// AWS.SNS.createTopic(params, function(data) {
 					// arn = data.CreateTopicResult[0].TopicArn[0];
 					// var params = {
-						// 'Endpoint' : 'arn:aws:sqs:us-east-1:'+awsAccountId+':DrillBitTestQueue889', //Required
+						// 'Endpoint' : 'arn:aws:sqs:us-east-1:'+awsAccountId+':AnvilTestQueue889', //Required
 						// 'Protocol' : 'sqs', //Required
 						// 'TopicArn' : arn//Required
 					// };
@@ -1077,7 +1024,7 @@ module.exports = new function () {
 							// finish(testRun);
 							// var params = {
 								// 'AWSAccountId' : awsAccountId,
-								// 'QueueName' : 'DrillBitTestQueue889'
+								// 'QueueName' : 'AnvilTestQueue889'
 							// };
 							// AWS.SQS.deleteQueue(params, function(data) {//Deleting the queue
 								// var params = {
@@ -1195,7 +1142,7 @@ module.exports = new function () {
 		 */
 		this.testAddPermission_as_async = function(testRun) {
 			var params = {
-				'Name' : 'DrillBitTestTopic1234'//Required
+				'Name' : 'AnvilTestTopic1234'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//Craeting a topic
 				arn = data.CreateTopicResult[0].TopicArn[0];

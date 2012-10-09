@@ -1,5 +1,29 @@
 // The SES service with AWS account having no production privilege requires all sender and receiver email
-// addresses to be verified in SES system. So please make sure that those are managed correcetly.
+// addresses to be verified in SES system. So please make sure that those are managed correcetly from console.aws.amazon.com/ses
+// In order to make the app work with your AWS credentials, you will have to put your AWS secret, keys and accountID in tiapp.xml 
+
+windowFunctions['listVerifiedEmailAddresses'] = function(evt) {
+	
+
+	AWS.SES.listVerifiedEmailAddresses({
+
+		}, function(response) {
+			alert('Success: '+ JSON.stringify(response));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
+		}, function(message,error) {
+			alert('Error: '+ JSON.stringify(error));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
+	
+		});
+	
+
+};
+
+
+//This API send Verification Request to an email
+//For email address verification go to the email and follow the link
+
+
 windowFunctions['verifyEmailAddress'] = function(evt) {
 	
 
@@ -8,29 +32,13 @@ windowFunctions['verifyEmailAddress'] = function(evt) {
 		}, function(response) {
 			alert('Success: '+ JSON.stringify(response));
 			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
-		}, function(error) {
+		}, function(message,error) {
 			alert('Error: '+ JSON.stringify(error));
 			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
 	
 		});
 };
 
-windowFunctions['deleteVerifiedEmailAddress'] = function(evt) {
-	
-
-	AWS.SES.deleteVerifiedEmailAddress({
-			'emailAddress' : 'appcel321@gmail.com'
-		}, function(response) {
-			alert('Success: '+ JSON.stringify(response));
-			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
-		}, function(error) {
-			alert('Error: '+ JSON.stringify(error));
-			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
-				
-		});
-	
-
-};
 windowFunctions['getSendQuota'] = function(evt) {
 	
 
@@ -39,7 +47,7 @@ windowFunctions['getSendQuota'] = function(evt) {
 		}, function(response) {
 			alert('Success: '+ JSON.stringify(response));
 			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
-		}, function(error) {
+		}, function(message,error) {
 			alert('Error: '+ JSON.stringify(error));
 			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
 	
@@ -54,7 +62,7 @@ windowFunctions['getSendStatistics'] = function(evt) {
 		}, function(response) {
 			alert('Success: '+ JSON.stringify(response));
 			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
-		}, function(error) {
+		}, function(message,error) {
 			alert('Error: '+ JSON.stringify(error));
 			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
 	
@@ -62,22 +70,9 @@ windowFunctions['getSendStatistics'] = function(evt) {
 	
 
 };
-windowFunctions['listVerifiedEmailAddresses'] = function(evt) {
-	
 
-	AWS.SES.listVerifiedEmailAddresses({
 
-		}, function(response) {
-			alert('Success: '+ JSON.stringify(response));
-			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
-		}, function(error) {
-			alert('Error: '+ JSON.stringify(error));
-			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
-	
-		});
-	
 
-};
 windowFunctions['sendEmail'] = function(evt) {
 	
 
@@ -97,7 +92,7 @@ windowFunctions['sendEmail'] = function(evt) {
 			}, function(response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
-		}, function(error) {
+		}, function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
 			
@@ -133,8 +128,6 @@ windowFunctions['sendRawEmail'] = function(evt) { //doesn't work
 					'Content-Type: text/plain; charset=UTF-8',
 					'Content-Transfer-Encoding: 7bit',
 					'Date: Tue, 2 Oct 2012 22:08:17 +0000',
-					'Message-ID: <0000013a2385bac5-2d3d2d38-17fa-4c85-a6d4-1eec0a14a90e-000000@email.amazonses.com>',
-					'X-SES-Outgoing: 199.255.192.134',
 					' ',
 					'Hi... This is a test message.'
 	  			].join('/n');
@@ -143,16 +136,34 @@ windowFunctions['sendRawEmail'] = function(evt) { //doesn't work
 	AWS.SES.sendRawEmail({
 		'rawMessage' : Ti.Utils.base64encode(param)
 		},
-		function(response){
-			alert('Success: '+ JSON.stringify(response));
+		function(data, response){
+			alert('Success: '+ JSON.stringify(data) + JSON.stringify(response));
 			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
 			
 		},
-		function(error){
+		function(message,error){
 			//alert('Error: '+ JSON.stringify(error));
 			alert('error');
 			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
 			//error handling code here.
+		});
+	
+
+};
+
+
+windowFunctions['deleteVerifiedEmailAddress'] = function(evt) {
+	
+
+	AWS.SES.deleteVerifiedEmailAddress({
+			'emailAddress' : 'appcel321@gmail.com'
+		}, function(response) {
+			alert('Success: '+ JSON.stringify(response));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
+		}, function(message,error) {
+			alert('Error: '+ JSON.stringify(error));
+			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Error: '+ JSON.stringify(error));
+				
 		});
 	
 

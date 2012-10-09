@@ -9,13 +9,13 @@ windowFunctions['SES'] = function (evt) {
         backgroundColor: '#fff',
         top: offset + u,
         data: createRows([
+            'listVerifiedEmailAddresses',
             'verifyEmailAddress',
-            'deleteVerifiedEmailAddress',
             'getSendQuota',
             'getSendStatistics',
-            'listVerifiedEmailAddresses',
             'sendEmail',
-            'sendRawEmail'
+            'sendRawEmail',
+            'deleteVerifiedEmailAddress',
         ])
     });
     table.addEventListener('click', handleOpenWindow);
