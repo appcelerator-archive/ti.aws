@@ -21,25 +21,8 @@ windowFunctions['SNS'] = function (evt) {
         		'addPermission',
         		'removePermission',
         		'publish',
-        		'deleteTopic',
+        		'deleteTopic'
         		
-        	
-        	
-            
-           
-           
-           
-            
-             
-           
-            // ,
-            
-           
-            // 
-            // 'setSubscriptionAttributes',
-            // 'setTopicAttributes',
-            
-           
         ])
     });
     table.addEventListener('click', handleOpenWindow);

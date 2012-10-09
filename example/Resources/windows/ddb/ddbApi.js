@@ -1,19 +1,22 @@
+// In order to make the app work with your AWS credentials, you will have to put your AWS secret, keys and accountID in tiapp.xml 
+
+
 windowFunctions['getSessionToken'] = function(evt) { 	
  	
  		
 		AWS.STS.getSessionToken({}, 
-			function(response) {
+			function(data, response) {
 			alert('Success: '+ JSON.stringify(response));
 			Ti.API.info(JSON.stringify(response));
 
-			Ti.App.Properties.setString('tempSessionToken', response.GetSessionTokenResult[0].Credentials[0].SessionToken[0]);
-			Ti.App.Properties.setString('tempSecretAccessKey', response.GetSessionTokenResult[0].Credentials[0].SecretAccessKey[0]);
-			Ti.App.Properties.setString('tempAccessKeyID', response.GetSessionTokenResult[0].Credentials[0].AccessKeyId[0]);
-			Ti.App.Properties.setString('tempExpiration', response.GetSessionTokenResult[0].Credentials[0].Expiration[0]);
+			Ti.App.Properties.setString('tempSessionToken', data.GetSessionTokenResult[0].Credentials[0].SessionToken[0]);
+			Ti.App.Properties.setString('tempSecretAccessKey', data.GetSessionTokenResult[0].Credentials[0].SecretAccessKey[0]);
+			Ti.App.Properties.setString('tempAccessKeyID', data.GetSessionTokenResult[0].Credentials[0].AccessKeyId[0]);
+			Ti.App.Properties.setString('tempExpiration', data.GetSessionTokenResult[0].Credentials[0].Expiration[0]);
 
 			
 			
-		}, function(error) {
+		}, function(message,error) {
 			alert('Error: '+ JSON.stringify(error));
 			Ti.API.info(JSON.stringify(error));
 		});
@@ -45,13 +48,13 @@ windowFunctions['createTable'] = function(evt) {
 
 AWS.DDB.createTable(param,
 			
-		function(response) {
+		function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-  	},  function(error) {
-		alert('Error: '+ JSON.stringify(error));
-		Ti.API.info(JSON.stringify(error));
+  	},  function(message, error) {
+		alert('Error: '+ JSON.stringify(message)+ JSON.stringify(error));
+		Ti.API.info(JSON.stringify(message)+ JSON.stringify(error));
 
 	});
 	
@@ -65,11 +68,11 @@ windowFunctions['listTables'] = function(evt) {
 		
 AWS.DDB.listTables(params,
 			
-		function(response) {
+		function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-  	},  function(error) {
+  	},  function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -95,11 +98,11 @@ windowFunctions['putItem'] = function(evt) {
 		
 		AWS.DDB.putItem(params,
 			
-		function(response) {
+		function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-  	},  function(error) {
+  	},  function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -134,11 +137,11 @@ windowFunctions['updateItem'] = function(evt) {
 	
 		AWS.DDB.updateItem(params,
 			
-			function(response) {
+			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info(JSON.stringify(response));
 	
-	  	},  function(error) {
+	  	},  function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 	
@@ -156,11 +159,11 @@ windowFunctions['updateTable'] = function(evt) {
 		'}}}'
 		].join('');
 		AWS.DDB.updateTable(JSON.parse(params),
-			function(response) {
+			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info(JSON.stringify(response));
 	
-	  	},  function(error) {
+	  	},  function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 	
@@ -180,11 +183,11 @@ windowFunctions['query'] = function(evt) {
 
 AWS.DDB.query(params,
 			
-		function(response) {
+		function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-  	},  function(error) {
+  	},  function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -211,11 +214,11 @@ windowFunctions['deleteItem'] = function(evt) {
 			
 AWS.DDB.deleteItem(params,
 			
-		function(response) {
+		function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-  	},  function(error) {
+  	},  function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -233,11 +236,11 @@ windowFunctions['describeTable'] = function(evt) {
 			
 AWS.DDB.describeTable(params,
 			
-		function(response) {
+		function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-  	},  function(error) {
+  	},  function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -255,11 +258,11 @@ windowFunctions['deleteTable'] = function(evt) {
 			
 AWS.DDB.deleteTable(params,
 			
-		function(response) {
+		function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-  	},  function(error) {
+  	},  function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -274,11 +277,11 @@ windowFunctions['batchWriteItem'] = function(evt) {
 			
 AWS.DDB.batchWriteItem(JSON.parse(params),
 			
-		function(response) {
+		function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-  	},  function(error) {
+  	},  function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -294,11 +297,11 @@ windowFunctions['batchGetItem'] = function(evt) {
 			
 AWS.DDB.batchGetItem(JSON.parse(params),
 			
-		function(response) {
+		function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
-  	},  function(error) {
+  	},  function(message,error) {
 		alert('Error: '+ JSON.stringify(error));
 		Ti.API.info(JSON.stringify(error));
 
@@ -321,11 +324,11 @@ windowFunctions['scan'] = function(evt) {
 			}  //Required
 		};
 		AWS.DDB.scan(params, 
-			function(response) {
+			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info(JSON.stringify(response));
 	
-	  	},  function(error) {
+	  	},  function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 	

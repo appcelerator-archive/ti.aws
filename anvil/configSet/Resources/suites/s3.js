@@ -411,7 +411,7 @@ module.exports = new function () {
 									 'uploadId' : test,
 									 'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>' + data.ETag + '</ETag></Part></CompleteMultipartUpload>'
 								 }, function(data) {
-									// alert('completeMultipartUpload success');
+									 alert('completeMultipartUpload success' + data);
 									 Ti.API.info(JSON.stringify(data));
 									 finish(testRun);
 								 }, function(error) {

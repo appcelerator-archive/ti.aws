@@ -10,12 +10,15 @@ module.exports = new function () {
 	var valueOf;
 	var AWS;
 	var awsAccountId;
+	var queuename1;
 	this.init = function(testUtils) {
 		finish = testUtils.finish;
 		valueOf = testUtils.valueOf;
 		AWS = require('ti.aws');
 		AWS.authorize(Titanium.App.Properties.getString('aws.key'), Titanium.App.Properties.getString('aws.secret'));
 		awsAccountId = Titanium.App.Properties.getString('aws-account-id');
+		queuename1 = 'Appcel_AWS_Test_queue_1';
+		queuename1 = 'Appcel_AWS_Test_queue_2';
 	}
 	
 	this.name = "sqs";
@@ -43,7 +46,7 @@ module.exports = new function () {
 			'QueueName' : ''
 		};
 		AWS.SQS.createQueue(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -56,7 +59,7 @@ module.exports = new function () {
 			'QueueName' : 'Queue@@drill'// special characters not allowed
 		};
 		AWS.SQS.createQueue(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -70,12 +73,12 @@ module.exports = new function () {
 
 	this.testSQSCreateValidQueue_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue1'
+			'QueueName' : 'AnvilTestQueue1'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			finish(testRun);
 			var params = {
-				'QueueName' : 'DrillBitTestQueue1',
+				'QueueName' : 'AnvilTestQueue1',
 				'AWSAccountId' : awsAccountId,
 			};
 			AWS.SQS.deleteQueue(params, function(data) {
@@ -84,7 +87,7 @@ module.exports = new function () {
 			});
 
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 
@@ -97,7 +100,7 @@ module.exports = new function () {
 		AWS.SQS.listQueues(params, function(data) {
 			finish(testRun);
 		}, function(error) {
-			callback.failed('Some error occured')
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	//*************list queue test cases ends**************
@@ -112,7 +115,7 @@ module.exports = new function () {
 			'QueueOwnerAWSAccountId' : ''
 		};
 		AWS.SQS.getQueueUrl(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -125,14 +128,14 @@ module.exports = new function () {
 	 */
 	this.testSQSgetQueueUrl_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue2'
+			'QueueName' : 'AnvilTestQueue2'
 
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			AWS.SQS.getQueueUrl(params, function(data) {
 				finish(testRun);
 				var params = {
-					'QueueName' : 'DrillBitTestQueue2',
+					'QueueName' : 'AnvilTestQueue2',
 					'AWSAccountId' : awsAccountId,
 				};
 				AWS.SQS.deleteQueue(params, function(data) {
@@ -141,10 +144,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				callback.failed('Some error occured')
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			callback.failed('Some error occured')
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	//*************getQueueUrl test cases ends**************
@@ -162,7 +165,7 @@ module.exports = new function () {
 			'ActionName.1' : ''
 		};
 		AWS.SQS.addPermission(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -175,11 +178,11 @@ module.exports = new function () {
 			'AWSAccountId' : awsAccountId,
 			'QueueName' : 'TestQueue55555',
 			'Label' : '', //Label is empty
-			'AWSAccountId.1' : '682109303140',
+			'AWSAccountId.1' : awsAccountId,
 			'ActionName.1' : 'SendMessage '
 		};
 		AWS.SQS.addPermission(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -196,7 +199,7 @@ module.exports = new function () {
 			'ActionName.1' : 'SendMessage'
 		};
 		AWS.SQS.addPermission(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -209,11 +212,11 @@ module.exports = new function () {
 			'AWSAccountId' : awsAccountId,
 			'QueueName' : 'TestQueue55555',
 			'Label' : 'addPermissiontest',
-			'AWSAccountId.1' : '682109303140',
+			'AWSAccountId.1' : awsAccountId,
 			'ActionName.1' : ''//ActionName is empty
 		};
 		AWS.SQS.addPermission(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -227,29 +230,29 @@ module.exports = new function () {
 	 */
 	this.testSQSaddPermission_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue3'
+			'QueueName' : 'AnvilTestQueue3'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
 				'AWSAccountId' : awsAccountId,
-				'QueueName' : 'DrillBitTestQueue3',
+				'QueueName' : 'AnvilTestQueue3',
 				'Label' : 'AddPermissionTest',
-				'AWSAccountId.1' : '682109303140',
+				'AWSAccountId.1' : awsAccountId,
 				'ActionName.1' : 'SendMessage'
 			};
 			AWS.SQS.addPermission(params, function(data) {
 				var params = {
 					'AWSAccountId' : awsAccountId,
-					'QueueName' : 'DrillBitTestQueue3',
+					'QueueName' : 'AnvilTestQueue3',
 					'Label' : 'AddPermissionTest',
 				};
 				finish(testRun);
 				AWS.SQS.removePermission(params, function(data) {
 					var params = {
-						'QueueName' : 'DrillBitTestQueue3'
+						'QueueName' : 'AnvilTestQueue3'
 					};
 					var params = {
-						'QueueName' : 'DrillBitTestQueue3',
+						'QueueName' : 'AnvilTestQueue3',
 						'AWSAccountId' : awsAccountId,
 					};
 					AWS.SQS.deleteQueue(params, function(data) {
@@ -260,11 +263,13 @@ module.exports = new function () {
 				}, function(error) {
 
 				})
-			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			}, function(error,response) {
+				valueOf(testRun, true).shouldBeFalse();
+				//alert(error);
 			})
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			 valueOf(testRun, true).shouldBeFalse();
+			//alert(error);
 		});
 	}
 	/**
@@ -275,11 +280,11 @@ module.exports = new function () {
 			'AWSAccountId' : awsAccountId,
 			'QueueName' : 'TestQueue55555',
 			'Label' : 'addPermissiontest',
-			'AWSAccountId.1' : '682109303140',
+			'AWSAccountId.1' : awsAccountId,
 			'ActionName.1' : 'SendMessageToAll'//Invalid ActionName
 		};
 		AWS.SQS.addPermission(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -296,7 +301,7 @@ module.exports = new function () {
 			'ActionName.1' : 'SendMessage'
 		};
 		AWS.SQS.addPermission(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -314,7 +319,7 @@ module.exports = new function () {
 			'Attribute.Value' : ''
 		};
 		AWS.SQS.setQueueAttributes(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -330,7 +335,7 @@ module.exports = new function () {
 			'Attribute.Value' : '3000'
 		};
 		AWS.SQS.setQueueAttributes(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -346,7 +351,7 @@ module.exports = new function () {
 			'Attribute.Value' : ''//Empty Attribute.Value
 		};
 		AWS.SQS.setQueueAttributes(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -362,7 +367,7 @@ module.exports = new function () {
 			'Attribute.Value' : '35'
 		};
 		AWS.SQS.setQueueAttributes(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -378,7 +383,7 @@ module.exports = new function () {
 			'Attribute.Value' : '35dasda'//Invalid Attribute Value
 		};
 		AWS.SQS.setQueueAttributes(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -391,22 +396,22 @@ module.exports = new function () {
 	 */
 	this.testSQSsetQueueAttributes_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue4'
+			'QueueName' : 'AnvilTestQueue4'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
 				'AWSAccountId' : awsAccountId,
-				'QueueName' : 'DrillBitTestQueue4',
+				'QueueName' : 'AnvilTestQueue4',
 				'Attribute.Name' : 'VisibilityTimeout',
 				'Attribute.Value' : '3000'
 			};
 			AWS.SQS.setQueueAttributes(params, function(data) {
 				var params = {
-					'QueueName' : 'DrillBitTestQueue4'
+					'QueueName' : 'AnvilTestQueue4'
 				};
 				finish(testRun);
 				var params = {
-					'QueueName' : 'DrillBitTestQueue4',
+					'QueueName' : 'AnvilTestQueue4',
 					'AWSAccountId' : awsAccountId,
 				};
 				AWS.SQS.deleteQueue(params, function(data) {
@@ -415,10 +420,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	//*************setQueueAttributes test cases ends**************
@@ -433,7 +438,7 @@ module.exports = new function () {
 			'AttributeName.1' : ''//Empty AttributeName
 		};
 		AWS.SQS.getQueueAttributes(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -448,7 +453,7 @@ module.exports = new function () {
 			'AttributeName.1' : 'TestInvalid'//Invalid AttributeName
 		};
 		AWS.SQS.getQueueAttributes(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -462,28 +467,28 @@ module.exports = new function () {
 	 */
 	this.testSQSgetQueueAttributes_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue5'
+			'QueueName' : 'AnvilTestQueue5'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
 				'AWSAccountId' : awsAccountId,
-				'QueueName' : 'DrillBitTestQueue5',
+				'QueueName' : 'AnvilTestQueue5',
 				'Attribute.Name' : 'VisibilityTimeout',
 				'Attribute.Value' : '3000'
 			};
 			AWS.SQS.setQueueAttributes(params, function(data) {
 				var params = {
 					'AWSAccountId' : awsAccountId,
-					'QueueName' : 'DrillBitTestQueue5',
+					'QueueName' : 'AnvilTestQueue5',
 					'AttributeName.1' : 'All'
 				};
 				AWS.SQS.getQueueAttributes(params, function(data) {
 					var params = {
-						'QueueName' : 'DrillBitTestQueue5'
+						'QueueName' : 'AnvilTestQueue5'
 					};
 					finish(testRun);
 					var params = {
-						'QueueName' : 'DrillBitTestQueue5',
+						'QueueName' : 'AnvilTestQueue5',
 						'AWSAccountId' : awsAccountId,
 					};
 					AWS.SQS.deleteQueue(params, function(data) {
@@ -492,13 +497,13 @@ module.exports = new function () {
 
 					})
 				}, function(error) {
-					valueOf(testRun, true).shouldBeFalse();finish(testRun);
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	//*************getQueueAttributes test cases ends**************
@@ -514,7 +519,7 @@ module.exports = new function () {
 			'DelaySeconds' : ''//Not a required parameter
 		};
 		AWS.SQS.sendMessage(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -527,21 +532,21 @@ module.exports = new function () {
 	 */
 	this.testSQSsendMessage_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue6'
+			'QueueName' : 'AnvilTestQueue6'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
 				'AWSAccountId' : awsAccountId,
-				'QueueName' : 'DrillBitTestQueue6',
+				'QueueName' : 'AnvilTestQueue6',
 				'MessageBody' : 'This is test message in SQS.'
 			};
 			AWS.SQS.sendMessage(params, function(data) {
 				var params = {
-					'QueueName' : 'DrillBitTestQueue6'
+					'QueueName' : 'AnvilTestQueue6'
 				};
 				finish(testRun);
 				var params = {
-					'QueueName' : 'DrillBitTestQueue6',
+					'QueueName' : 'AnvilTestQueue6',
 					'AWSAccountId' : awsAccountId,
 				};
 				AWS.SQS.deleteQueue(params, function(data) {
@@ -550,10 +555,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	//*************sendMessage test cases ends**************
@@ -571,7 +576,7 @@ module.exports = new function () {
 			'SendMessageBatchRequestEntry.n.DelaySeconds' : ''
 		};
 		AWS.SQS.sendMessageBatch(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -588,7 +593,7 @@ module.exports = new function () {
 			'SendMessageBatchRequestEntry.n.DelaySeconds' : ''//Not a required parameter
 		};
 		AWS.SQS.sendMessageBatch(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -605,9 +610,9 @@ module.exports = new function () {
 			'SendMessageBatchRequestEntry.n.DelaySeconds' : ''//Not a required parameter
 		};
 		AWS.SQS.sendMessageBatch(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
-		}, function(error) {
 			finish(testRun);
+		}, function(error) {
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	/**
@@ -618,21 +623,21 @@ module.exports = new function () {
 	 */
 	this.testSQSsendMessageBatch_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue7'
+			'QueueName' : 'AnvilTestQueue7'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
 				'AWSAccountId' : awsAccountId,
-				'QueueName' : 'DrillBitTestQueue7',
+				'QueueName' : 'AnvilTestQueue7',
 				'SendMessageBatchRequestEntry.1.Id' : 'test_msg_1',
-				'SendMessageBatchRequestEntry.1.MessageBody' : 'This is DrillBit Test Cases Message Body'
+				'SendMessageBatchRequestEntry.1.MessageBody' : 'This is Anvil Test Cases Message Body'
 
 			};
 			AWS.SQS.sendMessageBatch(params, function(data) {
 				
 				finish(testRun);
 				var params = {
-					'QueueName' : 'DrillBitTestQueue7',
+					'QueueName' : 'AnvilTestQueue7',
 					'AWSAccountId' : awsAccountId,
 				};
 				AWS.SQS.deleteQueue(params, function(data) {
@@ -641,10 +646,10 @@ module.exports = new function () {
 
 				})
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	//*************sendMessageBatch test cases ends**************
@@ -659,39 +664,39 @@ module.exports = new function () {
 	this.testSQSreceiveMessage_as_async = function(testRun) {
 
 		var params = {
-			'QueueName' : 'DrillBitTestQueue8'
+			'QueueName' : 'AnvilTestQueue8'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
 				'AWSAccountId' : awsAccountId,
-				'QueueName' : 'DrillBitTestQueue8',
+				'QueueName' : 'AnvilTestQueue8',
 				'MessageBody' : 'This is test message in SQS.'
 			};
 			AWS.SQS.sendMessage(params, function(data) {
 				var params = {
 					'AWSAccountId' : awsAccountId,
-					'QueueName' : 'DrillBitTestQueue8'
+					'QueueName' : 'AnvilTestQueue8'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
 
 					finish(testRun);
 					var params = {
-						'QueueName' : 'DrillBitTestQueue8',
+						'QueueName' : 'AnvilTestQueue8',
 						'AWSAccountId' : awsAccountId,
 					};
 					AWS.SQS.deleteQueue(params, function(data) {
 
 					}, function(error) {
-						callback.failed(JSON.stringify(error));
+						valueOf(testRun, true).shouldBeFalse();
 					})
 				}, function(error) {
-					callback.failed(JSON.stringify(error));
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				callback.failed(JSON.stringify(error));
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			callback.failed(JSON.stringify(error));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 
@@ -707,7 +712,7 @@ module.exports = new function () {
 			'ReceiptHandle' : ''//Empty ReceiptHandle
 		};
 		AWS.SQS.deleteMessage(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -722,33 +727,33 @@ module.exports = new function () {
 	 */
 	this.testSQSdeleteMessage_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue9'
+			'QueueName' : 'AnvilTestQueue9'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
 				'AWSAccountId' : awsAccountId,
-				'QueueName' : 'DrillBitTestQueue9',
+				'QueueName' : 'AnvilTestQueue9',
 				'MessageBody' : 'This is test message in SQS.'
 			};
 			AWS.SQS.sendMessage(params, function(data) {
 				var params = {
 					'AWSAccountId' : awsAccountId,
-					'QueueName' : 'DrillBitTestQueue9'
+					'QueueName' : 'AnvilTestQueue9'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
 					var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
 					var params = {
 						'AWSAccountId' : awsAccountId,
-						'QueueName' : 'DrillBitTestQueue9',
+						'QueueName' : 'AnvilTestQueue9',
 						'ReceiptHandle' : recieptHandle
 					};
 					AWS.SQS.deleteMessage(params, function(data) {
 						var params = {
-							'QueueName' : 'DrillBitTestQueue9'
+							'QueueName' : 'AnvilTestQueue9'
 						};
 						finish(testRun);
 						var params = {
-							'QueueName' : 'DrillBitTestQueue9',
+							'QueueName' : 'AnvilTestQueue9',
 							'AWSAccountId' : awsAccountId,
 						};
 						AWS.SQS.deleteQueue(params, function(data) {
@@ -757,16 +762,16 @@ module.exports = new function () {
 
 						})
 					}, function(error) {
-						valueOf(testRun, true).shouldBeFalse();finish(testRun);
+						valueOf(testRun, true).shouldBeFalse();
 					})
 				}, function(error) {
-					valueOf(testRun, true).shouldBeFalse();finish(testRun);
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	/**
@@ -779,7 +784,7 @@ module.exports = new function () {
 			'ReceiptHandle' : 'P2Bm24BtCAuqhSKeruTyC7D9bhv4OmSyhLdYLjqKa3ml2zS2rCBg3PJ+sL30JEMfdKDBCO9JEpJBoMHtOkupLgC'//Invalid ReceiptHandle
 		};
 		AWS.SQS.deleteMessage(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -798,7 +803,7 @@ module.exports = new function () {
 			'DeleteMessageBatchRequestEntry.1.ReceiptHandle' : ''
 		};
 		AWS.SQS.deleteMessageBatch(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -814,7 +819,7 @@ module.exports = new function () {
 			'DeleteMessageBatchRequestEntry.1.ReceiptHandle' : 'ib8MCWgVft3+gAud/LDOFZB12lAys+eiIM4/ZoslzmGxeDx54R/I1OOwr9jwV7hPFUYtcKnEcboDeSpaP5yeypQxdppdDbn0QFatuSVvVSyw4kvBtpNH8pUxCaPSsX/5Xrtu/T2VHSkIC0DOHR0XupPRY0OlcjmOe0PpYFnOvNlStPL6pN0aNy8I5iwCHyZlI8ls0aAC/P2Bm24BtCAuqhSKeruTyC7D9bhv4OmSyhLdYLjqKa3ml2zS2rCBg3PJ+sL30JEMfdKDBCO9JEpJBoMHtOkupLgC'
 		};
 		AWS.SQS.deleteMessageBatch(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -833,7 +838,7 @@ module.exports = new function () {
 		AWS.SQS.deleteMessageBatch(params, function(data) {
 			finish(testRun);
 		}, function(error) {
-			callback.failed(JSON.stringify(data));
+				
 		});
 	}
 	/**
@@ -850,7 +855,7 @@ module.exports = new function () {
 		AWS.SQS.deleteMessageBatch(params, function(data) {
 			finish(testRun);
 		}, function(error) {
-			callback.failed(JSON.stringify(data));
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	/**
@@ -865,34 +870,34 @@ module.exports = new function () {
 
 	this.testSQSdeleteMessageBatch_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue10'
+			'QueueName' : 'AnvilTestQueue10'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
 				'AWSAccountId' : awsAccountId,
-				'QueueName' : 'DrillBitTestQueue10',
+				'QueueName' : 'AnvilTestQueue10',
 				'MessageBody' : 'This is test message in SQS.'
 			};
 			AWS.SQS.sendMessage(params, function(data) {
 				var params = {
 					'AWSAccountId' : awsAccountId,
-					'QueueName' : 'DrillBitTestQueue10'
+					'QueueName' : 'AnvilTestQueue10'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
 					var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
 					var params = {
 						'AWSAccountId' : awsAccountId,
-						'QueueName' : 'DrillBitTestQueue10',
+						'QueueName' : 'AnvilTestQueue10',
 						'DeleteMessageBatchRequestEntry.1.Id' : 'testdelete',
 						'ReceiptHandle' : recieptHandle
 					};
 					AWS.SQS.deleteMessageBatch(params, function(data) {
 						var params = {
-							'QueueName' : 'DrillBitTestQueue10'
+							'QueueName' : 'AnvilTestQueue10'
 						};
 						finish(testRun);
 						var params = {
-							'QueueName' : 'DrillBitTestQueue10',
+							'QueueName' : 'AnvilTestQueue10',
 							'AWSAccountId' : awsAccountId,
 						};
 						AWS.SQS.deleteQueue(params, function(data) {
@@ -901,16 +906,16 @@ module.exports = new function () {
 
 						})
 					}, function(error) {
-						valueOf(testRun, true).shouldBeFalse();finish(testRun);
+						valueOf(testRun, true).shouldBeFalse();
 					})
 				}, function(error) {
-					valueOf(testRun, true).shouldBeFalse();finish(testRun);
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 
@@ -927,7 +932,7 @@ module.exports = new function () {
 			'VisibilityTimeout' : ''
 		};
 		AWS.SQS.changeMessageVisibility(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -942,34 +947,34 @@ module.exports = new function () {
 	 */
 	this.testSQSchangeMessageVisibility_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue11'
+			'QueueName' : 'AnvilTestQueue11'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
 				'AWSAccountId' : awsAccountId,
-				'QueueName' : 'DrillBitTestQueue11',
+				'QueueName' : 'AnvilTestQueue11',
 				'MessageBody' : 'This is test message in SQS.'
 			};
 			AWS.SQS.sendMessage(params, function(data) {
 				var params = {
 					'AWSAccountId' : awsAccountId,
-					'QueueName' : 'DrillBitTestQueue11'
+					'QueueName' : 'AnvilTestQueue11'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
 					var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
 					var params = {
 						'AWSAccountId' : awsAccountId,
-						'QueueName' : 'DrillBitTestQueue11',
+						'QueueName' : 'AnvilTestQueue11',
 						'VisibilityTimeout' : '9000',
 						'ReceiptHandle' : recieptHandle
 					};
 					AWS.SQS.changeMessageVisibility(params, function(data) {
 						var params = {
-							'QueueName' : 'DrillBitTestQueue11'
+							'QueueName' : 'AnvilTestQueue11'
 						};
 						finish(testRun);
 						var params = {
-							'QueueName' : 'DrillBitTestQueue11',
+							'QueueName' : 'AnvilTestQueue11',
 							'AWSAccountId' : awsAccountId,
 						};
 						AWS.SQS.deleteQueue(params, function(data) {
@@ -978,16 +983,16 @@ module.exports = new function () {
 
 						})
 					}, function(error) {
-						valueOf(testRun, true).shouldBeFalse();finish(testRun);
+						valueOf(testRun, true).shouldBeFalse();
 					})
 				}, function(error) {
-					valueOf(testRun, true).shouldBeFalse();finish(testRun);
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	/**
@@ -1001,7 +1006,7 @@ module.exports = new function () {
 			'VisibilityTimeout' : '9000'
 		};
 		AWS.SQS.changeMessageVisibility(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1017,7 +1022,7 @@ module.exports = new function () {
 			'VisibilityTimeout' : ''
 		};
 		AWS.SQS.changeMessageVisibility(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1033,7 +1038,7 @@ module.exports = new function () {
 			'VisibilityTimeout' : '9000'
 		};
 		AWS.SQS.changeMessageVisibility(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1049,7 +1054,7 @@ module.exports = new function () {
 			'VisibilityTimeout' : '43500'//Invalid VisibilityTimeout- must not exceed 43200
 		};
 		AWS.SQS.changeMessageVisibility(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1069,7 +1074,7 @@ module.exports = new function () {
 			'ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout' : ''
 		};
 		AWS.SQS.changeMessageVisibilityBatch(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1084,35 +1089,35 @@ module.exports = new function () {
 	 */
 	this.testSQSchangeMessageVisibilityBatch_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue12'
+			'QueueName' : 'AnvilTestQueue12'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
 				'AWSAccountId' : awsAccountId,
-				'QueueName' : 'DrillBitTestQueue12',
+				'QueueName' : 'AnvilTestQueue12',
 				'MessageBody' : 'This is test message in SQS.'
 			};
 			AWS.SQS.sendMessage(params, function(data) {
 				var params = {
 					'AWSAccountId' : awsAccountId,
-					'QueueName' : 'DrillBitTestQueue12'
+					'QueueName' : 'AnvilTestQueue12'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
 					var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
 					var params = {
 						'AWSAccountId' : awsAccountId,
-						'QueueName' : 'DrillBitTestQueue12',
+						'QueueName' : 'AnvilTestQueue12',
 						'ChangeMessageVisibilityBatchRequestEntry.1.Id' : 'testbatch1',
 						'ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle' : recieptHandle,
 						'ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout' : '7000'
 					};
 					AWS.SQS.changeMessageVisibilityBatch(params, function(data) {
 						var params = {
-							'QueueName' : 'DrillBitTestQueue12'
+							'QueueName' : 'AnvilTestQueue12'
 						};
 						finish(testRun);
 						var params = {
-							'QueueName' : 'DrillBitTestQueue12',
+							'QueueName' : 'AnvilTestQueue12',
 							'AWSAccountId' : awsAccountId,
 						};
 						AWS.SQS.deleteQueue(params, function(data) {
@@ -1121,16 +1126,16 @@ module.exports = new function () {
 
 						})
 					}, function(error) {
-						valueOf(testRun, true).shouldBeFalse();finish(testRun);
+						valueOf(testRun, true).shouldBeFalse();
 					})
 				}, function(error) {
-					valueOf(testRun, true).shouldBeFalse();finish(testRun);
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 
 	}
@@ -1146,7 +1151,7 @@ module.exports = new function () {
 			'ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout' : '7000'
 		};
 		AWS.SQS.changeMessageVisibilityBatch(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1165,7 +1170,7 @@ module.exports = new function () {
 		AWS.SQS.changeMessageVisibilityBatch(params, function(data) {
 			finish(testRun);
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	/**
@@ -1182,7 +1187,7 @@ module.exports = new function () {
 		AWS.SQS.changeMessageVisibilityBatch(params, function(data) {
 			finish(testRun);
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	//*************changeMessageVisibilityBatch test cases ends**************
@@ -1198,7 +1203,7 @@ module.exports = new function () {
 			'Label' : ''
 		};
 		AWS.SQS.removePermission(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1212,29 +1217,29 @@ module.exports = new function () {
 	 */
 	this.testSQSremovePermission_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue13'
+			'QueueName' : 'AnvilTestQueue13'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
 				'AWSAccountId' : awsAccountId,
-				'QueueName' : 'DrillBitTestQueue13',
+				'QueueName' : 'AnvilTestQueue13',
 				'Label' : 'AddPermissionTest',
-				'AWSAccountId.1' : '682109303140',
+				'AWSAccountId.1' : awsAccountId,
 				'ActionName.1' : 'SendMessage'
 			};
 			AWS.SQS.addPermission(params, function(data) {
 				var params = {
 					'AWSAccountId' : awsAccountId,
-					'QueueName' : 'DrillBitTestQueue13',
+					'QueueName' : 'AnvilTestQueue13',
 					'Label' : 'AddPermissionTest',
 				};
 				AWS.SQS.removePermission(params, function(data) {
 					var params = {
-						'QueueName' : 'DrillBitTestQueue13'
+						'QueueName' : 'AnvilTestQueue13'
 					};
 					finish(testRun);
 					var params = {
-						'QueueName' : 'DrillBitTestQueue13',
+						'QueueName' : 'AnvilTestQueue13',
 						'AWSAccountId' : awsAccountId,
 					};
 					AWS.SQS.deleteQueue(params, function(data) {
@@ -1243,13 +1248,13 @@ module.exports = new function () {
 
 					})
 				}, function(error) {
-					valueOf(testRun, true).shouldBeFalse();finish(testRun);
+					valueOf(testRun, true).shouldBeFalse();
 				})
 			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
+				valueOf(testRun, true).shouldBeFalse();
 			})
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	//*************removePermission test cases ends**************
@@ -1259,11 +1264,11 @@ module.exports = new function () {
 	 */
 	this.testSQSDeleteValidQueue_as_async = function(testRun) {
 		var params = {
-			'QueueName' : 'DrillBitTestQueue14'
+			'QueueName' : 'AnvilTestQueue14'
 		};
 		AWS.SQS.createQueue(params, function(data) {
 			var params = {
-				'QueueName' : 'DrillBitTestQueue14',
+				'QueueName' : 'AnvilTestQueue14',
 				'AWSAccountId' : awsAccountId,
 			};
 			AWS.SQS.deleteQueue(params, function(data) {
@@ -1273,7 +1278,7 @@ module.exports = new function () {
 			});
 
 		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		});
 	}
 	
