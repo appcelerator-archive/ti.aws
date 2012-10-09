@@ -2,18 +2,18 @@
 // AWS requires each bucketName to be a unique name in S3's global namespace
 // Deleting bucket does not release the bucketname from the global namespace right away
 // so if you create, delete, recreate in succession, it may not work
-// In order to make the app work with your AWS credentials, you will have 
+// In order to make the app work with your AWS credentials, you will have to put your AWS secret, keys and accountID in tiapp.xml 
 windowFunctions['putBucket'] = function(evt) {
 	
 		AWS.S3.putBucket({
 		// you may need to choose diff bucketname if this one is not available 
-				'bucketName' : 'test092612_2' 
+				'bucketName' : 'test100312_1' 
 			},
-			function(response) {
+			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info(JSON.stringify(response));
 	
-	  	},  function(error) {
+	  	},  function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 	
@@ -22,6 +22,41 @@ windowFunctions['putBucket'] = function(evt) {
 };
 
 // For all tests below, we will assume that bucket created above still exists. 
+
+
+windowFunctions['headBucket'] = function(evt) { 		
+	
+	AWS.S3.headBucket({
+			'bucketName' : 'test100312_1'
+		},
+			 function(data, response) {
+			 	alert('Success: ' + JSON.stringify(response));
+				Ti.API.info(JSON.stringify(response));
+	  	 },  function(message,error) {
+			 	alert('Error: '+ JSON.stringify(error));
+				Ti.API.info(JSON.stringify(error));
+		});
+	
+};
+
+windowFunctions['getBucket'] = function(evt) {
+
+	AWS.S3.getBucket({
+			 'bucketName' : 'test100312_1'
+			},
+			function(data, response) {
+				alert('Success: '+ JSON.stringify(response));
+				Ti.API.info(JSON.stringify(response));
+	
+	  	},  function(message,error) {
+				alert('Error: '+ JSON.stringify(error));
+				Ti.API.info(JSON.stringify(error));
+	
+		});
+	
+};
+
+
 windowFunctions['putBucketPolicy'] = function(evt) {
 		var jsonObject = {
 				"Version" : "2008-10-17",
@@ -34,19 +69,19 @@ windowFunctions['putBucketPolicy'] = function(evt) {
 						"AWS" : "*"
 					},
 					"Action" : ["s3:*"],
-					"Resource" : "arn:aws:s3:::test092612_2/*"
+					"Resource" : "arn:aws:s3:::test100312_1/*"
 				}]
 			};
 			
 		AWS.S3.putBucketPolicy({
-			'bucketName' : 'test092612_2',
+			'bucketName' : 'test100312_1',
 			'xmlTemplate' : JSON.stringify(jsonObject)
 			},
-			function(response) {
+			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info(JSON.stringify(response));
 	
-	  	},  function(error) {
+	  	},  function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 	
@@ -61,73 +96,20 @@ windowFunctions['putObject'] = function(evt) {
 	
 	// By default Titanium will look for this file in Resources directory of example app
 	// So if you decide to change the file, just make sure it exists in Resources directory
-    var f = Titanium.Filesystem.getFile('KS_nav_views.png');
-	
+	// Also it is possible to specify path to any file: f = Titanium.Filesystem.getFile('/Users/username/file')
+    //var f = Titanium.Filesystem.getFile('KS_nav_views.png');
+	var f = Titanium.Filesystem.getFile('KS_nav_views.png');
 	
 	AWS.S3.putObject({
-			'bucketName' : 'test092612_1',
+			'bucketName' : 'test100312_1',
 			'objectName' : 'KS_nav_views.png',
 			'file' : f
 			},
-			function(data) {
-				alert('Success: '+ JSON.stringify(data));
-				Ti.API.info(JSON.stringify(data));
-	
-	  	},  function(error) {
-				alert('Error: '+ JSON.stringify(error));
-				Ti.API.info(JSON.stringify(error));
-	
-		});
-	
-};
-
-windowFunctions['getBucket'] = function(evt) {
-
-	AWS.S3.getBucket({
-			 'bucketName' : 'test092612_1'
-			},
-			function(response) {
+			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info(JSON.stringify(response));
 	
-	  	},  function(error) {
-				alert('Error: '+ JSON.stringify(error));
-				Ti.API.info(JSON.stringify(error));
-	
-		});
-	
-};
-
-windowFunctions['getObject'] = function(evt) {
-
-	AWS.S3.getObject({
-			 'bucketName' : 'test092612_1',
-			 'objectName' : 'KS_nav_views.png'
-			},
-			function(response) {
-				alert('Success: '+ JSON.stringify(response));
-				Ti.API.info(JSON.stringify(response));
-	
-	  	},  function(error) {
-				alert('Error: '+ JSON.stringify(error));
-				Ti.API.info(JSON.stringify(error));
-	
-		});
-	
-};
-
-windowFunctions['putObjectCopy'] = function(evt) {
-	
-	AWS.S3.putObjectCopy({
-			'bucketName' : 'test092612_1',
-			'objectName' : 'IMG_0008_2.JPG',
-			'copySource' : 'https://s3.amazonaws.com/test092612_1/KS_nav_views.png'
-			},
-			function(response) {
-				alert('Success: '+ JSON.stringify(response));
-				Ti.API.info(JSON.stringify(response));
-	
-	  	},  function(error) {
+	  	},  function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 	
@@ -139,14 +121,14 @@ windowFunctions['putObjectCopy'] = function(evt) {
 windowFunctions['headObject'] = function(evt) {
 	
 	AWS.S3.headObject({
-			'bucketName' : 'test092612_1',
+			'bucketName' : 'test100312_1',
 			'objectName' : 'KS_nav_views.png'
 		},
-			function(data) {
-				alert('Success: '+ JSON.stringify(data));
-				Ti.API.info(JSON.stringify(data));
+			function(data, response) {
+				alert('Success: ' + JSON.stringify(response));
+				Ti.API.info(JSON.stringify(response));
 	
-	  	},  function(error) {
+	  	},  function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 	
@@ -154,35 +136,230 @@ windowFunctions['headObject'] = function(evt) {
 
 };
 
+windowFunctions['getObject'] = function(evt) {
 
-windowFunctions['headBucket'] = function(evt) { 		
+	AWS.S3.getObject({
+			 'bucketName' : 'test100312_1',
+			 'objectName' : 'KS_nav_views.png'
+			},
+			function(data, response) {
+				alert('Success: '+ JSON.stringify(response));
+				Ti.API.info(JSON.stringify(response));
 	
-	AWS.S3.headBucket({
-			'bucketName' : 'test092612_1'
-		},
-			 function(data) {
-			 	alert('Success: '+ JSON.stringify(data));
-				Ti.API.info(JSON.stringify(data));
-	  	 },  function(error) {
-			 	alert('Error: '+ JSON.stringify(error));
+	  	},  function(message,error) {
+				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
+	
 		});
 	
 };
 
 
+windowFunctions['getObjectTorrent'] = function(evt) {
+	
+	AWS.S3.getObjectTorrent({
+			'bucketName' : 'test100312_1',
+			'objectName' : 'KS_nav_views.png'
+			},
+			function(data, response) {
+				alert('Success: '+ JSON.stringify(response));
+				Ti.API.info(JSON.stringify(response));
+	
+	  	},  function(message,error) {
+				alert('Error: '+ JSON.stringify(error));
+				Ti.API.info(JSON.stringify(error));
+	
+		});
+	
+};
+
+
+windowFunctions['putObjectCopy'] = function(evt) {
+	
+	AWS.S3.putObjectCopy({
+			'bucketName' : 'test100312_1',
+			'objectName' : 'sample.png',
+			'copySource' : 'https://s3.amazonaws.com/test100312_1/KS_nav_views.png' // Change to file path from where you want to copy the file
+			},
+			function(data, response) {
+				alert('Success: '+ JSON.stringify(response));
+				Ti.API.info(JSON.stringify(response));
+	
+	  	},  function(message,error) {
+				alert('Error: '+ JSON.stringify(error));
+				Ti.API.info(JSON.stringify(error));
+	
+		});
+	
+};
+
+windowFunctions['listMultipartUploads'] = function(evt) {
+	
+	AWS.S3.listMultipartUploads({
+			'bucketName' : 'test100312_1'
+			},
+			function(data, response) {
+				alert('Success: '+ JSON.stringify(response));
+				Ti.API.info(JSON.stringify(response));
+	
+	  	},  function(message,error) {
+				alert('Error: '+ JSON.stringify(error));
+				Ti.API.info(JSON.stringify(error));
+		});
+};
+
+var uploadId;
+
+windowFunctions['initiateMultipartUpload'] = function(evt) {
+	
+	AWS.S3.initiateMultipartUpload({
+			'bucketName' : 'test100312_1',
+			'objectName' : 'KS_nav_views.png'
+			},
+			function(data, response) {
+				uploadId = response.data.UploadId;
+				alert('Success: '+ JSON.stringify(response));
+				Ti.API.info(JSON.stringify(response));
+	
+	  	},  function(message,error) {
+				alert('Error: '+ JSON.stringify(error));
+				Ti.API.info(JSON.stringify(error));
+		});
+};
+
+
+windowFunctions['listParts'] = function(evt) {
+	
+	AWS.S3.listParts({
+			'bucketName' : 'test100312_1',
+			'objectName' : 'KS_nav_views.png',
+			'uploadId' : uploadId
+			},
+			function(data, response) {
+				alert('Success: '+ JSON.stringify(response));
+				Ti.API.info(JSON.stringify(response));
+	
+	  	},  function(message,error) {
+				alert('Error: '+ JSON.stringify(error));
+				Ti.API.info(JSON.stringify(error));
+	
+		});
+	
+};
+
+// This function also calls completeMultipartUpload which completes the multi-part upload to the bucket.
+
+windowFunctions['uploadPart'] = function(evt) {
+	
+	AWS.S3.initiateMultipartUpload({
+			'bucketName' : 'test100312_1',
+			'objectName' : 'KS_nav_views.png'
+			},
+			function(data) {
+				
+				var uploadId = data.UploadId;
+				alert('Upload ID: ' + uploadId);
+				var f1 = Titanium.Filesystem.getFile('testfile.pdf');
+				
+				AWS.S3.uploadPart({
+							'bucketName' : 'test100312_1',
+							'objectName' : 'KS_nav_views.png',
+							'file' : f1,
+							'uploadId' : uploadId,
+							'partNumber' : '1'
+							},
+						function(data, response) {
+							alert('Part uploaded successfully: '+ JSON.stringify(data) + JSON.stringify(response));
+							Ti.API.info('Part uploaded successfully: '+ JSON.stringify(data) + JSON.stringify(response));
+							var ETag = response.headers.Etag;
+							AWS.S3.completeMultipartUpload({
+							'bucketName' : 'test100312_1',
+							'objectName' : 'KS_nav_views.png',
+							'uploadId' : uploadId,
+							'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>1</PartNumber><ETag>' + ETag + '</ETag></Part></CompleteMultipartUpload>'
+							},
+							function(data, response) {
+								alert('MultipartUpload completed successfully: '+ JSON.stringify(data) + JSON.stringify(response));
+								Ti.API.info('MultipartUpload completed successfully: '+ JSON.stringify(data) + JSON.stringify(response));
+							},  function(message,error) {
+								alert('Error: '+ JSON.stringify(error));
+								Ti.API.info(JSON.stringify(error));
+							});
+				  	},  function(message,error) {
+							alert('Error: '+ JSON.stringify(error));
+							Ti.API.info(JSON.stringify(error));
+				
+					});
+			
+	
+	  	},  function(message,error) {
+			alert('Error: '+ JSON.stringify(error));
+			Ti.API.info(JSON.stringify(error));
+	
+		});
+	
+};
+
+windowFunctions['uploadPartCopy'] = function(evt) { 
+	
+	AWS.S3.initiateMultipartUpload({
+			'bucketName' : 'test100312_1',
+			'objectName' : 'sample.png'
+		},
+		function(data) {
+			
+			var uploadId = data.UploadId;
+			alert('Upload ID: ' + uploadId);
+			AWS.S3.uploadPartCopy({
+						'bucketName' : 'test100312_1',
+						'objectName' : 'sample.png',
+						'copySource' : '/test100312_1/KS_nav_views.png',
+						'uploadId' : uploadId,
+						'partNumber' : '2'
+					},
+				function(data, response) {
+					alert('PartCopy uploaded successfully: ' + JSON.stringify(data) + JSON.stringify(response));
+					Ti.API.info('PartCopy uploaded successfully: '+ JSON.stringify(data) + JSON.stringify(response));
+					var ETag = data.ETag;					
+					AWS.S3.completeMultipartUpload({
+						'bucketName' : 'test100312_1',
+						'objectName' : 'sample.png',
+						'uploadId' : uploadId,
+						'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>' + ETag + '</ETag></Part></CompleteMultipartUpload>'
+						},
+						function(data, response) {
+							alert('MultipartUpload completed successfully: '+ JSON.stringify(data) + JSON.stringify(response));
+							Ti.API.info('MultipartUpload completed successfully: '+ JSON.stringify(data) + JSON.stringify(response));
+						},  function(message,error) {
+							alert('Error: '+ JSON.stringify(error));
+							Ti.API.info(JSON.stringify(error));
+						});			
+		  	},  function(message,error) {
+		  		
+				alert('Error: '+ JSON.stringify(error));
+				Ti.API.info(JSON.stringify(error));
+		
+			});
+
+  	},  function(message,error) {
+		alert('Error: '+ JSON.stringify(error));
+		Ti.API.info(JSON.stringify(error));
+
+	});
+	
+};
 
 windowFunctions['deleteObject'] = function(evt) {
 	
 	AWS.S3.deleteObject({
-			'bucketName' : 'test092612_1',
+			'bucketName' : 'test100312_1',
 			'objectName' : 'KS_nav_views.png'
 			},
-			function(response) {
+			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info(JSON.stringify(response));
 	
-	  	},  function(error) {
+	  	},  function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 	
@@ -193,15 +370,15 @@ windowFunctions['deleteObject'] = function(evt) {
 windowFunctions['deleteMultipleObjects'] = function(evt) {
 	
 	AWS.S3.deleteMultipleObjects({
-			'bucketName' : 'test092612_1',
-			'xmlTemplate' : '<Delete><Object><Key>KS_nav_views.png</Key></Object><Object><Key>test.jpg</Key></Object></Delete>'
+			'bucketName' : 'test100312_1',
+			'xmlTemplate' : '<Delete><Object><Key>KS_nav_views.png</Key></Object><Object><Key>sample.png</Key></Object></Delete>'
 			
 			},
-			function(response) {
+			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info(JSON.stringify(response));
 	
-	  	},  function(error) {
+	  	},  function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 	
@@ -209,58 +386,18 @@ windowFunctions['deleteMultipleObjects'] = function(evt) {
 	
 };
 
-
-
-// Please note that AWS
+// to delete bucket be sure that bucket is empty
 
 windowFunctions['deleteBucket'] = function(evt) {
 	
 	AWS.S3.deleteBucket({
-			'bucketName' : 'test092612_2'
+			'bucketName' : 'test100312_1'
 			},
-			function(response) {
+			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info(JSON.stringify(response));
 	
-	  	},  function(error) {
-				alert('Error: '+ JSON.stringify(error));
-				Ti.API.info(JSON.stringify(error));
-	
-		});
-	
-};
-
-windowFunctions['getObjectTorrent'] = function(evt) {
-	
-	AWS.S3.getObjectTorrent({
-			'bucketName' : 'test092612_1',
-			'objectName' : 'KS_nav_views.png'
-			},
-			function(response) {
-				alert('Success: '+ JSON.stringify(response));
-				Ti.API.info(JSON.stringify(response));
-	
-	  	},  function(error) {
-				alert('Error: '+ JSON.stringify(error));
-				Ti.API.info(JSON.stringify(error));
-	
-		});
-	
-};
-
-var uploadId;
-windowFunctions['initiateMultipartUpload'] = function(evt) {
-	
-	AWS.S3.initiateMultipartUpload({
-			'bucketName' : 'test092612_1',
-			'objectName' : 'KS_nav_views.png'
-			},
-			function(response) {
-				uploadId = response.UploadId;
-				alert('Success: '+ JSON.stringify(response));
-				Ti.API.info(JSON.stringify(response));
-	
-	  	},  function(error) {
+	  	},  function(message,error) {
 				alert('Error: '+ JSON.stringify(error));
 				Ti.API.info(JSON.stringify(error));
 	
@@ -269,96 +406,23 @@ windowFunctions['initiateMultipartUpload'] = function(evt) {
 };
 
 
-windowFunctions['listParts'] = function(evt) {
-	
-	AWS.S3.listParts({
-			'bucketName' : 'test092612_1',
-			'objectName' : 'KS_nav_views.png',
-			'uploadId' : uploadId
-			},
-			function(response) {
-				alert('Success: '+ JSON.stringify(response));
-				Ti.API.info(JSON.stringify(response));
-	
-	  	},  function(error) {
-				alert('Error: '+ JSON.stringify(error));
-				Ti.API.info(JSON.stringify(error));
-	
-		});
-	
-};
 
 
-windowFunctions['uploadPart'] = function(evt) {
-	
-	AWS.S3.initiateMultipartUpload({
-			'bucketName' : 'test092612_1',
-			'objectName' : 'sample.pdf'
-			},
-			function(data) {
-				alert('Success: '+ JSON.stringify(data));
-				Ti.API.info(JSON.stringify(data));
-				var uploadId = data.UploadId;
-				var f1 = Titanium.Filesystem.getFile('testfile.pdf');
-				AWS.S3.uploadPart({
-							'bucketName' : 'test092612_1',
-							'objectName' : 'testfile.pdf',
-							'file' : f1,
-							'uploadId' : uploadId,
-							'partNumber' : '1'
-							},
-						function(data) {
-							alert('Success: '+ JSON.stringify(data));
-							Ti.API.info(JSON.stringify(response));
-				
-				  	},  function(error) {
-							alert('Error: '+ JSON.stringify(error));
-							Ti.API.info(JSON.stringify(error));
-				
-					});
-			
-	
-	  	},  function(error) {
-			alert('Error: '+ JSON.stringify(error));
-			Ti.API.info(JSON.stringify(error));
-	
-		});
-	
-};
 
 
-windowFunctions['uploadPartCopy'] = function(evt) { 
-	
-	AWS.S3.initiateMultipartUpload({
-			'bucketName' : 'test092612_1',
-			'objectName' : 'testfile_2.pdf'
-		},
-		function(data) {
-			// alert('Success: '+ JSON.stringify(data));
-			// Ti.API.info(JSON.stringify(data));
-			var uploadId = data.UploadId;
-			alert(uploadId);
-			AWS.S3.uploadPartCopy({
-						'bucketName' : 'test092612_1',
-						'objectName' : 'testfile.pdf',
-						'copySource' : '/test092612_1/testfile.pdf',
-						'uploadId' : uploadId,
-						'partNumber' : '2'
-					},
-				function(data) {
-				alert('Success: '+ JSON.stringify(data));
-				Ti.API.info(JSON.stringify(response));				
-		  	},  function(error) {
-		  		alert('3');
-				alert('Error: '+ JSON.stringify(error));
-				Ti.API.info(JSON.stringify(error));
-		
-			});
 
-  	},  function(error) {
-		alert('Error: '+ JSON.stringify(error));
-		Ti.API.info(JSON.stringify(error));
 
-	});
-	
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -69,7 +69,7 @@ module.exports = new function () {
 	//Test case with invalid domain
 	this.testCreateInvalidDomain_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
-			DomainName : '@DrillBitDomain'
+			DomainName : '@AnvilDomain'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -135,6 +135,7 @@ module.exports = new function () {
 		});
 	}
 
+	// This test passes even if we pass an invalid token to AWS - bug to be filed
 	this.testListDomainsWithvalidParams_as_async = function(testRun) {
 	AWS.SimpleDB.listDomains({
 			'MaxNumberOfDomains' : '99',
@@ -142,10 +143,11 @@ module.exports = new function () {
 		}, function(data) {
 			
 			//valueOf(testRun, true).shouldBeFalse();
-			alert(data);
-			//finish(testRun);
-		}, function(error) {
+			//alert(data);
 			finish(testRun);
+		}, function(error) {
+			valueOf(testRun, true).shouldBeFalse();
+			//finish(testRun);
 		});
 	}
 
@@ -153,10 +155,10 @@ module.exports = new function () {
 	// Start Test Cases for Delete Domain.
 	this.testDeleteDomain_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
-			DomainName : 'DrillBit12345'
+			DomainName : 'Anvil12345'
 		}, function(data) {
 			AWS.SimpleDB.deleteDomain({
-				'DomainName' : 'DrillBit12345'
+				'DomainName' : 'Anvil12345'
 			}, function(data) {
 				finish(testRun);
 			}, function(error) {
@@ -170,7 +172,7 @@ module.exports = new function () {
 
 	this.testDeleteDomainWithInvalidDomain_as_async = function(testRun) {
 		AWS.SimpleDB.deleteDomain({
-			'DomainName' : '@DrillBitDomain'
+			'DomainName' : '@AnvilDomain'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -213,23 +215,23 @@ module.exports = new function () {
 
 	this.testBatchPutAttributes_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
-			'DomainName' : 'DrillBit123456'
+			'DomainName' : 'Anvil123456'
 		}, function(data) {
 			AWS.SimpleDB.batchPutAttributes({
-				'DomainName' : 'DrillBit123456',
+				'DomainName' : 'Anvil123456',
 				'Item.1.Attribute.1.Name' : 'testAttributeName',
 				'Item.1.Attribute.1.Value' : 'testAttributeValue',
 				'Item.1.ItemName' : 'testItemName'
 			}, function(data) {
 				
 				AWS.SimpleDB.batchDeleteAttributes({
-					'DomainName' : 'DrillBit123456',
+					'DomainName' : 'Anvil123456',
 					'Item.1.ItemName' : 'testItemName',
 					'Item.1.Attribute.1.Name' : 'testAttributeName',
 					'Item.1.Attribute.1.Value' : 'testAttributeName'
 				}, function(data) {
 					AWS.SimpleDB.deleteDomain({
-						'DomainName' : 'DrillBit123456'
+						'DomainName' : 'Anvil123456'
 					}, function(data) {
 						finish(testRun);
 					}, function(error) {
@@ -441,7 +443,7 @@ module.exports = new function () {
 
 	this.testBatchDeleteAttributesWithEmptyItemName_as_async = function(testRun) {
 		AWS.SimpleDB.batchDeleteAttributes({
-			'DomainName' : 'DrillbitDomain',
+			'DomainName' : 'AnvilDomain',
 			'Item.1.ItemName' : '',
 			'Item.1.Attribute.1.Value' : 'testAttributeName'
 		}, function(data) {
@@ -453,7 +455,7 @@ module.exports = new function () {
 
 	this.testBatchDeleteAttributesWithEmptyAttributeValue_as_async = function(testRun) {
 		AWS.SimpleDB.batchDeleteAttributes({
-			'DomainName' : 'DrillbitDomain',
+			'DomainName' : 'AnvilDomain',
 			'Item.1.ItemName' : 'testItemName',
 			'Item.1.Attribute.1.Value' : ''
 		}, function(data) {
@@ -467,23 +469,23 @@ module.exports = new function () {
 	// Start TestCases for delete Attributes.
 	this.testDeleteAttributes_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
-			DomainName : 'DrillBit12345611'
+			DomainName : 'Anvil12345611'
 		}, function(data) {
 			AWS.SimpleDB.putAttributes({
 				'Attribute.1.Name' : 'testAttributeName',
 				'Attribute.1.Value' : 'testAttributeValue',
 				'ItemName' : 'testItemName',
-				'DomainName' : 'DrillBit12345611'
+				'DomainName' : 'Anvil12345611'
 			}, function(data) {
 				AWS.SimpleDB.deleteAttributes({
 					'ItemName' : 'testItemName',
-					'DomainName' : 'DrillBit12345611',
+					'DomainName' : 'Anvil12345611',
 					'Attribute.1.Name' : 'testAttributeName',
 					'Attribute.1.Value' : 'testAttributeValue'
 				}, function(data) {
 					
 					AWS.SimpleDB.deleteDomain({
-						'DomainName' : 'DrillBit12345611'
+						'DomainName' : 'Anvil12345611'
 					}, function(data) {
 						finish(testRun);
 					}, function(error) {
@@ -641,14 +643,14 @@ module.exports = new function () {
 	// Start Test Cases for domainMetadata
 	this.testDomainMetadata_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
-			DomainName : 'DrillBit98123456'
+			DomainName : 'Anvil98123456'
 		}, function(data) {
 			AWS.SimpleDB.domainMetadata({
-				'DomainName' : 'DrillBit98123456'
+				'DomainName' : 'Anvil98123456'
 			}, function(data) {
 				
 				AWS.SimpleDB.deleteDomain({
-					'DomainName' : 'DrillBit98123456'
+					'DomainName' : 'Anvil98123456'
 				}, function(data) {
 					finish(testRun);
 				}, function(error) {
@@ -717,27 +719,27 @@ module.exports = new function () {
 
 	this.testGetAttributes_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
-			DomainName : 'DrillBit1981236'
+			DomainName : 'Anvil1981236'
 		}, function(data) {
 			AWS.SimpleDB.putAttributes({
 				'Attribute.1.Name' : 'testAttributeName',
 				'Attribute.1.Value' : 'testAttributeValue',
 				'ItemName' : 'testItemName',
-				'DomainName' : 'DrillBit1981236'
+				'DomainName' : 'Anvil1981236'
 			}, function(data) {
 				AWS.SimpleDB.getAttributes({
-					'DomainName' : 'DrillBit1981236',
+					'DomainName' : 'Anvil1981236',
 					'ItemName' : 'testItemName'
 				}, function(data) {
 					AWS.SimpleDB.deleteAttributes({
 						'ItemName' : 'testItemName',
-						'DomainName' : 'DrillBit1981236',
+						'DomainName' : 'Anvil1981236',
 						'Attribute.1.Name' : 'testAttributeName',
 						'Attribute.1.Value' : 'testAttributeValue'
 					}, function(data) {
 						finish(testRun);
 						AWS.SimpleDB.deleteDomain({
-							'DomainName' : 'DrillBit1981236'
+							'DomainName' : 'Anvil1981236'
 						}, function(data) {
 							finish(testRun);
 						}, function(error) {
@@ -829,21 +831,21 @@ module.exports = new function () {
 	// Start Test Cases for Put Attributes.
 	this.testPutAttributes_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
-			DomainName : 'DrillBit777120'
+			DomainName : 'Anvil777120'
 		}, function(data) {
 			AWS.SimpleDB.putAttributes({
 				'Attribute.1.Name' : 'testAttributeName',
 				'Attribute.1.Value' : 'testAttributeValue',
 				'ItemName' : 'testItemName',
-				'DomainName' : 'DrillBit777120'
+				'DomainName' : 'Anvil777120'
 			}, function(data) {
 				
 				AWS.SimpleDB.deleteAttributes({
 					'ItemName' : 'testItemName',
-					'DomainName' : 'DrillBit777120'
+					'DomainName' : 'Anvil777120'
 				}, function(data) {
 					AWS.SimpleDB.deleteDomain({
-						'DomainName' : 'DrillBit777120'
+						'DomainName' : 'Anvil777120'
 					}, function(data) {
 						finish(testRun);
 					}, function(error) {
@@ -852,8 +854,9 @@ module.exports = new function () {
 				}, function(error) {
 					valueOf(testRun, true).shouldBeFalse();
 				});
-			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();
+			}, function(error,response) {
+				//valueOf(testRun, true).shouldBeFalse();
+				alert(error + JSON.stringify(response));
 			});
 
 		}, function(error) {
@@ -1042,24 +1045,24 @@ module.exports = new function () {
 
 	this.testSelect_as_async = function(testRun) {
 		AWS.SimpleDB.createDomain({
-			DomainName : 'DrillBit7787120'
+			DomainName : 'Anvil7787120'
 		}, function(data) {
 			AWS.SimpleDB.putAttributes({
 				'Attribute.1.Name' : 'testAttributeName',
 				'Attribute.1.Value' : 'testAttributeValue',
 				'ItemName' : 'testItemName',
-				'DomainName' : 'DrillBit7787120'
+				'DomainName' : 'Anvil7787120'
 			}, function(data) {
 				AWS.SimpleDB.select({
-					'SelectExpression' : 'select * from DrillBit7787120',
+					'SelectExpression' : 'select * from Anvil7787120',
 				}, function(data) {
 					
 					AWS.SimpleDB.deleteAttributes({
 						'ItemName' : 'testItemName',
-						'DomainName' : 'DrillBit7787120'
+						'DomainName' : 'Anvil7787120'
 					}, function(data) {
 						AWS.SimpleDB.deleteDomain({
-							'DomainName' : 'DrillBit7787120'
+							'DomainName' : 'Anvil7787120'
 						}, function(data) {
 							finish(testRun);
 						}, function(error) {

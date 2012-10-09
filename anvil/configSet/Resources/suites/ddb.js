@@ -53,7 +53,7 @@ module.exports = new function () {
 				}, 1000);
 			},1000);
 	}//end testSimple
-	
+/*	
 	this.testBatchGetItemWithEmptyrequestJSON_as_async = function(testRun) {
 		var params = {
 			'requestJSON' : {} //Empty
@@ -69,6 +69,7 @@ module.exports = new function () {
 	/**
 	 *Test case for batchGetItem With an Invalid requestJSON.
 	 */
+	/*
 	this.testBatchGetItemWithInvalidrequestJSON_as_async = function(testRun) {
 		var params = {
 			'requestJSON' : {
@@ -81,6 +82,8 @@ module.exports = new function () {
 			finish(testRun);
 		});
 	}
+	*/
+	
 	/**
 	 *Test case for batchGetItem With a valid requestJSON.
 	 */
@@ -170,6 +173,8 @@ module.exports = new function () {
 	/**
 	 *Test case for BatchWriteItem WithEmpty  requestJSON.
 	 */
+	/*
+	
 	this.testBatchWriteItemWithEmptyrequestJSON_as_async = function(testRun) {
 		var params = {
 			'requestJSON' : {}//Empty
@@ -184,6 +189,7 @@ module.exports = new function () {
 	/**
 	 *Test case for batchWriteItem With an Invalid requestJSON.
 	 */
+	/*
 	this.testBatchWriteItemWithInvalidrequestJSON_as_async = function(testRun) {
 		var params = {
 			'requestJSON' : {
@@ -197,7 +203,7 @@ module.exports = new function () {
 			finish(testRun);
 		});
 	}
-
+*/
 	/**
 	 *Test case for batchWriteItem With a valid requestJSON.
 	 */
@@ -1051,6 +1057,6 @@ module.exports = new function () {
 	
 	
 	// Populate the array of tests based on the 'hammer' convention
-	this.tests = require('hammer').populateTests(this, 250000);
+	this.tests = require('hammer').populateTests(this, 200000);
 	
 };

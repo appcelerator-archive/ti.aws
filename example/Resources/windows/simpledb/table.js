@@ -11,15 +11,14 @@ windowFunctions['SimpleDb'] = function (evt) {
         data: createRows([
             'List Domains',
             'createDomain',
-            'deleteDomain',
+            'domainMetadata',
+            'getAttributes',           
+            'putAttributes',
             'batchPutAttributes',
             'batchDeleteAttributes',
-            'domainMetadata',
-            'putAttributes',
-            'getAttributes',
+            'deleteAttributes',
             'select',
-            
-            
+            'deleteDomain'
         ])
     });
     table.addEventListener('click', handleOpenWindow);
