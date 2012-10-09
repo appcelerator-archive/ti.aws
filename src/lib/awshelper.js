@@ -208,7 +208,7 @@ awsHelper.prepareExecutor = function(thisRef) {
 awsHelper.httpError = function(thisRef, e, cbOnError)
 {
 	if(cbOnError) {
-		var response = sessionOBJ.xmlToJSON.toJSON(thisRef.responseText, false);
+		var response = sessionOBJ.xmlToJSON.toJSON(thisRef.responseText, false) || {}
 		if (response.Message) {
 			if (response.Message instanceof Array) {
 				response.message = response.Message[0];
@@ -222,6 +222,7 @@ awsHelper.httpError = function(thisRef, e, cbOnError)
 		response.requestUri = thisRef.location;
 		response.statusCode = thisRef.status;
 		response.statusText = thisRef.statusText;
+		response.responseText = thisRef.responseText;
 
 		cbOnError(response.message, response);
 	}
@@ -267,8 +268,6 @@ awsHelper.httpSuccess = function(thisRef, data, cbOnData)
  * */
 awsHelper.createHttpObject = function(cbOnData, cbOnError) {
 	var xhr = Ti.Network.createHTTPClient();
-	xhr.setRequestHeader('User-Agent', customUserAgent);
-	
 	xhr.onload = function(response) {
 		awsHelper.httpSuccess(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false), cbOnData);
 	};
