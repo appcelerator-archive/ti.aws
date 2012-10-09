@@ -66,6 +66,7 @@ var defaultQueryExecutor = function(params, cbOnData, cbOnError) {
 	}
 	var xhr = awsHelper.createHttpObject(cbOnData, cbOnError);
 	xhr.open(this.verb, sUrl);
+	xhr.setRequestHeader('User-Agent', customUserAgent);
 	xhr.send();
 }
 /**
@@ -93,6 +94,7 @@ var snsExecutor = function(params, cbOnData, cbOnError) {
 		xhr.open(this.verb, this.endpoint);
 	}
 
+	xhr.setRequestHeader('User-Agent', customUserAgent);
 	xhr.setRequestHeader('Host', 'sns.'+regionEndpoint+'.amazonaws.com');
 
 	if (Ti.Platform.osname === 'iphone') {
@@ -165,6 +167,7 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 
 	var awsAuthHeader = "AWS " + sessionOBJ.accessKeyId + ":" + signature;
 	xhr.open(this.verb, params.url);
+	xhr.setRequestHeader('User-Agent', customUserAgent);
 	xhr.setRequestHeader('Authorization', awsAuthHeader);
 	xhr.setRequestHeader('Date', curDate);
 
@@ -243,6 +246,7 @@ var sesExecutor = function(params, cbOnData, cbOnError) {
 	var xhr = awsHelper.createHttpObject(cbOnData, cbOnError);
 
 	xhr.open(this.verb, this.endpoint);
+	xhr.setRequestHeader('User-Agent', customUserAgent);
 	xhr.setRequestHeader('Content-Type', this.contentType);
 	xhr.setRequestHeader('Host', this.host);
 	xhr.setRequestHeader('Date', curDate);
@@ -282,6 +286,7 @@ var stsExecutor = function(params, cbOnData, cbOnError) {
 	} else {
 		xhr.open(this.verb, this.endpoint);
 	}
+	xhr.setRequestHeader('User-Agent', customUserAgent);
 	xhr.setRequestHeader('Host', 'sts.amazonaws.com');
 
 	if (Ti.Platform.osname === 'iphone') {
@@ -357,6 +362,8 @@ var dynamoDBCall = function(thisRef, params, cbOnData, cbOnError) {
 	}
 
 	xhr.open(thisRef.verb, thisRef.endpoint);
+	xhr.setRequestHeader('User-Agent', customUserAgent);
+
 	var auth = ('AWS3 AWSAccessKeyId=' + tempAccessKeyId + ',Algorithm=' + thisRef.algorithm + ',SignedHeaders=' + signedHeaders + ',Signature=' + signature);
 
 	xhr.setRequestHeader('X-Amz-Target', 'DynamoDB_20111205.' + thisRef.action);
