@@ -119,10 +119,7 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 		return false;
 
 	var xhr = Ti.Network.createHTTPClient();
-	params.contentType = '';
-	if (this.contentType) {
-		params.contentType = this.contentType;
-	}
+	params.contentType = this.contentType || '';
 
 	if (this.method === 'putBucketLifecycle' || this.method === 'deleteMultipleObjects') {
 		params.contentMD5 = sessionOBJ.md5.b64_md5(params.xmlTemplate);
@@ -146,7 +143,9 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	//get the file mime type and size from the file object passed by client
 	if (this.uploadFile) {
 		var fileContents = params.file.read();
-		params.contentType = fileContents.mimeType;
+		if (fileContents) {
+			params.contentType = fileContents.mimeType;
+		}
 		params.contentLength = params.file.size;
 	}
 
@@ -184,9 +183,9 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	if (this.uploadFile) {
 
 		xhr.setRequestHeader('Content-Type', params.contentType);
-		//if(!Ti.Platform.osname === 'android') {// with android content length is already present
-		xhr.setRequestHeader('Content-Length', params.contentLength);
-		//}
+		if(!Ti.Platform.osname === 'android') {// with android content length is already present
+			xhr.setRequestHeader('Content-Length', params.contentLength);
+		}
 	}
 	if (this.method === 'putBucketLifecycle' || this.method === 'deleteMultipleObjects') {
 		xhr.setRequestHeader('Content-MD5', params.contentMD5)
@@ -218,7 +217,7 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	}
 	if (params.hasOwnProperty('xmlTemplate')) {//for sending xml in request object
 		xhr.send(params.xmlTemplate);
-	} else if (this.uploadFile) {// for sending file in request object
+	} else if (fileContents && (params.contentLength > 0)) {// for sending file in request object
 		xhr.send(fileContents);
 	} else {
 		xhr.send();
