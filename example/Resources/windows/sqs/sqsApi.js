@@ -233,12 +233,12 @@ windowFunctions['deleteMessage'] = function(evt) {
 	AWS.SQS.receiveMessage(paramsxx,
 			
 		function(data, response) {
-			var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+			var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
 			
 			AWS.SQS.deleteMessage({
 			'AWSAccountId': awsAccountId,
 			'QueueName': 'TestQueue676767',
-			'ReceiptHandle' : recieptHandle
+			'ReceiptHandle' : receiptHandle
 				},
 					
 					function(data, response) {
@@ -268,13 +268,13 @@ windowFunctions['deleteMessageBatch'] = function(evt) {
 	AWS.SQS.receiveMessage(paramsxx,
 			
 		function(data, response) {
-			var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+			var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
 			
 			AWS.SQS.deleteMessageBatch({
 			'AWSAccountId': awsAccountId,
 			'QueueName': 'TestQueue676767',
 			'DeleteMessageBatchRequestEntry.1.Id' : 'testdelete',
-			'ReceiptHandle' : recieptHandle
+			'ReceiptHandle' : receiptHandle
 					},
 						
 						function(data, response) {
@@ -304,13 +304,13 @@ windowFunctions['changeMessageVisibility'] = function(evt) {
 	AWS.SQS.receiveMessage(paramsxx,
 			
 		function(data, response) {
-			var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+			var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
 			
 			AWS.SQS.changeMessageVisibility({
 					'AWSAccountId': awsAccountId,
 					'QueueName': 'TestQueue676767',
 					'VisibilityTimeout' : '9000',
-					'ReceiptHandle' : recieptHandle
+					'ReceiptHandle' : receiptHandle
 					},
 					
 					function(data, response) {
@@ -340,13 +340,13 @@ windowFunctions['changeMessageVisibilityBatch'] = function(evt) {
 	AWS.SQS.receiveMessage(paramsxx,
 			
 		function(data, response) {
-			var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+			var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
 			
 			AWS.SQS.changeMessageVisibilityBatch({
 					'AWSAccountId': awsAccountId,
 					'QueueName': 'TestQueue676767',
 					'ChangeMessageVisibilityBatchRequestEntry.1.Id' : 'testbatch1',
-					'ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle' : recieptHandle,
+					'ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle' : receiptHandle,
 					'ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout' : '7000'
 					
 				},

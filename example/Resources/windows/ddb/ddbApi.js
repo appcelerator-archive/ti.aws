@@ -9,10 +9,10 @@ windowFunctions['getSessionToken'] = function(evt) {
 			alert('Success: '+ JSON.stringify(response));
 			Ti.API.info(JSON.stringify(response));
 
-			Ti.App.Properties.setString('tempSessionToken', data.GetSessionTokenResult[0].Credentials[0].SessionToken[0]);
-			Ti.App.Properties.setString('tempSecretAccessKey', data.GetSessionTokenResult[0].Credentials[0].SecretAccessKey[0]);
-			Ti.App.Properties.setString('tempAccessKeyID', data.GetSessionTokenResult[0].Credentials[0].AccessKeyId[0]);
-			Ti.App.Properties.setString('tempExpiration', data.GetSessionTokenResult[0].Credentials[0].Expiration[0]);
+			Ti.App.Properties.setString('tempSessionToken', data.GetSessionTokenResult.Credentials.SessionToken);
+			Ti.App.Properties.setString('tempSecretAccessKey', data.GetSessionTokenResult.Credentials.SecretAccessKey);
+			Ti.App.Properties.setString('tempAccessKeyID', data.GetSessionTokenResult.Credentials.AccessKeyId);
+			Ti.App.Properties.setString('tempExpiration', data.GetSessionTokenResult.Credentials.Expiration);
 
 			
 			

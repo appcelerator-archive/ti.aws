@@ -721,7 +721,7 @@ module.exports = new function () {
 	 *Test case for deleteMessage with passing parameters
 	 *Create Queue to send message
 	 *Send Message
-	 *receive Message to get Reciept Handle
+	 *receive Message to get Receipt Handle
 	 *Delete Message
 	 *Delete Queue
 	 */
@@ -741,11 +741,11 @@ module.exports = new function () {
 					'QueueName' : 'AnvilTestQueue9'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
-					var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+					var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
 					var params = {
 						'AWSAccountId' : awsAccountId,
 						'QueueName' : 'AnvilTestQueue9',
-						'ReceiptHandle' : recieptHandle
+						'ReceiptHandle' : receiptHandle
 					};
 					AWS.SQS.deleteMessage(params, function(data) {
 						var params = {
@@ -775,7 +775,7 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for deleteMessage with passing invalid reciept handle parameters
+	 *Test case for deleteMessage with passing invalid receipt handle parameters
 	 */
 	this.testSQSdeleteMessageWithInvalidReceiptHandle_as_async = function(testRun) {
 		var params = {
@@ -862,7 +862,7 @@ module.exports = new function () {
 	 *Test case for deleteMessageBatch with passing all parameters
 	 *Create Queue to send message
 	 *Send Message
-	 *receive Message to get Reciept Handle
+	 *receive Message to get receipt Handle
 	 *Delete Message Batch
 	 *Delete Queue
 
@@ -884,12 +884,12 @@ module.exports = new function () {
 					'QueueName' : 'AnvilTestQueue10'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
-					var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+					var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
 					var params = {
 						'AWSAccountId' : awsAccountId,
 						'QueueName' : 'AnvilTestQueue10',
 						'DeleteMessageBatchRequestEntry.1.Id' : 'testdelete',
-						'ReceiptHandle' : recieptHandle
+						'ReceiptHandle' : receiptHandle
 					};
 					AWS.SQS.deleteMessageBatch(params, function(data) {
 						var params = {
@@ -941,7 +941,7 @@ module.exports = new function () {
 	 *Test case for changeMessageVisibility with passing all parameters
 	 *Create Queue to send message
 	 *Send Message
-	 *receive Message to get Reciept Handle
+	 *receive Message to get receipt Handle
 	 *changeMessageVisibility
 	 *Delete Queue
 	 */
@@ -961,12 +961,12 @@ module.exports = new function () {
 					'QueueName' : 'AnvilTestQueue11'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
-					var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+					var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
 					var params = {
 						'AWSAccountId' : awsAccountId,
 						'QueueName' : 'AnvilTestQueue11',
 						'VisibilityTimeout' : '9000',
-						'ReceiptHandle' : recieptHandle
+						'ReceiptHandle' : receiptHandle
 					};
 					AWS.SQS.changeMessageVisibility(params, function(data) {
 						var params = {
@@ -1083,7 +1083,7 @@ module.exports = new function () {
 	 *Test case for changeMessageVisibilityBatch with passing all parameters
 	 *Create Queue to send message
 	 *Send Message
-	 *receive Message to get Reciept Handle
+	 *receive Message to get receipt Handle
 	 *changeMessageVisibility Batch
 	 *Delete Queue
 	 */
@@ -1103,12 +1103,12 @@ module.exports = new function () {
 					'QueueName' : 'AnvilTestQueue12'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
-					var recieptHandle = data.ReceiveMessageResult[0].Message[0].ReceiptHandle[0];
+					var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
 					var params = {
 						'AWSAccountId' : awsAccountId,
 						'QueueName' : 'AnvilTestQueue12',
 						'ChangeMessageVisibilityBatchRequestEntry.1.Id' : 'testbatch1',
-						'ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle' : recieptHandle,
+						'ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle' : receiptHandle,
 						'ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout' : '7000'
 					};
 					AWS.SQS.changeMessageVisibilityBatch(params, function(data) {

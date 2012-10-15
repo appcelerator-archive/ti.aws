@@ -314,7 +314,7 @@ windowFunctions['uploadPartCopy'] = function(evt) {
 					},
 				function(data, response) {
 					Ti.API.info('PartCopy uploaded successfully: '+ JSON.stringify(data) + JSON.stringify(response));
-					var ETag = data.ETag[0];
+					var ETag = data.ETag;
 					AWS.S3.completeMultipartUpload({
 						'bucketName' : 'test100312_1',
 						'objectName' : 'sample.png',
