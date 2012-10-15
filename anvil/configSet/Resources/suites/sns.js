@@ -73,7 +73,7 @@ module.exports = new function () {
 			};
 			AWS.SNS.createTopic(params, function(data) {
 				finish(testRun);
-				arn = data.CreateTopicResult[0].TopicArn[0];
+				arn = data.CreateTopicResult.TopicArn;
 				var params = {
 					'TopicArn' : arn
 				};
@@ -217,7 +217,7 @@ module.exports = new function () {
 				'Name' : 'AnvilTestTopicForDeletion'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//Creating a topic for deletion
-				arn = data.CreateTopicResult[0].TopicArn[0];
+				arn = data.CreateTopicResult.TopicArn;
 				var params = {
 					'TopicArn' : arn
 				};
@@ -314,7 +314,7 @@ module.exports = new function () {
 				'Name' : 'AnvilTestTopic12'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//Creating a topic
-				arn = data.CreateTopicResult[0].TopicArn[0];
+				arn = data.CreateTopicResult.TopicArn;
 				var params = {
 					'TopicArn' : arn//Required
 				};
@@ -384,7 +384,7 @@ module.exports = new function () {
 				'Name' : 'AnvilTestTopic123'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//creating a topic
-				arn = data.CreateTopicResult[0].TopicArn[0];
+				arn = data.CreateTopicResult.TopicArn;
 				var params = {
 					'TopicArn' : arn//Required
 				};
@@ -454,7 +454,7 @@ module.exports = new function () {
 				'Name' : 'AnvilTestTopic1234'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//creating a topic
-				arn = data.CreateTopicResult[0].TopicArn[0];
+				arn = data.CreateTopicResult.TopicArn;
 				var params = {
 					'Message' : 'Hello,this is a test message', //Message is required
 					'TopicArn' : arn//Required
@@ -513,7 +513,7 @@ module.exports = new function () {
 				'Name' : 'AnvilTestTopic1234'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//Craeting a topic
-				arn = data.CreateTopicResult[0].TopicArn[0];
+				arn = data.CreateTopicResult.TopicArn;
 				var params = {
 					'TopicArn' : arn,
 					'Label' : 'MyPermission',
@@ -649,14 +649,14 @@ module.exports = new function () {
 					// 'Name' : 'AnvilTestTopic12346'//Required
 				// };
 				// AWS.SNS.createTopic(params, function(data) {//Creating topic
-					// arn = data.CreateTopicResult[0].TopicArn[0];
+					// arn = data.CreateTopicResult.TopicArn;
 					// var params = {
 						// 'Endpoint' : 'arn:aws:sqs:us-east-1:'+awsAccountId+':AnvilTestQueue884', //Required
 						// 'Protocol' : 'sqs', //Required
 						// 'TopicArn' : arn//Required
 					// };
 					// AWS.SNS.subscribe(params, function(data) {//Calling subscribe
-						// var subscriptionArn = data.SubscribeResult[0].SubscriptionArn[0];
+						// var subscriptionArn = data.SubscribeResult.SubscriptionArn;
 						// var params = {
 							// 'AttributeName' : 'DeliveryPolicy', //Required
 							// 'AttributeValue' : '{}', //Required
@@ -800,7 +800,7 @@ module.exports = new function () {
 				'Name' : 'AnvilTestTopic1234'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//creating a topic
-				arn = data.CreateTopicResult[0].TopicArn[0];
+				arn = data.CreateTopicResult.TopicArn;
 				var params = {
 					'AttributeName' : 'DisplayName', //Required
 					'AttributeValue' : 'TestValue', //Required
@@ -923,12 +923,12 @@ module.exports = new function () {
 				'QueueName' : 'AnvilTestQueue888'
 			};
 			AWS.SQS.createQueue(params, function(data) {// Creating queue
-				var queueUrl = data.CreateQueueResult[0].QueueUrl[0];
+				var queueUrl = data.CreateQueueResult.QueueUrl;
 				var params = {
 					'Name' : 'AnvilTestTopic12343'//Required
 				};
 				AWS.SNS.createTopic(params, function(data) {//Creating topic
-					arn = data.CreateTopicResult[0].TopicArn[0];
+					arn = data.CreateTopicResult.TopicArn;
 					var params = {
 						'Endpoint' : 'arn:aws:sqs:us-east-1:'+awsAccountId+':AnvilTestQueue888', //Required
 						'Protocol' : 'sqs', //Required
@@ -936,7 +936,7 @@ module.exports = new function () {
 					};
 					AWS.SNS.subscribe(params, function(data) {//Calling subscribe
 						finish(testRun);
-						var subscriptionArn = data.SubscribeResult[0].SubscriptionArn[0];
+						var subscriptionArn = data.SubscribeResult.SubscriptionArn;
 						var params = {
 							'SubscriptionArn' : subscriptionArn
 						};
@@ -1004,19 +1004,19 @@ module.exports = new function () {
 				// 'QueueName' : 'AnvilTestQueue889'
 			// };
 			// AWS.SQS.createQueue(params, function(data) {
-				// var queueUrl = data.CreateQueueResult[0].QueueUrl[0];
+				// var queueUrl = data.CreateQueueResult.QueueUrl;
 				// var params = {
 					// 'Name' : 'AnvilTestTopic12342'//Required
 				// };
 				// AWS.SNS.createTopic(params, function(data) {
-					// arn = data.CreateTopicResult[0].TopicArn[0];
+					// arn = data.CreateTopicResult.TopicArn;
 					// var params = {
 						// 'Endpoint' : 'arn:aws:sqs:us-east-1:'+awsAccountId+':AnvilTestQueue889', //Required
 						// 'Protocol' : 'sqs', //Required
 						// 'TopicArn' : arn//Required
 					// };
 					// AWS.SNS.subscribe(params, function(data) {//Calling Subscribe
-						// var subscriptionArn = data.SubscribeResult[0].SubscriptionArn[0];
+						// var subscriptionArn = data.SubscribeResult.SubscriptionArn;
 						// var params = {
 							// 'SubscriptionArn' : subscriptionArn
 						// };
@@ -1145,7 +1145,7 @@ module.exports = new function () {
 				'Name' : 'AnvilTestTopic1234'//Required
 			};
 			AWS.SNS.createTopic(params, function(data) {//Craeting a topic
-				arn = data.CreateTopicResult[0].TopicArn[0];
+				arn = data.CreateTopicResult.TopicArn;
 				var params = {
 					'TopicArn' : arn,
 					'Label' : 'MyPermission',

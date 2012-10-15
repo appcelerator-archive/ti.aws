@@ -1,5 +1,11 @@
 # Change Log
 <pre>
+v1.1.0  Refactored data object parsing to remove unnecessary array references for single value elements [MOD-980]
+        Fix in example application for locating files on Android [MOD-963][MOD-977]
+        Fix in example application for namespace collision [MOD-972]
+        Fix in example application for sendRawEmail [MOD-955]
+
+
 v1.0.3  Fix for S3:headObject not returning any data [MOD-950]
         Fix for S3:headBucket not returning any data [MOD-951]
         Refactored success and error callbacks to match other enterprise formats [MOD-953]

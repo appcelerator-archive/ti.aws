@@ -43,6 +43,10 @@ if(typeof exports !== 'undefined')
 else
 	xmlToJS = {}
 
+//Adding a trim function in String prototype for removing the whitespaces
+String.prototype.trim = function() {
+	return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+}
 
 /**
  * Recursively converts a Titanium XML document or node in to a JSON representation of it.
@@ -66,10 +70,16 @@ xmlToJS.convert = function convert(xml) {
 			switch (node.nodeType) {
 				case node.ELEMENT_NODE:
 					var name = cleanName(node.nodeName);
-					if(retVal[name] === undefined) {
-						retVal[name] = [];
+					if (typeof(retVal[name]) == 'undefined') {
+						retVal[name] = convert(node);
+					} else {
+						if (typeof(retVal[name].push) == 'undefined') {
+							var old = retVal[name];
+							retVal[name] = [];
+							retVal[name].push(old);
+						}
+						retVal[name].push(convert(node));
 					}
-					retVal[name].push(convert(node));
 					break;
 				case node.TEXT_NODE:
 					return node.nodeValue;
@@ -100,10 +110,6 @@ xmlToJS.toJSON = function toJSON(response, isClean) {
 			var xml = "";
 			//Iterating through the xml by slicing tags
 			while(response.indexOf('<') > -1) {
-				//Adding a trim function in String prototype for removing the whitespaces
-				String.prototype.trim = function() {
-					return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-				}
 				//Removing the whitespaces between the tags and concatenating the XML for traversing
 				xml = xml + response.slice(response.indexOf('<'), response.indexOf('>') + 1);
 				xml = xml + response.slice(response.indexOf('>') + 1, response.indexOf('<', response.indexOf('>'))).trim();

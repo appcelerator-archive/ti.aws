@@ -26,10 +26,10 @@ module.exports = new function () {
 		tableNameForUpdate = 'AWS_DynamoDB_Appcel_Test_For_UpdateTable';
 		AWS.STS.getSessionToken({}, function(response) {
 
-			Titanium.App.Properties.setString('tempSessionToken', response["GetSessionTokenResult"][0]["Credentials"][0]["SessionToken"][0]);
-			Titanium.App.Properties.setString('tempSecretAccessKey', response["GetSessionTokenResult"][0]["Credentials"][0]["SecretAccessKey"][0]);
-			Titanium.App.Properties.setString('tempAccessKeyID', response["GetSessionTokenResult"][0]["Credentials"][0]["AccessKeyId"][0]);
-			Titanium.App.Properties.setString('tempExpiration', response["GetSessionTokenResult"][0]["Credentials"][0]["Expiration"][0]);
+			Titanium.App.Properties.setString('tempSessionToken', response["GetSessionTokenResult"]["Credentials"]["SessionToken"]);
+			Titanium.App.Properties.setString('tempSecretAccessKey', response["GetSessionTokenResult"]["Credentials"]["SecretAccessKey"]);
+			Titanium.App.Properties.setString('tempAccessKeyID', response["GetSessionTokenResult"]["Credentials"]["AccessKeyId"]);
+			Titanium.App.Properties.setString('tempExpiration', response["GetSessionTokenResult"]["Credentials"]["Expiration"]);
 
 		}, function(error) {
 
@@ -89,19 +89,6 @@ module.exports = new function () {
 	 */
 
 	this.testBatchGetItem_as_async = function(testRun) {
-
-
-		// AWS.STS.getSessionToken({}, function(response) {
-// 
-			// Titanium.App.Properties.setString('tempSessionToken', response["GetSessionTokenResult"][0]["Credentials"][0]["SessionToken"][0]);
-			// Titanium.App.Properties.setString('tempSecretAccessKey', response["GetSessionTokenResult"][0]["Credentials"][0]["SecretAccessKey"][0]);
-			// Titanium.App.Properties.setString('tempAccessKeyID', response["GetSessionTokenResult"][0]["Credentials"][0]["AccessKeyId"][0]);
-			// Titanium.App.Properties.setString('tempExpiration', response["GetSessionTokenResult"][0]["Credentials"][0]["Expiration"][0]);
-// 
-		// }, function(error) {
-			// alert(error)
-		// });
-// 		
 		
 		var params = {
 			'requestJSON' : {

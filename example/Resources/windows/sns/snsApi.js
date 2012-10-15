@@ -13,7 +13,7 @@ windowFunctions['createTopic'] = function(evt) {
 			'Name' : 'TestTopic0927121'//Required
 		},
 		function(data, response) {
-		arn = data.CreateTopicResult[0].TopicArn[0];
+		arn = data.CreateTopicResult.TopicArn;
 		alert('arn'+ arn);
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
@@ -105,7 +105,7 @@ windowFunctions['confirmSubscription'] = function(evt) {
 			// can get it from sns managment console or arn
 		},
 		function(data, response) {
-		sarn = data.ConfirmSubscriptionResult[0].SubscriptionArn[0];
+		sarn = data.ConfirmSubscriptionResult.SubscriptionArn;
 		alert('Success: '+ JSON.stringify(response));
 		Ti.API.info(JSON.stringify(response));
 
