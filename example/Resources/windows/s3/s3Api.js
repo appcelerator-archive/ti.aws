@@ -93,12 +93,8 @@ windowFunctions['putBucketPolicy'] = function(evt) {
 
 
 windowFunctions['putObject'] = function(evt) {
-	
-	// By default Titanium will look for this file in Resources directory of example app
-	// So if you decide to change the file, just make sure it exists in Resources directory
-	// Also it is possible to specify path to any file: f = Titanium.Filesystem.getFile('/Users/username/file')
-    //var f = Titanium.Filesystem.getFile('KS_nav_views.png');
-	var f = Titanium.Filesystem.getFile('KS_nav_views.png');
+
+	var f = Titanium.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'KS_nav_views.png');
 	
 	AWS.S3.putObject({
 			'bucketName' : 'test100312_1',
@@ -253,28 +249,27 @@ windowFunctions['uploadPart'] = function(evt) {
 	
 	AWS.S3.initiateMultipartUpload({
 			'bucketName' : 'test100312_1',
-			'objectName' : 'KS_nav_views.png'
+			'objectName' : 'testfile.pdf'
 			},
 			function(data) {
 				
 				var uploadId = data.UploadId;
-				alert('Upload ID: ' + uploadId);
-				var f1 = Titanium.Filesystem.getFile('testfile.pdf');
+				Ti.API.info('Upload ID: ' + uploadId);
+				var f1 = Titanium.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'testfile.pdf');
 				
 				AWS.S3.uploadPart({
 							'bucketName' : 'test100312_1',
-							'objectName' : 'KS_nav_views.png',
+							'objectName' : 'testfile.pdf',
 							'file' : f1,
 							'uploadId' : uploadId,
 							'partNumber' : '1'
 							},
 						function(data, response) {
-							alert('Part uploaded successfully: '+ JSON.stringify(data) + JSON.stringify(response));
 							Ti.API.info('Part uploaded successfully: '+ JSON.stringify(data) + JSON.stringify(response));
-							var ETag = response.headers.Etag;
+							var ETag = response.headers.ETag;
 							AWS.S3.completeMultipartUpload({
 							'bucketName' : 'test100312_1',
-							'objectName' : 'KS_nav_views.png',
+							'objectName' : 'testfile.pdf',
 							'uploadId' : uploadId,
 							'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>1</PartNumber><ETag>' + ETag + '</ETag></Part></CompleteMultipartUpload>'
 							},
@@ -309,7 +304,7 @@ windowFunctions['uploadPartCopy'] = function(evt) {
 		function(data) {
 			
 			var uploadId = data.UploadId;
-			alert('Upload ID: ' + uploadId);
+			Ti.API.info('Upload ID: ' + uploadId);
 			AWS.S3.uploadPartCopy({
 						'bucketName' : 'test100312_1',
 						'objectName' : 'sample.png',
@@ -318,9 +313,8 @@ windowFunctions['uploadPartCopy'] = function(evt) {
 						'partNumber' : '2'
 					},
 				function(data, response) {
-					alert('PartCopy uploaded successfully: ' + JSON.stringify(data) + JSON.stringify(response));
 					Ti.API.info('PartCopy uploaded successfully: '+ JSON.stringify(data) + JSON.stringify(response));
-					var ETag = data.ETag;					
+					var ETag = data.ETag[0];
 					AWS.S3.completeMultipartUpload({
 						'bucketName' : 'test100312_1',
 						'objectName' : 'sample.png',
