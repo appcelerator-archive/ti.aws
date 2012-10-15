@@ -118,13 +118,13 @@ windowFunctions['confirmSubscription'] = function(evt) {
 };
 
 
-windowFunctions['addPermission'] = function(evt) {
+windowFunctions['addPermission (SNS)'] = function(evt) {
 
 AWS.SNS.addPermission({
 					'TopicArn' : arn,
 					'Label' : 'MyPermission',
 					'ActionName.member.1' : 'GetTopicAttributes',
-					'AWSAccountId.member.1' : '723565023896'
+					'AWSAccountId.member.1' : awsAccountId
 		},
 		function(data, response) {
 		alert('Success: '+ JSON.stringify(response));
@@ -139,7 +139,7 @@ AWS.SNS.addPermission({
 };
 
 
-windowFunctions['removePermission'] = function(evt) {
+windowFunctions['removePermission (SNS)'] = function(evt) {
 	
 	AWS.SNS.removePermission({
 		'Label' : 'MyPermission',

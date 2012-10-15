@@ -71,7 +71,7 @@ windowFunctions['getQueueUrl'] = function(evt) {
 	
 };
 
-windowFunctions['addPermission'] = function(evt) {
+windowFunctions['addPermission (SQS)'] = function(evt) {
 	
 	
 	AWS.SQS.addPermission({
@@ -79,7 +79,7 @@ windowFunctions['addPermission'] = function(evt) {
 		'QueueName' : 'TestQueue676767',
 		'AWSAccountId' : awsAccountId,
 		'Label' : 'AddPermissionTest',
-		'AWSAccountId.1' : '723565023896',
+		'AWSAccountId.1' : awsAccountId,
 		'ActionName.1' : 'SendMessage'
 		
 		
@@ -96,7 +96,7 @@ windowFunctions['addPermission'] = function(evt) {
 };
 		
 
-windowFunctions['removePermission'] = function(evt) {
+windowFunctions['removePermission (SQS)'] = function(evt) {
 	
 		AWS.SQS.removePermission({
 			'QueueName' : 'TestQueue676767',

@@ -18,8 +18,8 @@ windowFunctions['SNS'] = function (evt) {
         		'listSubscriptions',
         		'listSubscriptionsByTopic',
         		'unsubscribe',
-        		'addPermission',
-        		'removePermission',
+        		'addPermission (SNS)',
+        		'removePermission (SNS)',
         		'publish',
         		'deleteTopic'
         		
