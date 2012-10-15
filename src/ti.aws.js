@@ -271,10 +271,10 @@ var stsExecutor = function(params, cbOnData, cbOnError) {
 
 		jsResp = sessionOBJ.xmlToJSON.toJSON(this.responseText, false);
 
-		Ti.App.Properties.setString('tempSessionToken', jsResp["GetSessionTokenResult"][0]["Credentials"][0]["SessionToken"][0]);
-		Ti.App.Properties.setString('tempSecretAccessKey', jsResp["GetSessionTokenResult"][0]["Credentials"][0]["SecretAccessKey"][0]);
-		Ti.App.Properties.setString('tempAccessKeyID', jsResp["GetSessionTokenResult"][0]["Credentials"][0]["AccessKeyId"][0]);
-		Ti.App.Properties.setString('tempExpiration', jsResp["GetSessionTokenResult"][0]["Credentials"][0]["Expiration"][0]);
+		Ti.App.Properties.setString('tempSessionToken', jsResp["GetSessionTokenResult"]["Credentials"]["SessionToken"]);
+		Ti.App.Properties.setString('tempSecretAccessKey', jsResp["GetSessionTokenResult"]["Credentials"]["SecretAccessKey"]);
+		Ti.App.Properties.setString('tempAccessKeyID', jsResp["GetSessionTokenResult"]["Credentials"]["AccessKeyId"]);
+		Ti.App.Properties.setString('tempExpiration', jsResp["GetSessionTokenResult"]["Credentials"]["Expiration"]);
 
 		awsHelper.httpSuccess(this, jsResp, cbOnData);
 	};
