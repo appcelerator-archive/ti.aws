@@ -41,6 +41,7 @@
 	</mobileweb>
     <property name="aws.access_key">**ACCESS KEY HERE**</property>
     <property name="aws.secret_key">**SECRET KEY HERE**</property>
+    <property name="aws-account-id">**ACCOUNT ID WITHOUT HYPHENS HERE**</property>
 	<modules>
 		<module version="1.0.2" platform="commonjs">ti.aws</module>
 	</modules>

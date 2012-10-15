@@ -183,7 +183,10 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	if (this.uploadFile) {
 
 		xhr.setRequestHeader('Content-Type', params.contentType);
-		if(!Ti.Platform.osname === 'android') {// with android content length is already present
+		// Setting 'Content-Length' on Android will generate an exception (duplicate header)
+		// Setting 'Content-Length' on iOS is not required as the platform will add it
+		// Setting 'Content-Length' on MobileWeb ???
+		if(Ti.Platform.osname !== 'android') {// with android content length is already present
 			xhr.setRequestHeader('Content-Length', params.contentLength);
 		}
 	}
