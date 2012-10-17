@@ -28,7 +28,7 @@ windowFunctions['verifyEmailAddress'] = function(evt) {
 	
 
 	AWS.SES.verifyEmailAddress({
-		'emailAddress' : 'appcel321@gmail.com'
+		'EmailAddress' : 'appcel321@gmail.com'
 		}, function(response) {
 			alert('Success: '+ JSON.stringify(response));
 			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
@@ -77,19 +77,23 @@ windowFunctions['sendEmail'] = function(evt) {
 	
 
 	AWS.SES.sendEmail({
-			source : 'appcel321@gmail.com',
-			destination : {
-				to : ['etcarev@appcelerator.com'],
-				cc : ['appcel321@gmail.com'],
-				bcc : ['appcel321@gmail.com']
+			'Source' : 'appcel321@gmail.com',
+			'Destination' : {
+				'ToAddresses' : ['etcarev@appcelerator.com'],
+				'CcAddresses' : ['appcel321@gmail.com'],
+				'BccAddresses' : ['appcel321@gmail.com']
 			},
-			message : {
-				subject : 'Hello Message',
-				body : {
-					text : 'Hi... This is a test message.'
+			'Message' : {
+				'Subject' : {
+					'Data' : 'Hello Message'
+				},
+				'Body' : {
+					'Text' : {
+						'Data' : 'Hi... This is a test message.'
+					}
 				}
 			}
-			}, function(response) {
+		}, function(response) {
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
 		}, function(message,error) {
@@ -130,11 +134,13 @@ windowFunctions['sendRawEmail'] = function(evt) { //doesn't work
 					'Date: Tue, 2 Oct 2012 22:08:17 +0000',
 					' ',
 					'Hi... This is a test message.'
-	  			].join('/n');
+	  			].join('\n');
 	
 
 	AWS.SES.sendRawEmail({
-		'rawMessage' : Ti.Utils.base64encode(param)
+			'RawMessage' : {
+				'Data' : Ti.Utils.base64encode(param)
+			}
 		},
 		function(data, response){
 			alert('Success: '+ JSON.stringify(data) + JSON.stringify(response));
@@ -156,7 +162,7 @@ windowFunctions['deleteVerifiedEmailAddress'] = function(evt) {
 	
 
 	AWS.SES.deleteVerifiedEmailAddress({
-			'emailAddress' : 'appcel321@gmail.com'
+			'EmailAddress' : 'appcel321@gmail.com'
 		}, function(response) {
 			alert('Success: '+ JSON.stringify(response));
 			Ti.API.info('~~~~~~~~~~~~~~~~~~~~Success: '+ JSON.stringify(response));
