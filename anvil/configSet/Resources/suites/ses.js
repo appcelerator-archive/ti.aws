@@ -20,7 +20,7 @@ module.exports = new function () {
 
 	this.testDeleteVerifiedEmailAddressWithoutEmailAddress = function(testRun) {
 			var params = {
-				'emailAddress' : ''//empty EmailAddress
+				'EmailAddress' : ''//empty EmailAddress
 			};
 			AWS.SES.deleteVerifiedEmailAddress(params, function(data) {
 				valueOf(testRun, false).shouldBeTrue();
@@ -33,7 +33,7 @@ module.exports = new function () {
 
 		this.testDeleteVerifiedEmailAddress = function(testRun) {
 			var params = {
-				'emailAddress' : 'test@test.com'//Required
+				'EmailAddress' : 'test@test.com'//Required
 			};
 			
 			AWS.SES.verifyEmailAddress(params, function(data) {
@@ -52,7 +52,7 @@ module.exports = new function () {
 
 		this.testDeleteVerifiedEmailAddressWithInvalidEmailAddress = function(testRun) {
 			var params = {
-				'emailAddress' : 'caxvcx'//invalid EmailAddress
+				'EmailAddress' : 'caxvcx'//invalid EmailAddress
 			};
 			AWS.SES.deleteVerifiedEmailAddress(params, function(data) {
 				valueOf(testRun, true).shouldBeFalse();
@@ -119,7 +119,7 @@ module.exports = new function () {
 		//Test case for verifyEmailAddress without passing EmailAddress
 		this.testVerifyEmailAddressWithoutEmailAddress = function(testRun) {
 			var params = {
-				'emailAddress' : ''//empty EmailAddress
+				'EmailAddress' : ''//empty EmailAddress
 			};
 			AWS.SES.verifyEmailAddress(params, function(data) {
 				valueOf(testRun, true).shouldBeFalse();
@@ -131,7 +131,7 @@ module.exports = new function () {
 		// Test case for verifyEmailAddress by passing a valid EmailAddress
 		this.testVerifyEmailAddress = function(testRun) {
 			var params = {
-				'emailAddress' : 'test@test.com'//Required
+				'EmailAddress' : 'test@test.com'//Required
 			};
 			AWS.SES.verifyEmailAddress(params, function(data) {
 				AWS.SES.deleteVerifiedEmailAddress(params, function(data) {
@@ -147,7 +147,7 @@ module.exports = new function () {
 		//Test case for verifyEmailAddress by passing a Invalid EmailAddress
 		this.testVerifyEmailAddressWithInvalidEmailAddress = function(testRun) {
 			var params = {
-				'emailAddress' : 'bdvjhdbdgv'//invalid EmailAddress
+				'EmailAddress' : 'bdvjhdbdgv'//invalid EmailAddress
 			};
 			AWS.SES.verifyEmailAddress(params, function(data) {
 				valueOf(testRun, true).shouldBeFalse();
@@ -162,14 +162,18 @@ module.exports = new function () {
 		//Test case for sendEmail without passing Destination
 		this.testSendEmailWithoutDestination = function(testRun) {
 			var params = {
-				'destination' : '', //empty EmailAddress
-				'message' : {
-					body: {
-						text: 'hi'
+				'Destination' : '', //empty EmailAddress
+				'Message' : {
+					'Body' : {
+						'Text' : {
+							'Data' : 'hi'
+						}
 					},
-					subject: 'Hello'
+					'Subject': {
+						'Data' : 'Hello'
+					}
 				}, //Required
-				'source' : 'test@gmail.com'
+				'Source' : 'test@gmail.com'
 			};
 			AWS.SES.sendEmail(params, function(data) {
 				valueOf(testRun, true).shouldBeFalse();
@@ -183,9 +187,11 @@ module.exports = new function () {
 		// Test case for sendEmail without passing Message
 		this.testSendEmailWithoutMessage = function(testRun) {
 			var params = {
-				'destination' : { to: [ 'test@gmail.com' ] },
-				'message' : '', //Empty
-				'source' : 'test@gmail.com'
+				'Destination' : {
+					ToAddresses: [ 'test@gmail.com' ]
+				},
+				'Message' : '', //Empty
+				'Source' : 'test@gmail.com'
 			};
 			AWS.SES.sendEmail(params, function(data) {
 				valueOf(testRun, true).shouldBeFalse();
@@ -198,14 +204,20 @@ module.exports = new function () {
 		// Test case for sendEmail without passing Source
 		this.testSendEmailWithoutSource = function(testRun) {
 			var params = {
-				'destination' : { to: [ 'test@test.com' ] }, //Required
-				'message' : {
-					body: {
-						text: 'hi'
-					},
-					subject: 'Hello'
+				'Destination' : {
+					ToAddresses: [ 'test@test.com' ]
 				}, //Required
-				'source' : ''//Empty
+				'Message' : {
+					'Body' : {
+						'Text' : {
+							'Data' : 'hi'
+						}
+					},
+					'Subject' : {
+						'Data' : 'Hello'
+					}
+				}, //Required
+				'Source' : ''//Empty
 			};
 			AWS.SES.sendEmail(params, function(data) {
 				valueOf(testRun, true).shouldBeFalse();
@@ -217,23 +229,22 @@ module.exports = new function () {
 
 		// Test case for sendEmail by passing a valid Destination,Message,Source
 		this.testSendEmail = function(testRun) {
-			//!! THE ORIGINAL UNIT TEST FOR THIS TEST (AND OTHERS) COULD NOT HAVE PASSED BECAUSE
-			//!! THE 'message' PARAMETER WAS NOT DEFINED PROPERLY. THE ORIGINAL CODE
-			//!! HAD "'message' : 'hi'" BUT THE MODULE CODE IS EXPECTING A DICTIONARY
-			//!! WITH 'body' AND 'subject' KEYS, AND THE 'body' VALUE MUST BE A DICTIONARY
-			//!! OF EITHER 'html' OR 'text'
-			//!! ALSO, THE FORMAT OF THE 'destination' MUST BE A DICTIONARY WITH 'to', 'cc', AND 'bcc'
-			//!! ENTRIES, WHERE EACH ENTRY IS AN ARRAY
 			var verifiedEmailAddress = 'appcel321@gmail.com';
 			var params = {
-				'destination' : { to: [ verifiedEmailAddress ] }, //Required
-				'message' : {
-					body: {
-						text: 'hi'
-					},
-					subject: 'Hello'
+				'Destination' : {
+					ToAddresses: [ verifiedEmailAddress ]
 				}, //Required
-				'source' : verifiedEmailAddress//Required
+				'Message' : {
+					'Body' : {
+						'Text' : {
+							'Data' : 'hi'
+						}
+					},
+					'Subject' : {
+						'Data' : 'Hello'
+					}
+				}, //Required
+				'Source' : verifiedEmailAddress//Required
 			};
 			AWS.SES.sendEmail(params, function(data) {
 				finish(testRun);
@@ -246,14 +257,20 @@ module.exports = new function () {
 		//Test case for sendEmail by passing a Invalid Destination
 		this.testSendEmailWithInvalidDestination = function(testRun) {
 			var params = {
-				'destination' : { to: [ 'hbegjhrg' ] }, //Invalid EmailAddress
-				'message' : {
-					body: {
-						text: 'hi'
+				'Destination' : {
+					'ToAddresses' : [ 'hbegjhrg' ]
+				}, //Invalid EmailAddress
+				'Message' : {
+					'Body' : {
+						'Text' : {
+							'Data' : 'hi'
+						}
 					},
-					subject: 'Hello'
+					'Subject' : {
+						'Data' : 'Hello'
+					}
 				}, //Required
-				'source' : 'rahul0789@gmail.com'//Required
+				'Source' : 'rahul0789@gmail.com'//Required
 			};
 			AWS.SES.sendEmail(params, function(data) {
 				valueOf(testRun, true).shouldBeFalse();
@@ -267,14 +284,20 @@ module.exports = new function () {
 		// Test case for sendEmail by passing a Invalid Source
 		this.testSendEmailWithInvalidSource = function(testRun) {
 			var params = {
-				'destination' : { to: [ 'test@test.com' ] }, //Required
-				'message' : {
-					body: {
-						text: 'hi'
-					},
-					subject: 'Hello'
+				'Destination' : {
+					'ToAddresses' : [ 'test@test.com' ]
 				}, //Required
-				'source' : 'bndjvnd'//Invalid
+				'Message' : {
+					'Body' : {
+						'Text' : {
+							'Data' : 'hi'
+						}
+					},
+					'Subject' : {
+						'Data' : 'Hello'
+					}
+				}, //Required
+				'Source' : 'bndjvnd'//Invalid
 			};
 			AWS.SES.sendEmail(params, function(data) {
 				valueOf(testRun, true).shouldBeFalse();
@@ -291,7 +314,9 @@ module.exports = new function () {
 		this.testSendRawEmailWithoutRawMessage = function(testRun) {
 
 			var params = {
-				'rawMessage' : ''//empty RawMessage
+				'RawMessage' : {
+					'Data': ''
+				}//empty RawMessage
 			};
 			AWS.SES.sendRawEmail(params, function(data) {
 				valueOf(testRun, true).shouldBeFalse();

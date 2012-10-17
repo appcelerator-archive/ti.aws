@@ -49,32 +49,11 @@ awsHelper.generateSignedURL = function(actionName, params, accessKeyId, secretKe
  * For More info Pls refer to : http://docs.amazonwebservices.com/ses/latest/APIReference
  */
 awsHelper.generateSESParams = function(params) {
-	if(params.hasOwnProperty('emailAddress')) {
-		params.paramString += '&EmailAddress=' + params.emailAddress;
-	} else if(params.hasOwnProperty('destination')) {
-		params.paramString += generateDestination(params.destination, params.isRawMessage);
-		if(params.hasOwnProperty('message')) {
-			if(params.message.hasOwnProperty('body')) {
-				params.paramString += generateMessageBody(params.message.body);
-			}
-			if(params.message.hasOwnProperty('subject')) {
-				params.paramString += '&Message.Subject.Data=' + params.message.subject;
-			}
-		}
-		if(params.hasOwnProperty('replyTo')) {
-			params.paramString += generateReplyTo(params.replyTo);
-		}
-		if(params.hasOwnProperty('returnPath')) {
-			params.paramString += '&ReturnPath=' + params.returnPath;
-		}
-		if(params.hasOwnProperty('source')) {
-			params.paramString += '&Source=' + params.source;
-		}
+	var paramString = generateFlattenedQueryString(params);
+	if (paramString && paramString.length > 0) {
+		return '&' + paramString;
 	}
-	if(params.hasOwnProperty('rawMessage')) {
-		params.paramString += '&RawMessage.Data=' + params.rawMessage;
-	}
-	return;
+	return '';
 }
 /**
  * Routine that contructs URL for SQS.
@@ -318,56 +297,35 @@ function SignAndEncodeParams(params, accessKeyId, secretKey, host, verb, uriPath
 	return payload = encodedParams.join("&");
 }
 
-/**
- *  Loops through all the email address given by the user and adds it to destination
- *  For Ex "To" can have more then 1 email address this function loops on that value.
- * * For more info pls refer to : http://docs.amazonwebservices.com/ses/latest/APIReference/API_SendEmail.html
- */
+function generateFlattenedQueryString(obj)
+{
+	var items = [];
+	var add = function(key, value) {
+		items.push(key + '=' + value || '');
+	}
 
-function generateDestination(destination, isRawMessage) {
-	var destinationString = '';
-	if(isRawMessage) {
-		for( i = 1; i <= destination.length; i++) {
-			destinationString += '&Destinations.member.' + i + '=' + destination[i - 1];
+	if (obj) {
+		buildParams(obj, null, add);
+	}
+
+	return items.join("&");
+}
+
+function buildParams(obj, parent, add) {
+	var prefix = parent ? parent + '.' : '';
+	if (Object.prototype.toString.call(obj) === '[object Array]') {
+		for (var i= 0, len=obj.length; i < len; i++) {
+			buildParams(obj[i], prefix + 'member.' + (i+1), add);
 		}
-	} else {
-		for(key in destination) {
-			//The value for "key" could be "to", "cc", "bcc", so we need to make the first letter as caps
-			//we can also get rid of the below line of code but in that case user will have to pass "To" instead "to", which is not a
-			//good coding practice while making javascript objects
-			var type = key.substr(0, 1).toUpperCase() + key.substr(1);
-			for( i = 1; i <= destination[key].length; i++) {
-				destinationString += '&Destination.' + type + 'Addresses.member.' + i + '=' + destination[key][i - 1];
+	} else if ((typeof obj.getMimeType === 'function') || (typeof obj === 'string')) {
+		add(parent, obj.toString() || '');
+	} else if (typeof obj == 'object') {
+		for (var key in obj) {
+			if (obj.hasOwnProperty(key)) {
+				buildParams(obj[key], prefix + key, add);
 			}
 		}
 	}
-	return destinationString;
-}
-
-/**
- * The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply
- * For more info pls refer to : http://docs.amazonwebservices.com/ses/latest/APIReference/API_SendEmail.html
- */
-
-function generateReplyTo(replyTo) {
-	var replyToString = '';
-	for( i = 1; i <= replyTo.length; i++) {
-		replyToString += '&ReplyToAddresses.member.' + i + '=' + replyTo[i - 1];
-	}
-	return replyToString;
-}
-
-/**
- * The message to be sent.
- * For more info pls refer to : http://docs.amazonwebservices.com/ses/latest/APIReference/API_SendEmail.html
- */
-function generateMessageBody(messageBody) {
-	var messageBodyString = '';
-	for(key in messageBody) {
-		var type = key.substr(0, 1).toUpperCase() + key.substr(1);
-		messageBodyString += '&Message.Body.' + type + '.Data=' + messageBody[key];
-	}
-	return messageBodyString;
 }
 
 /**
