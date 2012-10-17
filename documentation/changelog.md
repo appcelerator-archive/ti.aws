@@ -4,7 +4,7 @@ v1.1.0  Refactored data object parsing to remove unnecessary array references fo
         Fix in example application for locating files on Android [MOD-963][MOD-977]
         Fix in example application for namespace collision [MOD-972]
         Fix in example application for sendRawEmail [MOD-955]
-
+        Refactored SES code to properly generate query params for email messages [MOD-973]
 
 v1.0.3  Fix for S3:headObject not returning any data [MOD-950]
         Fix for S3:headBucket not returning any data [MOD-951]

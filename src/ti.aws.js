@@ -238,11 +238,9 @@ var sesExecutor = function(params, cbOnData, cbOnError) {
 	if (awsHelper.validateApi(this, cbOnError, params) == false)
 		return false;
 
-	params.paramString = '';
-	params.isRawMessage = this.isRawMessage;
-	sessionOBJ.awsHelper.generateSESParams(params);
+	var paramString = sessionOBJ.awsHelper.generateSESParams(params);
 	var curDate = (new Date()).toUTCString();
-	var requestBody = sessionOBJ.utf8.encode('AWSAccessKeyId=' + sessionOBJ.accessKeyId + '&Action=' + this.action + params.paramString + '&Timestamp=' + curDate);
+	var requestBody = sessionOBJ.utf8.encode('AWSAccessKeyId=' + sessionOBJ.accessKeyId + '&Action=' + this.action + paramString + '&Timestamp=' + curDate);
 
 	var authorization = 'AWS3-HTTPS AWSAccessKeyId=' + sessionOBJ.accessKeyId + ',Algorithm=' + this.algorithm + ',Signature=' + sessionOBJ.sha.b64_hmac_sha1(sessionOBJ.secretKey, curDate);
 	var xhr = awsHelper.createHttpObject(cbOnData, cbOnError);
@@ -893,12 +891,11 @@ sessionOBJ.bedFrame.build(AWS, {
 		algorithm : 'HmacSHA1',
 		contentType : 'application/x-www-form-urlencoded',
 		executor : sesExecutor,
-		isRawMessage : false,
 		children : [{
 			method : 'deleteVerifiedEmailAddress',
 			validations : {
 				required : {
-					params : ['emailAddress']
+					params : ['EmailAddress']
 				}
 			}
 		}, {
@@ -911,22 +908,21 @@ sessionOBJ.bedFrame.build(AWS, {
 			method : 'sendEmail',
 			validations : {
 				required : {
-					params : ['source', 'destination', 'message']
+					params : ['Source', 'Destination', 'Message']
 				}
 			}
 		}, {
 			method : 'sendRawEmail',
-			isRawMessage : true,
 			validations : {
 				required : {
-					params : ['rawMessage']
+					params : ['RawMessage']
 				}
 			}
 		}, {
 			method : 'verifyEmailAddress',
 			validations : {
 				required : {
-					params : ['emailAddress']
+					params : ['EmailAddress']
 				}
 			}
 		}]
