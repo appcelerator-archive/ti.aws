@@ -232,6 +232,14 @@ awsHelper.httpSuccess = function(thisRef, data, cbOnData)
 	    if (thisRef.getResponseHeaders) {
 	        // iOS
 	        headers = thisRef.getResponseHeaders();
+		    // NOTE: The ASI HTTP library used by Titanium on iOS makes an internal call
+		    // to CFHTTPMessageCopyAllHeaderFields. This ends up changing 'ETag' to 'Etag' which
+		    // can cause issues with applications expecting it to be 'ETag'. This does not occur
+		    // on Android. We rename it here for parity.
+		    if (headers.hasOwnProperty('Etag')) {
+			    headers['ETag'] = headers['Etag'];
+			    delete headers['Etag'];
+		    }
 	    } else if (thisRef.allResponseHeaders) {
 			// Android
 			headers = {};
