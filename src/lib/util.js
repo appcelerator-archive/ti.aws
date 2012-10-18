@@ -85,10 +85,6 @@ validators = {
 			}
 		}
 		return "";
-	},
-	//Checks to see if there are any matching regualar expressions within the Parameters
-	//Useful for validating collection of input parameters.
-	patternExistsValidator : function(reqParams, data) {
 	}
 }
 

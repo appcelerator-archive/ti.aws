@@ -98,7 +98,7 @@ awsHelper.generateS3Params = function(params) {
 
 	//copySource is used by 'Put object copy and Upload part ' api's, which needs to be part of stringtosign
 	var canonicalizedAmzHeaders = '';
-	if (params.hasOwnProperty('copySource') && (params.hasOwnProperty('objectName'))) {
+	if (params.hasOwnProperty('copySource') && (params.hasOwnProperty('ObjectName'))) {
 		canonicalizedAmzHeaders = 'x-amz-copy-source:' + params.copySource + '\n';
 	}
 
@@ -107,11 +107,11 @@ awsHelper.generateS3Params = function(params) {
 	// Now construct the query string part of the parameters
 	var urlPart = '';
 
-	// If there is a bucketName then we need to build it out
-	if (params.hasOwnProperty('bucketName')) {
-		urlPart += params.bucketName + '/';
-		if (params.hasOwnProperty('objectName')) {
-			urlPart += params.objectName;
+	// If there is a BucketName then we need to build it out
+	if (params.hasOwnProperty('BucketName')) {
+		urlPart += params.BucketName + '/';
+		if (params.hasOwnProperty('ObjectName')) {
+			urlPart += params.ObjectName;
 		} else if (params.hasOwnProperty('key')) {
 			urlPart += params.key;
 		}
@@ -119,16 +119,16 @@ awsHelper.generateS3Params = function(params) {
 
 	urlPart += params.subResource;
 
-	// If there is a bucketName then there may be some additional query parameters to append
-	if (params.hasOwnProperty('bucketName')) {
+	// If there is a BucketName then there may be some additional query parameters to append
+	if (params.hasOwnProperty('BucketName')) {
 		var queryString = '';
-		if (params.uploadId) {
+		if (params.UploadId) {
 			var queryStringArray = [];
-			if (params.partNumber) {
-				queryStringArray.push('partNumber=' + params.partNumber);
+			if (params.PartNumber) {
+				queryStringArray.push('partNumber=' + params.PartNumber);
 			}
-			if (params.uploadId) {
-				queryStringArray.push('uploadId=' + params.uploadId);
+			if (params.UploadId) {
+				queryStringArray.push('uploadId=' + params.UploadId);
 			}
 			if (params.versionId) {
 				queryStringArray.push('versionId=' + params.versionId);
