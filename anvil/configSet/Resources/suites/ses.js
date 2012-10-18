@@ -64,19 +64,6 @@ module.exports = new function () {
 
 		//***************getSendQuota test cases start**************
 
-		//Test case for getSendQuota
-		this.testGetSendQuota = function(testRun) {
-			var params = {
-
-			};
-			AWS.SES.getSendQuota(params, function(data) {
-				finish(testRun);
-			}, function(error) {
-				Ti.API.debug(error);
-				valueOf(testRun, true).shouldBeFalse();finish(testRun);
-			valueOf(testRun, true).shouldBeFalse();
-			});
-		}
 		//*************getSendQuota test cases ends**************
 		//***************getSendStatistics test cases start**************
 
@@ -91,7 +78,6 @@ module.exports = new function () {
 			}, function(error) {
 				Ti.API.debug(error);
 				valueOf(testRun, true).shouldBeFalse();
-				finish(testRun);
 			});
 		}
 
