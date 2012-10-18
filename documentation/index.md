@@ -76,228 +76,228 @@ GlobalLogic
 	
 	getPresignedUrl
 	```javascript
-		getPresignedUrl(bucketName, expires)
+		getPresignedUrl(BucketName, expires)
 	```
 	
 	listVersions
 	```javascript
-		listVersions(bucketName)
+		listVersions(BucketName)
 	```
 	
 	deleteVersion
 	```javascript
-		deleteVersion(bucketName, key, versionId)
+		deleteVersion(BucketName, key, versionId)
 	```
 	
 	deleteBucket
 	```javascript
-		deleteBucket(bucketName)
+		deleteBucket(BucketName)
 	```
 	
 	deleteBucketLifecycle
 	```javascript
-		deleteBucketLifecycle (bucketName)
+		deleteBucketLifecycle (BucketName)
 	```
 	
 	deleteBucketPolicy
 	```javascript
-		deleteBucketPolicy(bucketName)
+		deleteBucketPolicy(BucketName)
 	```
 	
 	deleteBucketWebsite
 	```javascript
-		deleteBucketWebsite(bucketName)
+		deleteBucketWebsite(BucketName)
 	```
 	
 	listObjects
 	```javascript
-		listObjects(bucketName)
+		listObjects(BucketName)
 	```
 	
 	getBucketAcl', // Xml Parsing Problem.
 	```javascript
-		getBucketAcl(bucketName);
+		getBucketAcl(BucketName);
 	```
 	
 	getBucketLifecycle
 	```javascript
-		getBucketLifecycle(bucketName)
+		getBucketLifecycle(BucketName)
 	```
 	
 	getBucketPolicy
 	```javascript
-		getBucketPolicy(bucketName)
+		getBucketPolicy(BucketName)
 	```
 	
 	getBucketLocation
 	```javascript
-		getBucketLocation(bucketName)
+		getBucketLocation(BucketName)
 	```
 	
 	getBucketLogging
 	```javascript
-	 	getBucketLogging(bucketName)
+	 	getBucketLogging(BucketName)
 	```
 	
 	getBucketNotification
 	```javascript
-		getBucketNotification  ['bucketName']
+		getBucketNotification  ['BucketName']
 	```
 	
 	getBucketObjectVersions
 	```javascript
-	 	getBucketObjectVersions ['bucketName']
+	 	getBucketObjectVersions ['BucketName']
 	```
 	
 	getBucketRequestPayment
 	```javascript
-		getBucketRequestPayment ['bucketName']
+		getBucketRequestPayment ['BucketName']
 	```
 	
 	getBucketVersioning
 	```javascript
-		getBucketVersioning ['bucketName']
+		getBucketVersioning ['BucketName']
 	```
 	
 	getBucketWebsite
 	```javascript
-		getBucketWebsite ['bucketName']
+		getBucketWebsite ['BucketName']
 	```
 	
 	getObjectMetadata
 	```javascript
-		getObjectMetadata ['bucketName']
+		getObjectMetadata ['BucketName']
 	```
 	
 	listMultipartUploads
 	```javascript
-		listMultipartUploads ['bucketName']
+		listMultipartUploads ['BucketName']
 	```
 	
 	putBucket
 	```javascript
-	 	putBucket ['bucketName']
+	 	putBucket ['BucketName']
 	```
 	
 	putBucketAcl
 	```javascript
-		 putBucketAcl ['bucketName', 'xmlTemplate']
+		 putBucketAcl ['BucketName', 'xmlTemplate']
 	```
 	
 	putBucketLifecycle
 	```javascript
-		 putBucketLifecycle ['bucketName', 'xmlTemplate']
+		 putBucketLifecycle ['BucketName', 'xmlTemplate']
 	```
 	
 	putBucketPolicy
 	```javascript
-		putBucketPolicy ['bucketName', 'xmlTemplate']
+		putBucketPolicy ['BucketName', 'xmlTemplate']
 	```
 	
 	putBucketLogging
 	```javascript
-		putBucketLogging ['bucketName', 'xmlTemplate']
+		putBucketLogging ['BucketName', 'xmlTemplate']
 	```
 	
 	putBucketNotification
 	```javascript
-		putBucketNotification ['bucketName', 'xmlTemplate']
+		putBucketNotification ['BucketName', 'xmlTemplate']
 	```
 	
 	putBucketRequestPayment
 	```javascript
-		putBucketRequestPayment ['bucketName', 'xmlTemplate']
+		putBucketRequestPayment ['BucketName', 'xmlTemplate']
 	```
 	
 	putBucketVersioning
 	```javascript
-		putBucketVersioning ['bucketName', 'xmlTemplate']
+		putBucketVersioning ['BucketName', 'xmlTemplate']
 	```
 	
 	putBucketWebsite
 	```javascript
-		putBucketWebsite ['bucketName', 'xmlTemplate']
+		putBucketWebsite ['BucketName', 'xmlTemplate']
 	```
 	
 	deleteObject
 	```javascript
-		deleteObject ['bucketName', 'objectName']
+		deleteObject ['BucketName', 'ObjectName']
 	```
 	
 	deleteMultipleObjects
 	```javascript
-		deleteMultipleObjects ['bucketName', 'xmlTemplate']
+		deleteMultipleObjects ['BucketName', 'xmlTemplate']
 	```
 	
 	getObject   // Returning Blob Data.
 	```javascript
-		getObject ['bucketName', 'objectName']
+		getObject ['BucketName', 'ObjectName']
 	```
 	
 	getObjectTorrent  // Returning Blob Data.
 	```javascripts
-		getObjectTorrent  ['bucketName', 'objectName']
+		getObjectTorrent  ['BucketName', 'ObjectName']
 	```
 	
 	getObjectAcl  // Xml Parsing Problem.
 	```javascript
-	 	getObjectAcl ['bucketName', 'objectName']
+	 	getObjectAcl ['BucketName', 'ObjectName']
 	```
 	
 	headObject
 	```javascript
-		headObject ['bucketName', 'objectName']
+		headObject ['BucketName', 'ObjectName']
 	```				
 	putObject   //Working on Ios only.Content Length Header Value Cannot be Override in Android.
 	```javascript
-		putObject ['bucketName', 'objectName']
+		putObject ['BucketName', 'ObjectName']
 	'''
 	
 	putObjectAcl
 	```javascript
-		putObjectAcl ['bucketName', 'objectName', 'xmlTemplate']
+		putObjectAcl ['BucketName', 'ObjectName', 'xmlTemplate']
 	```
 	
 	putObjectCopy
 	```javascript
-		params : ['bucketName', 'objectName', 'copySource']
+		params : ['BucketName', 'ObjectName', 'copySource']
 	```	
 	
 	initiateMultipartUpload
 	```javascript
-		initiateMultipartUpload ['bucketName', 'objectName']
+		initiateMultipartUpload ['BucketName', 'ObjectName']
 	```
 	
 	abortMultipartUpload
 	```javascript
-		abortMultipartUpload ['bucketName', 'objectName', 'uploadId']
+		abortMultipartUpload ['BucketName', 'ObjectName', 'UploadId']
 	'''
 	
 	completeMultipartUpload
 	```javascript
-		completeMultipartUpload : ['bucketName', 'objectName', 'uploadId', 'xmlTemplate']
+		completeMultipartUpload : ['BucketName', 'ObjectName', 'UploadId', 'xmlTemplate']
 	'''
 	
 	uploadPart
 	```javascript
-		uploadPart ['bucketName', 'objectName', 'uploadId', 'partNumber', 'file']
+		uploadPart ['BucketName', 'ObjectName', 'UploadId', 'PartNumber', 'file']
 	'''
 	
 	uploadPartCopy
 	```javascript
-		uploadPartCopy ['bucketName', 'objectName', 'uploadId', 'partNumber']
+		uploadPartCopy ['BucketName', 'ObjectName', 'UploadId', 'PartNumber']
 	```
 	
 	listParts
 	```javascript
-		listParts ['bucketName', 'objectName', 'uploadId']
+		listParts ['BucketName', 'ObjectName', 'UploadId']
 	```
 	
 * [Amazon Simple Email Service (SES)](http://aws.amazon.com) (Identity and Access Management)
 	
 	deleteVerifiedEmailAddress
 	```javascript
-		deleteVerifiedEmailAddress (emailAddress);
+		deleteVerifiedEmailAddress (EmailAddress);
 	```
 	
 	getSendQuota
@@ -317,17 +317,17 @@ GlobalLogic
 	
 	sendEmail
 	```javascript
-		sendEmail(source, destination, message)
+		sendEmail(Source, Destination, Message)
 	```
 	
 	sendRawEmail
 	```javascript
-		sendRawEmail(rawMessage)
+		sendRawEmail(RawMessage)
 	```
 	
 	verifyEmailAddress
 	```javascript
-		verifyEmailAddress (emailAddress)
+		verifyEmailAddress (EmailAddress)
 	```
 	
 * [Amazon Simple Queue Service (SQS)](http://aws.amazon.com) (Simple Queue Service)

@@ -1,5 +1,5 @@
 // Some things to be aware of:
-// AWS requires each bucketName to be a unique name in S3's global namespace
+// AWS requires each BucketName to be a unique name in S3's global namespace
 // Deleting bucket does not release the bucketname from the global namespace right away
 // so if you create, delete, recreate in succession, it may not work
 // In order to make the app work with your AWS credentials, you will have to put your AWS secret, keys and accountID in tiapp.xml 
@@ -7,7 +7,7 @@ windowFunctions['putBucket'] = function(evt) {
 	
 		AWS.S3.putBucket({
 		// you may need to choose diff bucketname if this one is not available 
-				'bucketName' : 'test100312_1' 
+				'BucketName' : 'test100312_1'
 			},
 			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -27,7 +27,7 @@ windowFunctions['putBucket'] = function(evt) {
 windowFunctions['headBucket'] = function(evt) { 		
 	
 	AWS.S3.headBucket({
-			'bucketName' : 'test100312_1'
+			'BucketName' : 'test100312_1'
 		},
 			 function(data, response) {
 			 	alert('Success: ' + JSON.stringify(response));
@@ -42,7 +42,7 @@ windowFunctions['headBucket'] = function(evt) {
 windowFunctions['getBucket'] = function(evt) {
 
 	AWS.S3.getBucket({
-			 'bucketName' : 'test100312_1'
+			 'BucketName' : 'test100312_1'
 			},
 			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -74,7 +74,7 @@ windowFunctions['putBucketPolicy'] = function(evt) {
 			};
 			
 		AWS.S3.putBucketPolicy({
-			'bucketName' : 'test100312_1',
+			'BucketName' : 'test100312_1',
 			'xmlTemplate' : JSON.stringify(jsonObject)
 			},
 			function(data, response) {
@@ -97,8 +97,8 @@ windowFunctions['putObject'] = function(evt) {
 	var f = Titanium.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'KS_nav_views.png');
 	
 	AWS.S3.putObject({
-			'bucketName' : 'test100312_1',
-			'objectName' : 'KS_nav_views.png',
+			'BucketName' : 'test100312_1',
+			'ObjectName' : 'KS_nav_views.png',
 			'file' : f
 			},
 			function(data, response) {
@@ -117,8 +117,8 @@ windowFunctions['putObject'] = function(evt) {
 windowFunctions['headObject'] = function(evt) {
 	
 	AWS.S3.headObject({
-			'bucketName' : 'test100312_1',
-			'objectName' : 'KS_nav_views.png'
+			'BucketName' : 'test100312_1',
+			'ObjectName' : 'KS_nav_views.png'
 		},
 			function(data, response) {
 				alert('Success: ' + JSON.stringify(response));
@@ -135,8 +135,8 @@ windowFunctions['headObject'] = function(evt) {
 windowFunctions['getObject'] = function(evt) {
 
 	AWS.S3.getObject({
-			 'bucketName' : 'test100312_1',
-			 'objectName' : 'KS_nav_views.png'
+			 'BucketName' : 'test100312_1',
+			 'ObjectName' : 'KS_nav_views.png'
 			},
 			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -154,8 +154,8 @@ windowFunctions['getObject'] = function(evt) {
 windowFunctions['getObjectTorrent'] = function(evt) {
 	
 	AWS.S3.getObjectTorrent({
-			'bucketName' : 'test100312_1',
-			'objectName' : 'KS_nav_views.png'
+			'BucketName' : 'test100312_1',
+			'ObjectName' : 'KS_nav_views.png'
 			},
 			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -173,8 +173,8 @@ windowFunctions['getObjectTorrent'] = function(evt) {
 windowFunctions['putObjectCopy'] = function(evt) {
 	
 	AWS.S3.putObjectCopy({
-			'bucketName' : 'test100312_1',
-			'objectName' : 'sample.png',
+			'BucketName' : 'test100312_1',
+			'ObjectName' : 'sample.png',
 			'copySource' : 'https://s3.amazonaws.com/test100312_1/KS_nav_views.png' // Change to file path from where you want to copy the file
 			},
 			function(data, response) {
@@ -192,7 +192,7 @@ windowFunctions['putObjectCopy'] = function(evt) {
 windowFunctions['listMultipartUploads'] = function(evt) {
 	
 	AWS.S3.listMultipartUploads({
-			'bucketName' : 'test100312_1'
+			'BucketName' : 'test100312_1'
 			},
 			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -204,16 +204,16 @@ windowFunctions['listMultipartUploads'] = function(evt) {
 		});
 };
 
-var uploadId;
+var UploadId;
 
 windowFunctions['initiateMultipartUpload'] = function(evt) {
 	
 	AWS.S3.initiateMultipartUpload({
-			'bucketName' : 'test100312_1',
-			'objectName' : 'KS_nav_views.png'
+			'BucketName' : 'test100312_1',
+			'ObjectName' : 'KS_nav_views.png'
 			},
 			function(data, response) {
-				uploadId = response.data.UploadId;
+				UploadId = response.data.UploadId;
 				alert('Success: '+ JSON.stringify(response));
 				Ti.API.info(JSON.stringify(response));
 	
@@ -227,9 +227,9 @@ windowFunctions['initiateMultipartUpload'] = function(evt) {
 windowFunctions['listParts'] = function(evt) {
 	
 	AWS.S3.listParts({
-			'bucketName' : 'test100312_1',
-			'objectName' : 'KS_nav_views.png',
-			'uploadId' : uploadId
+			'BucketName' : 'test100312_1',
+			'ObjectName' : 'KS_nav_views.png',
+			'UploadId' : UploadId
 			},
 			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -248,29 +248,29 @@ windowFunctions['listParts'] = function(evt) {
 windowFunctions['uploadPart'] = function(evt) {
 	
 	AWS.S3.initiateMultipartUpload({
-			'bucketName' : 'test100312_1',
-			'objectName' : 'testfile.pdf'
+			'BucketName' : 'test100312_1',
+			'ObjectName' : 'testfile.pdf'
 			},
 			function(data) {
 				
-				var uploadId = data.UploadId;
-				Ti.API.info('Upload ID: ' + uploadId);
+				var UploadId = data.UploadId;
+				Ti.API.info('Upload ID: ' + UploadId);
 				var f1 = Titanium.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'testfile.pdf');
 				
 				AWS.S3.uploadPart({
-							'bucketName' : 'test100312_1',
-							'objectName' : 'testfile.pdf',
+							'BucketName' : 'test100312_1',
+							'ObjectName' : 'testfile.pdf',
 							'file' : f1,
-							'uploadId' : uploadId,
-							'partNumber' : '1'
+							'UploadId' : UploadId,
+							'PartNumber' : '1'
 							},
 						function(data, response) {
 							Ti.API.info('Part uploaded successfully: '+ JSON.stringify(data) + JSON.stringify(response));
 							var ETag = response.headers.ETag;
 							AWS.S3.completeMultipartUpload({
-							'bucketName' : 'test100312_1',
-							'objectName' : 'testfile.pdf',
-							'uploadId' : uploadId,
+							'BucketName' : 'test100312_1',
+							'ObjectName' : 'testfile.pdf',
+							'UploadId' : UploadId,
 							'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>1</PartNumber><ETag>' + ETag + '</ETag></Part></CompleteMultipartUpload>'
 							},
 							function(data, response) {
@@ -298,27 +298,27 @@ windowFunctions['uploadPart'] = function(evt) {
 windowFunctions['uploadPartCopy'] = function(evt) { 
 	
 	AWS.S3.initiateMultipartUpload({
-			'bucketName' : 'test100312_1',
-			'objectName' : 'sample.png'
+			'BucketName' : 'test100312_1',
+			'ObjectName' : 'sample.png'
 		},
 		function(data) {
 			
-			var uploadId = data.UploadId;
-			Ti.API.info('Upload ID: ' + uploadId);
+			var UploadId = data.UploadId;
+			Ti.API.info('Upload ID: ' + UploadId);
 			AWS.S3.uploadPartCopy({
-						'bucketName' : 'test100312_1',
-						'objectName' : 'sample.png',
+						'BucketName' : 'test100312_1',
+						'ObjectName' : 'sample.png',
 						'copySource' : '/test100312_1/KS_nav_views.png',
-						'uploadId' : uploadId,
-						'partNumber' : '2'
+						'UploadId' : UploadId,
+						'PartNumber' : '2'
 					},
 				function(data, response) {
 					Ti.API.info('PartCopy uploaded successfully: '+ JSON.stringify(data) + JSON.stringify(response));
 					var ETag = data.ETag;
 					AWS.S3.completeMultipartUpload({
-						'bucketName' : 'test100312_1',
-						'objectName' : 'sample.png',
-						'uploadId' : uploadId,
+						'BucketName' : 'test100312_1',
+						'ObjectName' : 'sample.png',
+						'UploadId' : UploadId,
 						'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>' + ETag + '</ETag></Part></CompleteMultipartUpload>'
 						},
 						function(data, response) {
@@ -346,8 +346,8 @@ windowFunctions['uploadPartCopy'] = function(evt) {
 windowFunctions['deleteObject'] = function(evt) {
 	
 	AWS.S3.deleteObject({
-			'bucketName' : 'test100312_1',
-			'objectName' : 'KS_nav_views.png'
+			'BucketName' : 'test100312_1',
+			'ObjectName' : 'KS_nav_views.png'
 			},
 			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -364,7 +364,7 @@ windowFunctions['deleteObject'] = function(evt) {
 windowFunctions['deleteMultipleObjects'] = function(evt) {
 	
 	AWS.S3.deleteMultipleObjects({
-			'bucketName' : 'test100312_1',
+			'BucketName' : 'test100312_1',
 			'xmlTemplate' : '<Delete><Object><Key>KS_nav_views.png</Key></Object><Object><Key>sample.png</Key></Object></Delete>'
 			
 			},
@@ -385,7 +385,7 @@ windowFunctions['deleteMultipleObjects'] = function(evt) {
 windowFunctions['deleteBucket'] = function(evt) {
 	
 	AWS.S3.deleteBucket({
-			'bucketName' : 'test100312_1'
+			'BucketName' : 'test100312_1'
 			},
 			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
