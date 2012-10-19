@@ -64,7 +64,7 @@ var defaultQueryExecutor = function(params, cbOnData, cbOnError) {
 	} else {
 		sUrl = sessionOBJ.awsHelper.generateSignedURL(this.action, params, sessionOBJ.accessKeyId, sessionOBJ.secretKey, this.endpoint, this.version);
 	}
-	var xhr = awsHelper.createHttpObject(cbOnData, cbOnError);
+	var xhr = awsHelper.createHttpObject(this, cbOnData, cbOnError);
 	xhr.open(this.verb, sUrl);
 	xhr.setRequestHeader('User-Agent', customUserAgent);
 	xhr.send();
@@ -82,7 +82,7 @@ var snsExecutor = function(params, cbOnData, cbOnError) {
 	if (awsHelper.validateApi(this, cbOnError, params) == false)
 		return false;
 
-	var xhr = awsHelper.createHttpObject(cbOnData, cbOnError);
+	var xhr = awsHelper.createHttpObject(this, cbOnData, cbOnError);
 	//generates complete querystring without url
 	params.Action = this.action;
 	params.Version = this.version;
@@ -201,6 +201,7 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 
 	var method = this.method;
 
+	var self = this;
 	xhr.onload = function(response) {
 		//For Get and POST xml is returned as response hence converting it to javascript object and passing back to user
 
@@ -208,7 +209,7 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 			if (method === "getObjectTorrent" || method === "getObject" || method === "getBucketPolicy") {
 				awsHelper.httpSuccess(this, this.responseText, cbOnData);
 			} else {
-				awsHelper.httpSuccess(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, true), cbOnData);
+				awsHelper.httpSuccess(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, true, self.arrayProps), cbOnData);
 			}
 		} else {// Api's other then GET and POST does not return any xml as part of response object so passing the complete obect back to client
 			awsHelper.httpSuccess(this, this.responseText, cbOnData);
@@ -216,7 +217,7 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	};
 
 	xhr.onerror = function(e) {
-		awsHelper.httpError(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false), e, cbOnError);
+		awsHelper.httpError(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false, null), e, cbOnError);
 	}
 	if (params.hasOwnProperty('xmlTemplate')) {//for sending xml in request object
 		xhr.send(params.xmlTemplate);
@@ -243,7 +244,7 @@ var sesExecutor = function(params, cbOnData, cbOnError) {
 	var requestBody = sessionOBJ.utf8.encode('AWSAccessKeyId=' + sessionOBJ.accessKeyId + '&Action=' + this.action + paramString + '&Timestamp=' + curDate);
 
 	var authorization = 'AWS3-HTTPS AWSAccessKeyId=' + sessionOBJ.accessKeyId + ',Algorithm=' + this.algorithm + ',Signature=' + sessionOBJ.sha.b64_hmac_sha1(sessionOBJ.secretKey, curDate);
-	var xhr = awsHelper.createHttpObject(cbOnData, cbOnError);
+	var xhr = awsHelper.createHttpObject(this, cbOnData, cbOnError);
 
 	xhr.open(this.verb, this.endpoint);
 	xhr.setRequestHeader('User-Agent', customUserAgent);
@@ -264,10 +265,11 @@ var stsExecutor = function(params, cbOnData, cbOnError) {
 
 	params.Action = this.action;
 	params.Version = this.version;
+	var self = this;
 	var xhr = Ti.Network.createHTTPClient();
 	xhr.onload = function(response) {
 
-		jsResp = sessionOBJ.xmlToJSON.toJSON(this.responseText, false);
+		jsResp = sessionOBJ.xmlToJSON.toJSON(this.responseText, false, self.arrayProps);
 
 		Ti.App.Properties.setString('tempSessionToken', jsResp["GetSessionTokenResult"]["Credentials"]["SessionToken"]);
 		Ti.App.Properties.setString('tempSecretAccessKey', jsResp["GetSessionTokenResult"]["Credentials"]["SecretAccessKey"]);
@@ -277,7 +279,7 @@ var stsExecutor = function(params, cbOnData, cbOnError) {
 		awsHelper.httpSuccess(this, jsResp, cbOnData);
 	};
 	xhr.onerror = function(e) {
-		awsHelper.httpError(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false), e, cbOnError);
+		awsHelper.httpError(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false, null), e, cbOnError);
 	}
 	sUrl = sessionOBJ.awsHelper.generatePayload(params, sessionOBJ.accessKeyId, sessionOBJ.secretKey, this.endpoint);
 
@@ -437,11 +439,13 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'getAttributes',
+				arrayProps : { 'Attribute': 1 },
 				validations : {
 					required : { params : ['DomainName', 'ItemName'] }
 				}
 			}, {
-				method : 'listDomains'
+				method : 'listDomains',
+				arrayProps : { 'DomainName': 1 }
 			}, {
 				method : 'putAttributes',
 				validations : {
@@ -449,6 +453,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'select',
+				arrayProps : { 'Item' : 1, 'Attribute' : 1 },
 				validations : {
 					required : { params : ['SelectExpression'] }
 				}
@@ -493,11 +498,13 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'getBucketAcl', subResource : '?acl',
+				arrayProps : { 'Grant' : 1 },
 				validations : {
 					required : { params : ['BucketName'] }
 				}
 			}, {
 				method : 'getBucketLifecycle', subResource : '?lifecycle',
+				arrayProps : { 'Rule' : 1 },
 				validations : {
 					required : { params : ['BucketName'] }
 				}
@@ -513,6 +520,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'getBucketLogging', subResource : '?logging',
+				arrayProps : { 'Grant' : 1 },
 				validations : {
 					required : { params : ['BucketName'] }
 				}
@@ -523,11 +531,13 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'getBucketTagging', subResource : '?tagging',
+				arrayProps : { 'Tag' : 1 },
 				validations : {
 					required : { params : ['BucketName'] }
 				}
 			}, {
 				method : 'getBucketObjectVersions',	subResource : '?versions',
+				arrayProps : { 'Version' : 1, 'DeleteMarker' : 1 },
 				validations : {
 					required : { params : ['BucketName'] }
 				}
@@ -543,6 +553,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'getBucketWebsite', subResource : '?website',
+				arrayProps : { 'Key' : 1 },
 				validations : {
 					required : { params : ['BucketName'] }
 				}
@@ -554,6 +565,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'listMultipartUploads', subResource : '?uploads',
+				arrayProps : { 'Upload' : 1 },
 				validations : {
 					required : { params : ['BucketName']
 					}
@@ -611,7 +623,8 @@ sessionOBJ.bedFrame.build(AWS, {
 					required : { params : ['BucketName', 'xmlTemplate']	}
 				}
 			}, {
-				method : 'getService'
+				method : 'getService',
+				arrayProps : { 'Bucket' : 1 }
 			}, {
 				method : 'deleteObject', verb : 'DELETE',
 				validations : {
@@ -619,6 +632,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'deleteMultipleObjects', verb : 'POST', subResource : '?delete', contentType : 'application/xml', computeMD5 : true,
+				arrayProps : { 'Deleted' : 1, 'Error' : 1 },
 				validations : {
 					required : { params : ['BucketName', 'xmlTemplate']	}
 				}
@@ -629,6 +643,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'getObjectAcl', subResource : '?acl',
+				arrayProps : { 'Grant' : 1 },
 				validations : {
 					required : { params : ['BucketName', 'ObjectName'] }
 				}
@@ -686,6 +701,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'listParts',
+				arrayProps : { 'Part' : 1 },
 				validations : {
 					required : { params : ['BucketName', 'ObjectName', 'UploadId']
 					}
@@ -697,6 +713,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'listVersions', verb : 'GET', endpoint : '.s3.amazonaws.com/',	subResource : '?versions',
+				arrayProps : { 'Version' : 1 },
 				validations : {
 					required : { params : ['BucketName'] }
 				}
@@ -730,9 +747,11 @@ sessionOBJ.bedFrame.build(AWS, {
 			}, {
 				method : 'getSendQuota'
 			}, {
-				method : 'getSendStatistics'
+				method : 'getSendStatistics',
+				arrayProps : { 'member' : 1 }
 			}, {
-				method : 'listVerifiedEmailAddresses'
+				method : 'listVerifiedEmailAddresses',
+				arrayProps : { 'member' : 1 }
 			}, {
 				method : 'sendEmail',
 				validations : {
@@ -764,6 +783,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'changeMessageVisibilityBatch', version : '2011-10-01',
+				arrayProps : { 'ChangeMessageVisibilityBatchResultEntry' : 1 },
 				validations : {
 					required : { params : ['AWSAccountId', 'QueueName']	}
 				}
@@ -779,6 +799,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'deleteMessageBatch', version : '2011-10-01',
+				arrayProps : { 'DeleteMessageBatchResultEntry' : 1 },
 				validations : {
 					required : { params : ['AWSAccountId', 'QueueName']	}
 				}
@@ -789,6 +810,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'getQueueAttributes',
+				arrayProps : { 'Attribute' : 1 },
 				validations : {
 					required : { params : ['AWSAccountId', 'QueueName'] }
 				}
@@ -798,9 +820,11 @@ sessionOBJ.bedFrame.build(AWS, {
 					required : { params : ['QueueName']	}
 				}
 			}, {
-				method : 'listQueues', version : '2011-10-01'
+				method : 'listQueues', version : '2011-10-01',
+				arrayProps : { 'QueryUrl' : 1 }
 			}, {
 				method : 'receiveMessage',
+				arrayProps : { 'Attribute' : 1 },
 				validations : {
 					required : { params : ['AWSAccountId', 'QueueName']	}
 				}
@@ -816,6 +840,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'sendMessageBatch', version : '2011-10-01',
+				arrayProps : { 'SendMessageBatchResultEntry' : 1 },
 				validations : {
 					required : { params : ['AWSAccountId', 'QueueName']	}
 				}
@@ -855,23 +880,28 @@ sessionOBJ.bedFrame.build(AWS, {
 				}
 			}, {
 				method : 'getSubscriptionAttributes',
+				arrayProps : { 'entry' : 1 },
 				validations : {
 					required : { params : ['SubscriptionArn'] }
 				}
 			}, {
 				method : 'getTopicAttributes',
+				arrayProps : { 'entry' : 1 },
 				validations : {
 					required : { params : ['TopicArn'] }
 				}
 			}, {
-				method : 'listSubscriptions'
+				method : 'listSubscriptions',
+				arrayProps : { 'member' : 1 }
 			}, {
 				method : 'listSubscriptionsByTopic',
+				arrayProps : { 'member' : 1 },
 				validations : {
 					required : { params : ['TopicArn'] }
 				}
 			}, {
-				method : 'listTopics'
+				method : 'listTopics',
+				arrayProps : { 'member' : 1 }
 			}, {
 				method : 'publish',
 				validations : {
