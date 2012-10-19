@@ -8,6 +8,7 @@ v1.1.0  Refactored data object parsing to remove unnecessary array references fo
         Updated all property names to match names in AWS documentation [MOD-974]
         Added code to rename 'Etag' header property name to 'ETag' on iOS for parity/consistency with Android [MOD-963]
         Added support for specifying properties that are always converted to arrays [MOD-985]
+        Updated DDB success callback to return converted JSON object instead of JSOn string [MOD-987]
 
 v1.0.3  Fix for S3:headObject not returning any data [MOD-950]
         Fix for S3:headBucket not returning any data [MOD-951]

@@ -195,7 +195,7 @@ module.exports = new function () {
 	var cleanUp = function () {	
 		var param = {
 			"requestJSON" : {
-			"TableName" : "AWS_Appcel_Test_Create",
+			"TableName" : "AWS_Appcel_Test_Create"
 			}
 					};	
 		AWS.DDB.deleteTable(param, function(data) {
@@ -368,7 +368,7 @@ module.exports = new function () {
 			finish(testRun);
 			var params = {
 				'requestJSON' : {
-					"TableName" : tableName,
+					"TableName" : tableName
 				}
 			};
 
@@ -635,7 +635,7 @@ module.exports = new function () {
 			finish(testRun);
 			var params = {
 				'requestJSON' : {
-					"TableName" : tableName,
+					"TableName" : tableName
 				}//Required
 			};
 
@@ -700,7 +700,7 @@ module.exports = new function () {
 			finish(testRun);
 			var params = {
 				'requestJSON' : {
-					"TableName" : tableName,
+					"TableName" : tableName
 				}//Required
 			};
 
@@ -868,7 +868,7 @@ module.exports = new function () {
 			var cleanUp = function () {	
 			var param = {
 				"requestJSON" : {
-				"TableName" : tableNameForUpdate,
+				"TableName" : tableNameForUpdate
 				}
 					};	
 			//alert('in clean Up  ' + param);

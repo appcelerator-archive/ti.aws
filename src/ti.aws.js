@@ -357,7 +357,7 @@ var dynamoDBCall = function(thisRef, params, cbOnData, cbOnError) {
 
 	var xhr = Ti.Network.createHTTPClient();
 	xhr.onload = function(response) {
-		awsHelper.httpSuccess(this, this.responseText, cbOnData);
+		awsHelper.httpSuccess(this, JSON.parse(this.responseText), cbOnData);
 	};
 	xhr.onerror = function(e) {
 		awsHelper.httpError(this, JSON.parse(this.responseText), e, cbOnError);
