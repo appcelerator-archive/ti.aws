@@ -163,7 +163,7 @@ awsHelper.validateApi = function(thisRef, cbOnError, params) {
 		var errorResponse = sessionOBJ.utility.validateParams(params, thisRef.validations);
 		if (errorResponse != "") {//means validations failed
 			if(cbOnError) {
-				var response = sessionOBJ.xmlToJSON.toJSON(errorResponse, true);
+				var response = sessionOBJ.xmlToJSON.toJSON(errorResponse, true, null);
 				response.message = 'Parameter validation failed';
 				cbOnError(response.message, response);
 			}
@@ -268,13 +268,13 @@ awsHelper.httpSuccess = function(thisRef, data, cbOnData)
  * Function creates HTTP request
  * Return-- Returns http object with error and success callbacks attached
  * */
-awsHelper.createHttpObject = function(cbOnData, cbOnError) {
+awsHelper.createHttpObject = function(thisRef, cbOnData, cbOnError) {
 	var xhr = Ti.Network.createHTTPClient();
 	xhr.onload = function(response) {
-		awsHelper.httpSuccess(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false), cbOnData);
+		awsHelper.httpSuccess(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false, thisRef.arrayProps), cbOnData);
 	};
 	xhr.onerror = function(e) {
-		awsHelper.httpError(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false), e, cbOnError);
+		awsHelper.httpError(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false, null), e, cbOnError);
 	}
 	return xhr;
 }

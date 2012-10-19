@@ -51,7 +51,7 @@ String.prototype.trim = function() {
 /**
  * Recursively converts a Titanium XML document or node in to a JSON representation of it.
  */
-xmlToJS.convert = function convert(xml) {
+xmlToJS.convert = function convert(xml, arrayProps) {
 	var retVal = {};
 	function cleanName(name) {
 		return name.split(':').join('_');
@@ -71,14 +71,18 @@ xmlToJS.convert = function convert(xml) {
 				case node.ELEMENT_NODE:
 					var name = cleanName(node.nodeName);
 					if (typeof(retVal[name]) == 'undefined') {
-						retVal[name] = convert(node);
+						if (arrayProps && arrayProps[name]) {
+							retVal[name] = [ convert(node, arrayProps) ];
+						} else {
+							retVal[name] = convert(node, arrayProps);
+						}
 					} else {
 						if (typeof(retVal[name].push) == 'undefined') {
 							var old = retVal[name];
 							retVal[name] = [];
 							retVal[name].push(old);
 						}
-						retVal[name].push(convert(node));
+						retVal[name].push(convert(node, arrayProps));
 					}
 					break;
 				case node.TEXT_NODE:
@@ -100,12 +104,12 @@ xmlToJS.convert = function convert(xml) {
  * @param isClean - Boolean variable indicating the structure of the response XML.
  */
 
-xmlToJS.toJSON = function toJSON(response, isClean) {
+xmlToJS.toJSON = function toJSON(response, isClean, arrayProps) {
 	if(( typeof response === 'string') && (response !== null && response !== '')) {
 		//For a clean xml string
 		if(isClean) {
 			//Returning the JSON response after calling the convert function with Titanium XML document of service response
-			return xmlToJS.convert(Ti.XML.parseString(response).documentElement);
+			return xmlToJS.convert(Ti.XML.parseString(response).documentElement, arrayProps);
 		} else {//For an unclean XML
 			var xml = "";
 			//Iterating through the xml by slicing tags
@@ -116,7 +120,7 @@ xmlToJS.toJSON = function toJSON(response, isClean) {
 				response = response.substring(response.indexOf('>') + 1);
 			}
 			//Returning the JSON response after calling the convert function with Titanium XML document of service response
-			return xmlToJS.convert(Ti.XML.parseString(xml).documentElement);
+			return xmlToJS.convert(Ti.XML.parseString(xml).documentElement, arrayProps);
 		}
 	} else {
 		return {};
