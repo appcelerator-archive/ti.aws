@@ -53,7 +53,7 @@ module.exports = new function () {
 				}, 1000);
 			},1000);
 	}//end testSimple
-/*	
+	
 	this.testBatchGetItemWithEmptyrequestJSON_as_async = function(testRun) {
 		var params = {
 			'requestJSON' : {} //Empty
@@ -69,7 +69,7 @@ module.exports = new function () {
 	/**
 	 *Test case for batchGetItem With an Invalid requestJSON.
 	 */
-	/*
+	
 	this.testBatchGetItemWithInvalidrequestJSON_as_async = function(testRun) {
 		var params = {
 			'requestJSON' : {
@@ -82,7 +82,7 @@ module.exports = new function () {
 			finish(testRun);
 		});
 	}
-	*/
+	
 	
 	/**
 	 *Test case for batchGetItem With a valid requestJSON.
@@ -90,67 +90,15 @@ module.exports = new function () {
 
 	this.testBatchGetItem_as_async = function(testRun) {
 		
-		var params = {
-			'requestJSON' : {
-				"TableName" : 'AWS_DynamoDB_Test_1',
-				"Item" : {
-					"TestID" : {
-						"S" : "AWSTest_1"
-					}
-				}
-			} //Required
-		};
-		
-		var params1;
-		
-		AWS.DDB.putItem(params, function(data) {
-		
-		 alert('Success Yay FROM PUT!!' + data);
-		
-		params1 = {
-				'requestJSON' : {
-					"TableName" : 'AWS_DynamoDB_Test_1',
-					"Key" : {
-						"HashKeyElement" : {
-							"S" : "AWSTest_From_Module_1"
-						}
-					},
-					"ConsistentRead" : true
-				}   //Required
-			}; 
-		//alert('Hello from JSON' + JSON.parse(params1));
-		
-		AWS.DDB.getItem(params1, function(data) {
-				alert('Success Yay From GET!!' + data);
-				finish(testRun);
-				var params = {
-					'requestJSON' : {
-						"TableName" : 'AWS_DynamoDB_Test_1',
-						"Item" : {
-							"TestID" : {
-								"S" : "AWSTest_1"
-							}
-						}
-					} //Required
-				};
-				AWS.DDB.deleteItem(params, function(data) {
-				alert('Success Yay FROM DELETE!!' + data);
-				}, function(error) {
-					
-					alert('Error From Delete Yay!!' + error);
-					valueOf(testRun, true).shouldBeFalse();
-
-				});
-			}, function(error) {
-				alert('Error From Get Yay!!' + error);
-				valueOf(testRun, true).shouldBeFalse();
-			});
-
-		}, function(error) {
-			alert('Error From Put Yay!!' + error);
+		var params = '{"requestJSON" : {"RequestItems":{"my-ddb-test-tab": {"Keys": [{"HashKeyElement": {"S":"1"}, "RangeKeyElement":{"N":"1"}}],"AttributesToGet":["item2"]},"my-ddb-test-tab": {"Keys": [{"HashKeyElement": {"S":"1"}, "RangeKeyElement":{"N":"1"}}],"AttributesToGet": ["item1"]}}}}';
+			
+		AWS.DDB.batchGetItem(JSON.parse(params),			
+		function(data, response) {
+			finish(testRun);
+  	},  function(message,error) {
 			valueOf(testRun, true).shouldBeFalse();
-		});
-
+	});
+	
 	}
 
 	//*************batchGetItem test cases ends**************
@@ -160,14 +108,14 @@ module.exports = new function () {
 	/**
 	 *Test case for BatchWriteItem WithEmpty  requestJSON.
 	 */
-	/*
+	
 	
 	this.testBatchWriteItemWithEmptyrequestJSON_as_async = function(testRun) {
 		var params = {
 			'requestJSON' : {}//Empty
 		};
 		AWS.DDB.batchWriteItem(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -176,7 +124,7 @@ module.exports = new function () {
 	/**
 	 *Test case for batchWriteItem With an Invalid requestJSON.
 	 */
-	/*
+	
 	this.testBatchWriteItemWithInvalidrequestJSON_as_async = function(testRun) {
 		var params = {
 			'requestJSON' : {
@@ -185,27 +133,27 @@ module.exports = new function () {
 			}//Invalid requestJSON
 		};
 		AWS.DDB.batchWriteItem(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
 	}
-*/
+
 	/**
 	 *Test case for batchWriteItem With a valid requestJSON.
 	 */
 // 
-	// this.testBatchWriteItem_as_async = function(testRun) {
-// 
-		// var params = '{"requestJSON" : {"RequestItems":{"' + tableName + '":{"Keys": [{"HashKeyElement": {"S":"name"}, "RangeKeyElement":{"N":"1234"}}]}},"ReplyDateTime":{"S":"2012-05-10T11:04:47.034Z"}, "Id":{"S":"testing"},"RequestItems":{"my-ddb-test-tab":[{"PutRequest":{"Item":{"name":{"S":"dynamodbtestwrite"}, "1234":{"N":"1234567"}}}}]}}}';
-		// AWS.DDB.batchWriteItem(JSON.parse(params), function(data) {
-			// finish(testRun);
-// 
-		// }, function(error) {
-			// valueOf(testRun, true).shouldBeFalse();
-		// });
-// 
-	// }
+	this.testBatchWriteItem_as_async = function(testRun) {
+
+		var params ='{"requestJSON" : {"RequestItems": {"my-ddb-test-tab": [{"PutRequest":{"Item":{"name":{"S":"1234567"},"1234":{"N":"12345678"}}}},{"DeleteRequest":{"Key":{"HashKeyElement":{"S":"1"},"RangeKeyElement":{"N":"1"}}}}], "my-ddb-test-tab": [{"PutRequest":{"Item": {"name":{"S":"Amazon DynamoDB"},"1234":{"N":"6"}}}}]}}}';	
+		AWS.DDB.batchWriteItem(JSON.parse(params),
+		function(data, response) {
+			finish(testRun);
+  		},function(message,error) {
+			valueOf(testRun, true).shouldBeFalse();
+	});
+
+	}
 
 	//*************batchWriteItem test cases ends**************
 
@@ -218,12 +166,12 @@ module.exports = new function () {
 
 	var param = {
 	"requestJSON" : {
-	"TableName" : "my-ddb-goyal1-tab",
+	"TableName" : "AWS_Appcel_Test_Create",
 	"KeySchema" : {
 	"HashKeyElement" : {
 	"AttributeName" : "name",
 	"AttributeType" : "S",
-	"AttributeValue" : "pankaj"
+	"AttributeValue" : "testing"
 	},
 	"RangeKeyElement" : {
 	"AttributeName" : "1234",
@@ -247,7 +195,7 @@ module.exports = new function () {
 	var cleanUp = function () {	
 		var param = {
 			"requestJSON" : {
-			"TableName" : "my-ddb-goyal1-tab",
+			"TableName" : "AWS_Appcel_Test_Create",
 			}
 					};	
 		AWS.DDB.deleteTable(param, function(data) {
@@ -271,7 +219,7 @@ module.exports = new function () {
 			'requestJSON' : {}//Empty
 		};
 		AWS.DDB.createTable(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -288,7 +236,7 @@ module.exports = new function () {
 			}//Invalid requestJSON
 		};
 		AWS.DDB.createTable(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -305,7 +253,7 @@ module.exports = new function () {
 			'requestJSON' : {}//Empty
 		};
 		AWS.DDB.deleteItem(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -321,7 +269,7 @@ module.exports = new function () {
 			}//Invalid requestJSON
 		};
 		AWS.DDB.deleteItem(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -337,10 +285,10 @@ module.exports = new function () {
 				"TableName" : tableName,
 				"Item" : {
 					"name" : {
-						"S" : "Bill & Ted's Excellent Adventure"
+						"S" : "testingName2"
 					},
 					"1234" : {
-						"N" : "12345"
+						"N" : "1234567"
 					}
 				}
 			} //Required
@@ -351,10 +299,10 @@ module.exports = new function () {
 					"TableName" : tableName,
 					"Key" : {
 						"HashKeyElement" : {
-							"S" : "name"
+							"S" : "testingName2"
 						},
 						"RangeKeyElement" : {
-							"N" : "1234"
+							"N" : "1234567"
 						}
 					}
 				} //Required
@@ -363,7 +311,7 @@ module.exports = new function () {
 				finish(testRun);
 
 			}, function(error) {
-
+				valueOf(testRun, true).shouldBeFalse();
 			});
 		}, function(error) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -382,7 +330,7 @@ module.exports = new function () {
 			'requestJSON' : {}//Empty
 		};
 		AWS.DDB.describeTable(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -398,7 +346,7 @@ module.exports = new function () {
 			}//Invalid requestJSON
 		};
 		AWS.DDB.describeTable(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -416,6 +364,7 @@ module.exports = new function () {
 			}//Required
 		};
 		AWS.DDB.describeTable(params, function(data) {
+			
 			finish(testRun);
 			var params = {
 				'requestJSON' : {
@@ -440,7 +389,7 @@ module.exports = new function () {
 			'requestJSON' : {}//Empty
 		};
 		AWS.DDB.getItem(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -456,7 +405,7 @@ module.exports = new function () {
 			}//Invalid requestJSON
 		};
 		AWS.DDB.getItem(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -486,10 +435,10 @@ module.exports = new function () {
 					"TableName" : tableName,
 					"Key" : {
 						"HashKeyElement" : {
-							"S" : "name"
+							"S" : "Bill & Ted's Excellent Adventure"
 						},
 						"RangeKeyElement" : {
-							"N" : "1234"
+							"N" : "12345"
 						}
 					},
 					"ConsistentRead" : true
@@ -503,10 +452,10 @@ module.exports = new function () {
 						"TableName" : tableName,
 						"Key" : {
 							"HashKeyElement" : {
-								"S" : "name"
+								"S" : "Bill & Ted's Excellent Adventure"
 							},
 							"RangeKeyElement" : {
-								"N" : "1234"
+								"N" : "12345"
 							}
 						}
 					} //Required
@@ -570,7 +519,7 @@ module.exports = new function () {
 			'requestJSON' : {}//Empty
 		};
 		AWS.DDB.putItem(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -586,7 +535,7 @@ module.exports = new function () {
 			}//Invalid requestJSON
 		};
 		AWS.DDB.putItem(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -605,7 +554,7 @@ module.exports = new function () {
 						"S" : "Bill & Ted's Excellent Adventure"
 					},
 					"1234" : {
-						"N" : "12345"
+						"N" : "123456"
 					}
 				}
 			} //Required
@@ -617,10 +566,10 @@ module.exports = new function () {
 					"TableName" : tableName,
 					"Key" : {
 						"HashKeyElement" : {
-							"S" : "name"
+							"S" : "Bill & Ted's Excellent Adventure"
 						},
 						"RangeKeyElement" : {
-							"N" : "1234"
+							"N" : "123456"
 						}
 					}
 				} //Required
@@ -647,7 +596,7 @@ module.exports = new function () {
 			'requestJSON' : {}//Empty
 		};
 		AWS.DDB.query(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -663,7 +612,7 @@ module.exports = new function () {
 			}//Invalid requestJSON
 		};
 		AWS.DDB.query(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -678,7 +627,7 @@ module.exports = new function () {
 			'requestJSON' : {
 				"TableName" : tableName,
 				"HashKeyValue" : {
-					"S" : "name"
+					"S" : "Bill & Ted's Excellent Adventure"
 				}
 			} //Required
 		};
@@ -707,7 +656,7 @@ module.exports = new function () {
 			'requestJSON' : {}//Empty
 		};
 		AWS.DDB.scan(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -723,7 +672,7 @@ module.exports = new function () {
 			}//Invalid requestJSON
 		};
 		AWS.DDB.scan(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -738,9 +687,9 @@ module.exports = new function () {
 			'requestJSON' : {
 				"TableName" : tableName,
 				"ScanFilter" : {
-					"year" : {
+					"1234" : {
 						"AttributeValueList" : [{
-							"N" : "12345"
+							"N" : "123"
 						}],
 						"ComparisonOperator" : "GT"
 					}
@@ -772,7 +721,7 @@ module.exports = new function () {
 			'requestJSON' : {}//Empty
 		};
 		AWS.DDB.updateItem(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -788,7 +737,7 @@ module.exports = new function () {
 			}//Invalid requestJSON
 		};
 		AWS.DDB.updateItem(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -825,7 +774,7 @@ module.exports = new function () {
 						}
 					},
 					"AttributeUpdates" : {
-						"status" : {
+						"test1" : {
 							"Value" : {
 								"S" : "newvalue"
 							},
@@ -846,7 +795,7 @@ module.exports = new function () {
 								"S" : "name"
 							},
 							"RangeKeyElement" : {
-								"N" : "1234"
+								"N" : "123456789"
 							}
 						}
 					} //Required
@@ -856,11 +805,13 @@ module.exports = new function () {
 				}, function(error) {
 
 				});
-			}, function(error) {
-				valueOf(testRun, true).shouldBeFalse();
+			}, function(message,error) {
+				alert('from update' + message + error);
+				
+				//valueOf(testRun, true).shouldBeFalse();
 			});
-		}, function(error) {
-			valueOf(testRun, true).shouldBeFalse();
+		}, function(message,error) {
+			alert('from put' + message + error);
 		});
 
 	}
@@ -876,7 +827,7 @@ module.exports = new function () {
 			'requestJSON' : {}//Empty
 		};
 		AWS.DDB.updateTable(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -892,7 +843,7 @@ module.exports = new function () {
 			}//Invalid requestJSON
 		};
 		AWS.DDB.updateTable(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -902,11 +853,12 @@ module.exports = new function () {
 	 */
 
 	this.testUpdateTable_as_async = function(testRun) {
-
-		var params = '{"requestJSON" : {"TableName" : "' + tableNameForUpdate + '","HashKeyElement" : {"AttributeName" : "nameUpdate","AttributeType" : "S"},"ProvisionedThroughput" : {"ReadCapacityUnits" : 6,"WriteCapacityUnits" : 6} }}';
+		
+		var params = '{"requestJSON" : {"TableName" : "' + tableNameForUpdate + '","ProvisionedThroughput" : {"ReadCapacityUnits" : 6,"WriteCapacityUnits" : 6} }}';
 		
 		AWS.DDB.updateTable(JSON.parse(params), function(data) {
 			// Nothing here!! just pass!!
+			setTimeout(cleanUp, 70000);	
 	
 		}, function(error) {
 			alert(error);
@@ -919,27 +871,18 @@ module.exports = new function () {
 				"TableName" : tableNameForUpdate,
 				}
 					};	
-			alert('in clean Up  ' + param);
+			//alert('in clean Up  ' + param);
 			AWS.DDB.deleteTable(param, function(data) {
 			// nothing here just pass
 		//	alert('Success in Deleting');
-			}, function(error) {
-			alert('errror in deleting' + error);
-		 	//valueOf(testRun, true).shouldBeFalse();
-		});		
-									}
-									
-			
-	setTimeout(cleanUp, 70000);	
-			
-			var reCreate = function () {
-				
+		
+				var reCreate = function () {	
 				var param = {
 							"requestJSON" : {
 							"TableName" : tableNameForUpdate,
 							"KeySchema" : {
 							"HashKeyElement" : {
-							"AttributeName" : "name",
+							"AttributeName" : "nameUpdate",
 							"AttributeType" : "S"
 							},
 							"RangeKeyElement" : {
@@ -952,18 +895,21 @@ module.exports = new function () {
 							"WriteCapacityUnits" : 10
 							}
 							}
-						};
-			alert('in re Create ' + param);			
- 		AWS.DDB.createTable(param, function(response) {
-			finish(testRun);
-		}, function(error) {
-			alert('error' + error);
-			//valueOf(testRun, true).shouldBeFalse();
-		});
-										}
-	
-	setTimeout(reCreate, 70000);		
+						};		
+					 		AWS.DDB.createTable(param, function(response) {
+								finish(testRun);
+							}, function(error) {
+								alert(error);
+								//valueOf(testRun, true).shouldBeFalse();
+							});
+				}
+				setTimeout(reCreate, 70000);
+			}, function(error) {
+				alert('errror in deleting' + error);
+		 	//valueOf(testRun, true).shouldBeFalse();
+		});		
 	}
+}
 
 	//*************updateTable test cases ends**************
 	//***************deleteTable test cases start**************
@@ -1019,7 +965,7 @@ module.exports = new function () {
 			'requestJSON' : {}//Empty
 		};
 		AWS.DDB.deleteTable(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
@@ -1035,7 +981,7 @@ module.exports = new function () {
 			}//Invalid requestJSON
 		};
 		AWS.DDB.deleteTable(params, function(data) {
-			valueOf(testRun, true).shouldBeFalse();finish(testRun);
+			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
 			finish(testRun);
 		});
