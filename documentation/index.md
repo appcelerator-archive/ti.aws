@@ -18,9 +18,15 @@ i.e. refer to : http://aws.amazon.com/documentation/
 
 ## Installation
 
-* [ Using Mondules ]( http://docs.appcelerator.com/titanium/2.1/index.html#!/guide/Using_Modules )
+* [ Using Modules ]( http://docs.appcelerator.com/titanium/2.1/index.html#!/guide/Using_Modules )
 
 ## Supported
+
+* Initialize & Aunthentication
+	```javascript
+	var AWS = require('ti.aws');
+	AWS.authorize(accessKey, secretKey);
+	```
 
 
 * [Amazon SimpleDB](http://aws.amazon.com)
@@ -55,7 +61,7 @@ i.e. refer to : http://aws.amazon.com/documentation/
 	domainMetadata
 	```javascript
 		AWS.SimpleDB.domainMetadata({
-			DomainName : 'DomainName',
+			DomainName : 'DomainName'
 		},
 		function(data, response){
 			Ti.API.info(JSON.stringify(data));
@@ -65,522 +71,297 @@ i.e. refer to : http://aws.amazon.com/documentation/
 		});
 	```
 	
-	listDomains
+	putAttributes
 	```javascript
-		listDomains()
-	```
-
-	createDomain
-	```javascript
-		createDomain ( DomainName );
-	```
-	
-	deleteDomain
-	```javascript
-		deleteDomain(DomainName);
-	```
-	
-	select
-	```javascript
-		select(SelectExpression);
-	```
-	
-	domainMetadata
-	```javascript
-		domainMetadata();
-	```
-	
-	getAttributes
-	```javascript	
-		getAttributes(DomainName,ItemName);
-	```
-	
-	deleteAttributes
-	```javascript
-		deleteAttributes(DomainName, ItemName);
+		AWS.SimpleDB.putAttributes({
+			'DomainName' : 'DomainName',
+			'ItemName' : 'ItemName',
+			'Attribute.1.Name' : 'AttributeName1',
+			'Attribute.1.Value' : 'AttributeValue1',
+			'Attribute.2.Name' : 'AttributeName2',
+			'Attribute.2.Value' : 'AttributeValue2'
+		},
+		function(data, response){
+			Ti.API.info(JSON.stringify(data));
+  		},  
+		function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
 	```
 	
 * [Amazon Simple Storage Service (S3)  ](https:aws.amazon.com) (Simple Storage Service)
 
-	getService
-	```javascript
-		getService
-	```
-	
-	getPresignedUrl
-	```javascript
-		getPresignedUrl(BucketName, expires)
-	```
-	
-	listVersions
-	```javascript
-		listVersions(BucketName)
-	```
-	
-	deleteVersion
-	```javascript
-		deleteVersion(BucketName, key, versionId)
-	```
-	
-	deleteBucket
-	```javascript
-		deleteBucket(BucketName)
-	```
-	
-	deleteBucketLifecycle
-	```javascript
-		deleteBucketLifecycle (BucketName)
-	```
-	
-	deleteBucketPolicy
-	```javascript
-		deleteBucketPolicy(BucketName)
-	```
-	
-	deleteBucketWebsite
-	```javascript
-		deleteBucketWebsite(BucketName)
-	```
-	
-	listObjects
-	```javascript
-		listObjects(BucketName)
-	```
-	
-	getBucketAcl', // Xml Parsing Problem.
-	```javascript
-		getBucketAcl(BucketName);
-	```
-	
-	getBucketLifecycle
-	```javascript
-		getBucketLifecycle(BucketName)
-	```
-	
-	getBucketPolicy
-	```javascript
-		getBucketPolicy(BucketName)
-	```
-	
-	getBucketLocation
-	```javascript
-		getBucketLocation(BucketName)
-	```
-	
-	getBucketLogging
-	```javascript
-	 	getBucketLogging(BucketName)
-	```
-	
-	getBucketNotification
-	```javascript
-		getBucketNotification  ['BucketName']
-	```
-	
-	getBucketObjectVersions
-	```javascript
-	 	getBucketObjectVersions ['BucketName']
-	```
-	
-	getBucketRequestPayment
-	```javascript
-		getBucketRequestPayment ['BucketName']
-	```
-	
-	getBucketVersioning
-	```javascript
-		getBucketVersioning ['BucketName']
-	```
-	
-	getBucketWebsite
-	```javascript
-		getBucketWebsite ['BucketName']
-	```
-	
-	getObjectMetadata
-	```javascript
-		getObjectMetadata ['BucketName']
-	```
-	
-	listMultipartUploads
-	```javascript
-		listMultipartUploads ['BucketName']
-	```
-	
+
 	putBucket
 	```javascript
-	 	putBucket ['BucketName']
+		// you may need to choose diff bucketname if this one is not available
+		AWS.S3.putBucket({
+			'BucketName' : 'BucketName'
+		},
+		function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+	  	}, 
+		function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
 	```
 	
-	putBucketAcl
+	getBucket
 	```javascript
-		 putBucketAcl ['BucketName', 'xmlTemplate']
-	```
+		AWS.S3.getBucket({
+			 'BucketName' : 'BucketName'
+		},
+		function(data, response) {
+			Ti.API.info(JSON.stringify(response));
 	
-	putBucketLifecycle
-	```javascript
-		 putBucketLifecycle ['BucketName', 'xmlTemplate']
+	  	},  
+		function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
 	```
-	
+
 	putBucketPolicy
 	```javascript
-		putBucketPolicy ['BucketName', 'xmlTemplate']
+		var jsonObject = {
+			"Version" : "2008-10-17",
+			//canonical user ID - look up your AWS account and grab one from there
+			"Id" : "",
+			"Statement" : [{
+				"Effect" : 'Allow',
+				"Sid" : "1",
+				"Principal" : {
+						"AWS" : "*"
+					},
+				"Action" : ["s3:*"],
+				"Resource" : "arn:aws:s3:::BucketName/*"
+				}]
+			};
+				
+		AWS.S3.putBucketPolicy({
+			'BucketName' : 'BucketName',
+			'xmlTemplate' : JSON.stringify(jsonObject)
+		},
+		function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+	  	}, 
+		function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
 	```
-	
-	putBucketLogging
+
+	putObject
 	```javascript
-		putBucketLogging ['BucketName', 'xmlTemplate']
+		var f = Titanium.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'KS_nav_views.png');	
+		AWS.S3.putObject({
+			'BucketName' : 'BucketName',
+			'ObjectName' : 'KS_nav_views.png',
+			'file' : f
+		},
+		function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+	
+	  	},  
+		function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
 	```
-	
-	putBucketNotification
-	```javascript
-		putBucketNotification ['BucketName', 'xmlTemplate']
-	```
-	
-	putBucketRequestPayment
-	```javascript
-		putBucketRequestPayment ['BucketName', 'xmlTemplate']
-	```
-	
-	putBucketVersioning
-	```javascript
-		putBucketVersioning ['BucketName', 'xmlTemplate']
-	```
-	
-	putBucketWebsite
-	```javascript
-		putBucketWebsite ['BucketName', 'xmlTemplate']
-	```
-	
-	deleteObject
-	```javascript
-		deleteObject ['BucketName', 'ObjectName']
-	```
-	
-	deleteMultipleObjects
-	```javascript
-		deleteMultipleObjects ['BucketName', 'xmlTemplate']
-	```
-	
-	getObject   // Returning Blob Data.
-	```javascript
-		getObject ['BucketName', 'ObjectName']
-	```
-	
-	getObjectTorrent  // Returning Blob Data.
-	```javascripts
-		getObjectTorrent  ['BucketName', 'ObjectName']
-	```
-	
-	getObjectAcl  // Xml Parsing Problem.
-	```javascript
-	 	getObjectAcl ['BucketName', 'ObjectName']
-	```
-	
-	headObject
-	```javascript
-		headObject ['BucketName', 'ObjectName']
-	```				
-	putObject   //Working on Ios only.Content Length Header Value Cannot be Override in Android.
-	```javascript
-		putObject ['BucketName', 'ObjectName']
-	'''
-	
-	putObjectAcl
-	```javascript
-		putObjectAcl ['BucketName', 'ObjectName', 'xmlTemplate']
-	```
-	
-	putObjectCopy
-	```javascript
-		params : ['BucketName', 'ObjectName', 'copySource']
-	```	
-	
-	initiateMultipartUpload
-	```javascript
-		initiateMultipartUpload ['BucketName', 'ObjectName']
-	```
-	
-	abortMultipartUpload
-	```javascript
-		abortMultipartUpload ['BucketName', 'ObjectName', 'UploadId']
-	'''
-	
-	completeMultipartUpload
-	```javascript
-		completeMultipartUpload : ['BucketName', 'ObjectName', 'UploadId', 'xmlTemplate']
-	'''
-	
-	uploadPart
-	```javascript
-		uploadPart ['BucketName', 'ObjectName', 'UploadId', 'PartNumber', 'file']
-	'''
-	
-	uploadPartCopy
-	```javascript
-		uploadPartCopy ['BucketName', 'ObjectName', 'UploadId', 'PartNumber']
-	```
-	
-	listParts
-	```javascript
-		listParts ['BucketName', 'ObjectName', 'UploadId']
-	```
-	
+
+
+
 * [Amazon Simple Email Service (SES)](http://aws.amazon.com) (Identity and Access Management)
-	
-	deleteVerifiedEmailAddress
-	```javascript
-		deleteVerifiedEmailAddress (EmailAddress);
-	```
-	
-	getSendQuota
-	```javascript
-		getSendQuota()
-	```
-	
-	getSendStatistics
-	```javascript
-		getSendStatistics()
-	```
-	
-	listVerifiedEmailAddresses
-	```javascript
-		listVerifiedEmailAddresses()
-	```
 	
 	sendEmail
 	```javascript
-		sendEmail(Source, Destination, Message)
+		AWS.SES.sendEmail({
+			'Source' : 'dummy@gmail.com',
+			'Destination' : {
+				'ToAddresses' : ['test1@gmail.com'],
+				'CcAddresses' : ['test2@gmail.com'],
+				'BccAddresses' : ['test3@gmail.com']
+			},
+			'Message' : {
+				'Subject' : {
+					'Data' : 'Hello Message'
+				},
+				'Body' : {
+					'Text' : {
+						'Data' : 'Hi... This is a test message.'
+					}
+				}
+			}
+		}, function(response) {
+			Ti.API.info('Success: '+ JSON.stringify(response));
+		}, function(message,error) {
+			Ti.API.info('Error: '+ JSON.stringify(error));
+		});
 	```
-	
+
 	sendRawEmail
 	```javascript
-		sendRawEmail(RawMessage)
+  		var param = [
+			'From: test@gmail.com',
+			'To: test1@gmail.com',
+			'Cc: test2@gmail.com',
+			'Subject: Hello Message',
+			'MIME-Version: 1.0',
+			'Content-Type: text/plain; charset=UTF-8',
+			'Content-Transfer-Encoding: 7bit',
+			'Date: Tue, 2 Oct 2012 22:08:17 +0000',
+			' ',
+			'Hi... This is a test message.'
+	  		].join('\n');
+	
+
+		AWS.SES.sendRawEmail({
+			'RawMessage' : {
+				//basic base64 encoding
+				'Data' : Ti.Utils.base64encode(param)
+			}
+		},
+		function(data, response){
+			Ti.API.info('Success: '+ JSON.stringify(response));
+			
+		},
+		function(message,error){
+			Ti.API.info('Error: '+ JSON.stringify(error));
+		});
 	```
 	
 	verifyEmailAddress
 	```javascript
-		verifyEmailAddress (EmailAddress)
+		AWS.SES.verifyEmailAddress({
+			'EmailAddress' : 'test@gmail.com'
+		}, 
+		function(response) {
+			Ti.API.info('Success: '+ JSON.stringify(response));
+		}, 
+		function(message,error) {
+			Ti.API.info('Error: '+ JSON.stringify(error));
+		});
 	```
+
+
 	
 * [Amazon Simple Queue Service (SQS)](http://aws.amazon.com) (Simple Queue Service)
 
+	createQueue	
+	```javascript
+		AWS.SQS.createQueue({
+			'QueueName' : 'TestQueue',
+		}, function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+		}, function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
 
-		createQueue
-		```javascript
-				createQueue ['QueueName']
-		```
+	listQueues	
+	```javascript
+		AWS.SQS.listQueues({	
+		}, 
+		function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+		}, 
+		function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
+
+	addPermission
+	```javascript
+		AWS.SQS.addPermission({
+			'QueueName' : 'TestQueue',
+			'AWSAccountId' : ''//your aws account id goes here,
+			'Label' : 'AddPermissionTest',
+			'AWSAccountId.1' : '',//your aws account id goes here
+			'ActionName.1' : 'SendMessage'
+		}, 
+		function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+		}, 
+		function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
+
+	removePermission
+	```javascript
+		AWS.SQS.removePermission({
+			'QueueName' : 'TestQueue',
+			'AWSAccountId' : '',//your aws account id goes here
+			'Label' : 'AddPermissionTest'
+		}, 
+		function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+		}, function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
+
+	sendMessage
+	```javascript
+		AWS.SQS.sendMessage({
+			'AWSAccountId':'',//your aws account id goes here
+			'QueueName': 'TestQueue',
+			'MessageBody' : 'This is test message in SQS.'
+			
+		}, function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+	
+		}, function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
+
+	sendMessageBatch
+	```javascript
+		AWS.SQS.sendMessageBatch({
+			'AWSAccountId':'',//your aws account id goes here
+			'QueueName': 'TestQueue',
+			'SendMessageBatchRequestEntry.1.Id' : 'test_msg_092512',
+			'SendMessageBatchRequestEntry.1.MessageBody' : 'This is testApp Test Cases Message Body'
+		}, function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+		}, function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
+
+	receiveMessage
+	```javascript
+		var params = {
+			'AWSAccountId': '',//your aws account id goes here
+			'QueueName': 'TestQueue'
+		};
 		
-		listQueues
-		```javascript
-			listQueues()
-		```
+		AWS.SQS.receiveMessage(
+			params,
+		function(data, response) {
+				Ti.API.info(JSON.stringify(response));
+		}, 
+		function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
 
-		getQueueUrl
-		```javascript
-				getQueueUrl  ['QueueName']
-		```
+* [Amazon Simple Notification Service (SNS) ](http://aws.amazon.com)
 
-		addPermission
-		```javascript
-			addPermission()
-		```
-		
-		setQueueAttributes
-		```javascript
-			setQueueAttributes : ['AWSAccountId', 'QueueName', 'Attribute.Name', 'Attribute.Value']
-		```
-		
-		getQueueAttributes
-		```javascript
-				getQueueAttributes ['AWSAccountId', 'QueueName']
-		```
-
-		patternExistsValidator
-		```javascript
-		 	patternExistsValidator['AttributeName.*']
-		```
-
-		sendMessage
-		```javascript
-				sendMessage (AWSAccountId, QueueName,MessageBody)
-		```
-
-		sendMessageBatch',
-		```javascript
-				params : ['AWSAccountId', 'QueueName']
-		```
-		
-		receiveMessage
-		```javascript
-				receiveMessage : ['AWSAccountId', 'QueueName']
-		```
-		
-		deleteMessage
-		```javascript
-				deleteMessage : ['ReceiptHandle', 'AWSAccountId', 'QueueName']
-		```
-		
-		deleteMessageBatch
-		```javascript
-				deleteMessageBatch : ['AWSAccountId', 'QueueName']
-		```
-		
-		patternExistsValidator
-		```javascript
-			patternExistsValidator : ['DeleteMessageBatchRequestEntry.*.Id', 'DeleteMessageBatchRequestEntry.*.ReceiptHandle']
-		```
-		
-		deleteQueue
-		```javascript
-				deleteQueue ['AWSAccountId', 'QueueName']
-		```
-		
-		changeMessageVisibility
-		```javascript
-				params : ['AWSAccountId', 'QueueName', 'ReceiptHandle', 'VisibilityTimeout']
-		```
-		
-		changeMessageVisibilityBatch
-		```javascript
-				params : ['AWSAccountId', 'QueueName']
-		```
-				
-		patternExistsValidator
-				```javascript
-				params : ['ChangeMessageVisibilityBatchRequestEntry.*.Id', 'ChangeMessageVisibilityBatchRequestEntry.*.ReceiptHandle', 'ChangeMessageVisibilityBatchRequestEntry.*.VisibilityTimeout']
-
-				```javascript
-			removePermission',
-					params : ['AWSAccountId', 'QueueName', 'Label']
-		
-		 * [Amazon Simple Notification Service (SNS) ](http://aws.amazon.com)
-		
-
-			```javascript
-			addPermission',
-					params : ['Label', 'TopicArn']
-					
-					```javascript
-			confirmSubscription',
-					params : ['Token', 'TopicArn']
-
-					```javascript
-			createTopic',
-					params : ['Name']
-
-					```javascript
-			deleteTopic',
-					params : ['TopicArn']
-
-					```javascript
-			getSubscriptionAttributes',
-					params : ['SubscriptionArn']
-
-					```javascript
-			getTopicAttributes',
-					params : ['TopicArn']
-
-					```javascript
-			listSubscriptions'
-
-			```javascript
-			listSubscriptionsByTopic',
-					params : ['TopicArn']
-
-					```javascript
-			listTopics'
-					params : ['TopicArn', 'Message']
-
-					```javascript
-			removePermission',
-					params : ['Label', 'TopicArn']
-
-					```javascript
-			setSubscriptionAttributes',
-					params : ['AttributeName', 'AttributeValue', 'SubscriptionArn']
-
-			setTopicAttributes',
-			```javascript
-					params : ['AttributeName', 'AttributeValue', 'TopicArn']
-
-			subscribe',
-			```javascript
-					params : ['TopicArn', 'Endpoint', 'Protocol']
-
-			unsubscribe',
-			```javascript
-					params : ['SubscriptionArn']
-
-		* [STS]()
-			getSessionToken'
-			```javascript
-			```
+	createTopic
+	```javascript
+		AWS.SNS.createTopic({
+			'Name' : 'TestTopic'
+		},
+		function(data, response) 
+		{
+			arn = data.CreateTopicResult.TopicArn;
+			Ti.API.info(JSON.stringify(response));
+  		},  function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
 
 * [Amazon DynamoDB](http://aws.amazon.com)
 			
-	listTables
-	```javascript
-	listTables();
-	```
-	batchWriteItem
-	```javascript
-	batchWriteItem();
-	```
-	
-	describeTable
-	```javascript
-	describeTable();
-	```
-	
-	updateTable
-	```javascript
-	updateTable();
-	```
-	
-	updateItem
-	```javascript
-	updateItem();
-	```
-	
-	deleteTable
-	```javascript
-	deleteTable();
-	```
-	
-	getItem
-	```javascript
-	getItem();
-	```
-	
-	putItem
-	```javascript
-	putItem();
-	```'
-	
-	scan
-	```javascript
-		scan();
-	```
-	
-	query
-	```javascript
-		query();
-	```
-	
-	deleteItem
-	```javascript
-		deleteItem();
-	```
-	
-	batchGetItem
-	```javascript
-		batchGetItem();
-	```
-	createTable
-	```javascript
-		createTable();
-	```
 
 ## License
 
