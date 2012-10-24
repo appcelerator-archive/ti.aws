@@ -20,6 +20,18 @@ i.e. refer to : http://aws.amazon.com/documentation/
 
 * [ Using Modules ]( http://docs.appcelerator.com/titanium/2.1/index.html#!/guide/Using_Modules )
 
+## Useful Links
+
+* [ Getting Started with Amazon web services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )  	
+* [ SimpleDb ]( http://aws.amazon.com/documentation/simpledb/ )
+* [Simple Storage Service S3]( http://aws.amazon.com/documentation/s3/ )
+* [ DynamoDB ]( http://aws.amazon.com/documentation/dynamodb/ )
+* [ Simple Queue Service SQS]( http://aws.amazon.com/documentation/sqs/ )
+* [ Simple Email Service SES]( http://aws.amazon.com/documentation/ses/ )
+* [ Simple Notification Service SNS]( http://aws.amazon.com/documentation/sns/ )
+
+
+
 ## Supported
 
 * Initialize & Authentication
