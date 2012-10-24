@@ -23,7 +23,7 @@ i.e. refer to : http://aws.amazon.com/documentation/
 ## Useful Links
 
 * [ Getting Started with Amazon web services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )  	
-* [ SimpleDb ]( http://aws.amazon.com/documentation/simpledb/ )
+* [ SimpleDB ]( http://aws.amazon.com/documentation/simpledb/ )
 * [Simple Storage Service S3]( http://aws.amazon.com/documentation/s3/ )
 * [ DynamoDB ]( http://aws.amazon.com/documentation/dynamodb/ )
 * [ Simple Queue Service SQS]( http://aws.amazon.com/documentation/sqs/ )
@@ -41,7 +41,7 @@ i.e. refer to : http://aws.amazon.com/documentation/
 	```
 
 
-* [Amazon SimpleDB](http://aws.amazon.com)
+* [Amazon SimpleDB](http://aws.amazon.com/documentation/simpledb/)
 	
 
 	createDomain
@@ -101,7 +101,7 @@ i.e. refer to : http://aws.amazon.com/documentation/
 		});
 	```
 	
-* [Amazon Simple Storage Service (S3)  ](https:aws.amazon.com) (Simple Storage Service)
+* [Simple Storage Service (S3)  ](http://aws.amazon.com/documentation/s3/) 
 
 
 	putBucket
@@ -180,7 +180,7 @@ i.e. refer to : http://aws.amazon.com/documentation/
 
 
 
-* [Amazon Simple Email Service (SES)](http://aws.amazon.com) (Identity and Access Management)
+* [Amazon Simple Email Service (SES)](http://aws.amazon.com/documentation/ses/) (Identity and Access Management)
 	
 	sendEmail
 	```javascript
@@ -254,7 +254,7 @@ i.e. refer to : http://aws.amazon.com/documentation/
 
 
 	
-* [Amazon Simple Queue Service (SQS)](http://aws.amazon.com) (Simple Queue Service)
+* [Amazon Simple Queue Service (SQS)](http://aws.amazon.com/documentation/sqs/) (Simple Queue Service)
 
 	createQueue	
 	```javascript
@@ -356,7 +356,7 @@ i.e. refer to : http://aws.amazon.com/documentation/
 		});
 	```
 
-* [Amazon Simple Notification Service (SNS) ](http://aws.amazon.com)
+* [Amazon Simple Notification Service (SNS) ](http://aws.amazon.com/documentation/sns/)
 
 	createTopic
 	```javascript
@@ -436,7 +436,7 @@ i.e. refer to : http://aws.amazon.com/documentation/
 		});
 	```
 
-* [Amazon DynamoDB](http://aws.amazon.com)
+* [Amazon DynamoDB](http://aws.amazon.com/documentation/dynamodb/)
 
 	getSessionToken
 	```javascript
