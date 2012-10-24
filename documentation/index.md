@@ -22,7 +22,7 @@ i.e. refer to : http://aws.amazon.com/documentation/
 
 ## Supported
 
-* Initialize & Aunthentication
+* Initialize & Authentication
 	```javascript
 	var AWS = require('ti.aws');
 	AWS.authorize(accessKey, secretKey);
