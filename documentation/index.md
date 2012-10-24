@@ -6,6 +6,16 @@ GlobalLogic
 
 ## Documentation
 
+Amazon WebServices Module
+A framework for exposing the Amazon QueryAPIs to Appcelerator Titanium Mobile.
+
+This framework is designed for QueryAPIs provided by AWS. Each service is represented
+as a NameSpace, within which each operation is exposed.
+
+This framework requires you to refer to the AWS API reference for handling request, and
+responses received from the service.
+i.e. refer to : http://aws.amazon.com/documentation/
+
 ## Installation
 
 * [ Using Mondules ]( http://docs.appcelerator.com/titanium/2.1/index.html#!/guide/Using_Modules )
@@ -13,23 +23,46 @@ GlobalLogic
 ## Supported
 
 
-* [Amazon SimpleDB](http://aws.amazon.com) (Simple Storage Service)
+* [Amazon SimpleDB](http://aws.amazon.com)
 	
-	SimpleDBs
-	
-	batchPutAttributes
+
+	createDomain
 	```javascript
-		batchPutAttributes( DomainName )
+		AWS.SimpleDB.createDomain({
+			DomainName : 'DomainName'
+		},
+		function(data, response){
+			Ti.API.info(JSON.stringify(data));
+  		},  
+		function(message, error) { 
+			Ti.API.info(JSON.stringify(error));
+		});
+	
 	```
 	
-	putAttributes
+	listDomain
 	```javascript
-		putAttributes(DomainName, ItemName  )
+		AWS.SimpleDB.listDomains({
+		},	
+		function(data, response){
+			Ti.API.info(JSON.stringify(data));
+  		},  
+		function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
 	```
 	
-	batchDeleteAttributes
+	domainMetadata
 	```javascript
-		batchDeleteAttributes(DomainName) 
+		AWS.SimpleDB.domainMetadata({
+			DomainName : 'DomainName',
+		},
+		function(data, response){
+			Ti.API.info(JSON.stringify(data));
+  		}, 
+		function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
 	```
 	
 	listDomains
