@@ -360,8 +360,196 @@ i.e. refer to : http://aws.amazon.com/documentation/
 		});
 	```
 
+	subscribe
+	```javascript
+	AWS.SNS.subscribe({		
+			 'Endpoint' : 'test@gmail.com', //Required
+			 'Protocol' : 'email', //Required
+			 'TopicArn' : arn	//'arn:aws:sns:us-east-1:723565023896:TestTopic0927121' //Required
+		},
+		function(data, response) {
+			Ti.API.info('Success: '+ JSON.stringify(data) + JSON.stringify(response));
+  		},  function(message, response) {
+			Ti.API.info('Success: '+ JSON.stringify(message) + JSON.stringify(response));
+		});
+	```
+
+	confirmSubscription
+	```javascript
+	AWS.SNS.confirmSubscription({
+			// Copy from email you received after executing 'subscribe' call.
+			'Token' : '',			
+			'TopicArn' : arn //'arn:aws:sns:us-east-1:723565023896:TestTopic0927121'
+			// can get it from sns managment console or arn
+		},
+		function(data, response) {
+			sarn = data.ConfirmSubscriptionResult.SubscriptionArn;
+			Ti.API.info(JSON.stringify(response));
+  		},  function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
+
+	unsubscribe
+	```javascript
+	AWS.SNS.unsubscribe({
+			'SubscriptionArn' : sarn
+		}, function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+	  	},  function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
+
+	removePermission
+	```javascript
+		AWS.SNS.removePermission({
+			'Label' : 'MyPermission',
+			'TopicArn' : arn,
+		}, function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+	
+	  	},  function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
+
+	listSubscriptions
+	```javascript	
+		AWS.SNS.listSubscriptions({
+		}, function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+	  	},  function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
+
 * [Amazon DynamoDB](http://aws.amazon.com)
+
+	getSessionToken
+	```javascript
+		AWS.STS.getSessionToken({}, 
+		function(data, response) {
+			Ti.API.info(JSON.stringify(response));
+			Ti.App.Properties.setString('tempSessionToken', data.GetSessionTokenResult.Credentials.SessionToken);
+			Ti.App.Properties.setString('tempSecretAccessKey', data.GetSessionTokenResult.Credentials.SecretAccessKey);
+			Ti.App.Properties.setString('tempAccessKeyID', data.GetSessionTokenResult.Credentials.AccessKeyId);
+			Ti.App.Properties.setString('tempExpiration', data.GetSessionTokenResult.Credentials.Expiration);
+		}, function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
+
+	createTable
+	```javascript
+
+	var param = {
+		"requestJSON" : {
+			"TableName" : "my-ddb-test-tab-0926121",
+			"KeySchema" : {
+				"HashKeyElement" : {
+					"AttributeName" : "name",
+					"AttributeType" : "S"
+					},
+				"RangeKeyElement" : {
+					"AttributeName" : "1234",
+					"AttributeType" : "N"
+					}
+				},
+			"ProvisionedThroughput" : {
+				"ReadCapacityUnits" : 10,
+				"WriteCapacityUnits" : 10
+					}
+				}
+			};
+
+		AWS.DDB.createTable(param,	
+			function(data, response) {	
+				Ti.API.info(JSON.stringify(response));
+  		},  
+			function(message, error) {
+				Ti.API.info(JSON.stringify(message)+ JSON.stringify(error));
+		});
+	```
+
+	listTables
+	```javascript
+		var params = {
+			'requestJSON' : {}
+		};
+		AWS.DDB.listTables(params,	
+			function(data, response) {
+				Ti.API.info(JSON.stringify(response));
+  		},  
+			function(message,error) {
+				Ti.API.info(JSON.stringify(error));
+		});
+	```
+		
+	putItem
+	```javascript
+		var params = {
+			'requestJSON' : {
+				"TableName" : 'my-ddb-test-tab-0926121',
+				"Item" : {
+					"name" : { "S" : 'test'}, //Required
+					"1234" : { "N" : "12345"}, //Required
+					'testatr' : { 'S' : 'tester'}
+				}
+			} //Required
+		};
+	
+		AWS.DDB.putItem(params,		
+			function(data, response) {
+				Ti.API.info(JSON.stringify(response));
+  		},  function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	```
+
+	query
+	```javascript
+		var params = {
+			'requestJSON' : {
+				"TableName" : 'my-ddb-test-tab-0926121',
+				"HashKeyValue" : {
+					"S" : "1"
+				}
+			} //Required
+		};
+
+		AWS.DDB.query(params,	
+			function(data, response) {
+				Ti.API.info(JSON.stringify(response));
+  			},  function(message,error) {
+				Ti.API.info(JSON.stringify(error));
+		});
+	```
+
+	deleteItem
+	```javascript
+		var params = {
+			'requestJSON' : {
+				"TableName" : 'my-ddb-test-tab-0926121',
+				"Key" : {
+					"HashKeyElement" : {
+						"S" : "test"
+					},
+					"RangeKeyElement" : {
+						"N" : "12345"
+					}
+				}
+			} //Required
+		};
 			
+		AWS.DDB.deleteItem(params,	
+			function(data, response) {
+				Ti.API.info(JSON.stringify(response));
+  			},  function(message,error) {
+				Ti.API.info(JSON.stringify(error));
+			});
+	```
+
 
 ## License
 
