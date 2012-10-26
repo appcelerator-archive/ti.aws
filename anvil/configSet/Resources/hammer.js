@@ -1,4 +1,4 @@
-var hammer = module.exports;
+var hammer = module.exports; 
 var os = Ti.Platform.osname;
 
 function shouldRunOnPlatform(prop) {
