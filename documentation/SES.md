@@ -114,7 +114,84 @@ The Amazon Simple Email Service Developer Guide provides a conceptual overview o
 
 	</code></pre>
 	
+
+	##listVerifiedEmailAddresses
+
+	 <em>Description</em>
+
+	Returns a list containing all of the email addresses that have been verified.
+    
+	<em>Request Parameters</em>
+
+	<em>Sample Request</em>
+	<pre><code>
+  		AWS.SES.listVerifiedEmailAddresses({
+
+		}, function(response) {
+			Ti.API.info(JSON.stringify(response));
+		}, function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+
+	</code></pre>
+
 	
+	##verifyEmailAddress
+
+	 <em>Description</em>
+
+	Verifies an email address. This action causes a confirmation email message to be sent to the specified address.
+
+    
+	<em>Request Parameters</em>
+<div class="informaltable"><table cellspacing="0" border="0"><colgroup><col class="col1"><col class="col2"><col class="col3"></colgroup><thead><tr><th> Name </th><th> Description </th><th> Required </th></tr></thead><tbody><tr><td>
+                     <em class="parameter"><code>EmailAddress</code></em>
+                  </td><td>
+                     <p>The email address to be verified.</p>
+                     <p class="simpara">
+            Type:
+              String</p>
+                  </td><td>Yes</td></tr></tbody></table></div>
+
+	<em>Sample Request</em>
+	<pre><code>
+		AWS.SES.verifyEmailAddress({
+		'EmailAddress' : 'test@test.com'
+		}, function(response) {
+			Ti.API.info(JSON.stringify(response));
+		}, function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+	</code></pre>
+
+	##deleteVerifiedEmailAddress
+
+	 <em>Description</em>
+
+	Deletes the specified email address from the list of verified addresses.
+
+    
+	<em>Request Parameters</em>
+	<div class="informaltable"><table cellspacing="0" border="0"><colgroup><col class="col1"><col class="col2"><col class="col3"></colgroup><thead><tr><th> Name </th><th> Description </th><th> Required </th></tr></thead><tbody><tr><td>
+                     <em class="parameter"><code>EmailAddress</code></em>
+                  </td><td>
+                     <p>An email address to be removed from the list of verified addresses.</p>
+                     <p class="simpara">
+            Type:
+              String</p>
+                  </td><td>Yes</td></tr></tbody></table></div>
+
+	<em>Sample Request</em>
+	<pre><code>
+  		AWS.SES.deleteVerifiedEmailAddress({
+			'EmailAddress' : 'appcel321@gmail.com'
+		}, function(response) {
+			Ti.API.info(JSON.stringify(response));
+		}, function(message,error) {
+			Ti.API.info(JSON.stringify(error));
+		});
+
+	</code></pre>
 
 ## License
 
