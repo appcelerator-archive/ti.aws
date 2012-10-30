@@ -2,8 +2,6 @@
 
 ## Documentation
 
-Amazon WebServices Module
-
 A framework for exposing the Amazon QueryAPIs to Appcelerator Titanium Mobile.
 
 This framework is designed for QueryAPIs provided by AWS. Each service is represented
@@ -14,14 +12,17 @@ responses received from the service.
 i.e. refer to : http://aws.amazon.com/documentation/
 
 ## Installation
-
+The link below explains how to Obtain the Module, Install it and reference it within your Titanium Application.
 * [ Using Modules ]( http://docs.appcelerator.com/titanium/2.1/index.html#!/guide/Using_Modules )
 
 ## Configuration
 
 * Initialize & Authentication
 	```javascript
+	// Require the ti.aws commonJS Module into a variable.
 	var AWS = require('ti.aws');
+
+	// Specify the accesskey & secretKey to be used for authorizing the QueryAPI calls made by the Service.
 	AWS.authorize(accessKey, secretKey);
 	```
 
