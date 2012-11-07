@@ -135,7 +135,6 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	params.curDate = curDate;
 	params.url = this.endpoint;
 	params.stringToSign = '';
-	params.verb = this.verb;
 	//params.method = this.method;
 	if (this.method == 'getPresignedUrl') {
 		params.curDate = params.expires;
@@ -150,16 +149,15 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	}
 
 	sessionOBJ.awsHelper.generateS3Params(params);
+	//generates stringTosign string and passes it back as part of 'params' parameter
+	var signature = sessionOBJ.sha.b64_hmac_sha1(sessionOBJ.utf8.encode(sessionOBJ.secretKey), sessionOBJ.utf8.encode(params.stringToSign));
+
 	if (this.method == 'listVersions') {
 		params.url = 'https://' + params.BucketName + this.endpoint + params.subResource;
 	} else if (this.method == 'deleteVersion') {
 		params.url = 'https://' + params.BucketName + this.endpoint + params.key + '?versionId=' + params.versionId;
-	}
-	//generates stringTosign string and passes it back as part of 'params' parameter
-	var signature = sessionOBJ.sha.b64_hmac_sha1(sessionOBJ.utf8.encode(sessionOBJ.secretKey), sessionOBJ.utf8.encode(params.stringToSign));
-
-	if (this.method == 'getPresignedUrl') {
-		var url = 'https://' + params.BucketName + this.endpoint + '?AWSAccessKeyId=' + sessionOBJ.accessKeyId + '&Expires=' + params.expires + '&Signature=' + signature;
+	} else if (this.method == 'getPresignedUrl') {
+		var url = params.url + '?AWSAccessKeyId=' + sessionOBJ.accessKeyId + '&Expires=' + params.expires + '&Signature=' + encodeURIComponent(signature);
 		cbOnData(url, null);
 		return;
 	}
@@ -723,7 +721,7 @@ sessionOBJ.bedFrame.build(AWS, {
 					required : { params : ['BucketName', 'Key', 'versionId'] }
 				}
 			}, {
-				method : 'getPresignedUrl', endpoint : '.s3.amazonaws.com/',
+				method : 'getPresignedUrl',
 				validations : {
 					required : { params : ['BucketName', 'expires']
 					}
