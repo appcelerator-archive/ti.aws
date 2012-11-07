@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v1.1.1  Fixed getPresignedUrl method to properly handle objects inside buckets [MOD-1001]
+
 v1.1.0  Refactored data object parsing to remove unnecessary array references for single value elements [MOD-980]
         Fix in example application for locating files on Android [MOD-963][MOD-977]
         Fix in example application for namespace collision [MOD-972]
