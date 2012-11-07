@@ -186,23 +186,19 @@ awsHelper.prepareExecutor = function(thisRef) {
  * */
 
 awsHelper.findMessageText = function(obj) {
-	if (obj.message) {
-		return obj.message;
-	} else if (obj.Message) {
-		if (obj.Message instanceof Array) {
-			return obj.Message[0];
-		} else {
-			return obj.Message
-		}
-	} else if (obj.Error) {
-		if (obj.Error instanceof Array) {
-			return awsHelper.findMessageText(obj.Error[0]);
-		} else {
-			return obj.Error;
-		}
-	} else if (obj.Errors) {
-		if (obj.Errors instanceof Array) {
-			return awsHelper.findMessageText(obj.Errors[0]);
+	if (obj) {
+		if (obj instanceof String || typeof obj === "string") {
+			return obj;
+		} else if (obj instanceof Array) {
+			return awsHelper.findMessageText(obj[0]);
+		} else if (obj.message) {
+			return awsHelper.findMessageText(obj.message);
+		} else if (obj.Message) {
+			return awsHelper.findMessageText(obj.Message);
+		} else if (obj.Error) {
+			return awsHelper.findMessageText(obj.Error);
+		} else if (obj.Errors) {
+			return awsHelper.findMessageText(obj.Errors);
 		}
 	}
 	return null;
