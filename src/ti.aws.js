@@ -204,7 +204,9 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 		//For Get and POST xml is returned as response hence converting it to javascript object and passing back to user
 
 		if (this.connectionType == "GET" || this.connectionType == "POST" || method == "uploadPartCopy") {// Api's other then GET and POST does not return any xml as part of response object so passing the complete obect back to client
-			if (method === "getObjectTorrent" || method === "getObject" || method === "getBucketPolicy") {
+			if (method === "getObjectTorrent" || method === "getObject") {
+				awsHelper.httpSuccess(this, this.responseData, cbOnData);
+			} else if (method === "getBucketPolicy") {
 				awsHelper.httpSuccess(this, this.responseText, cbOnData);
 			} else {
 				awsHelper.httpSuccess(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, true, self.arrayProps), cbOnData);

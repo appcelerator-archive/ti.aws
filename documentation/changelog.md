@@ -2,6 +2,7 @@
 <pre>
 v1.1.1  Fixed getPresignedUrl method to properly handle objects inside buckets [MOD-1001]
         Improved logic for extracting error message string from response [MOD-1012]
+        Data parameter of success callback for GetObject/GetObjectTorrent is now a blob object [MOD-1005]
 
 v1.1.0  Refactored data object parsing to remove unnecessary array references for single value elements [MOD-980]
         Fix in example application for locating files on Android [MOD-963][MOD-977]
