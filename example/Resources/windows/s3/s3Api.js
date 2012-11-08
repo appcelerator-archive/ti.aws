@@ -75,7 +75,7 @@ windowFunctions['putBucketPolicy'] = function(evt) {
 			
 		AWS.S3.putBucketPolicy({
 			'BucketName' : 'test100312_1',
-			'xmlTemplate' : JSON.stringify(jsonObject)
+			'XMLTemplate' : JSON.stringify(jsonObject)
 			},
 			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -99,7 +99,7 @@ windowFunctions['putObject'] = function(evt) {
 	AWS.S3.putObject({
 			'BucketName' : 'test100312_1',
 			'ObjectName' : 'KS_nav_views.png',
-			'file' : f
+			'File' : f
 			},
 			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -175,7 +175,7 @@ windowFunctions['putObjectCopy'] = function(evt) {
 	AWS.S3.putObjectCopy({
 			'BucketName' : 'test100312_1',
 			'ObjectName' : 'sample.png',
-			'copySource' : 'https://s3.amazonaws.com/test100312_1/KS_nav_views.png' // Change to file path from where you want to copy the file
+			'CopySource' : 'https://s3.amazonaws.com/test100312_1/KS_nav_views.png' // Change to file path from where you want to copy the file
 			},
 			function(data, response) {
 				alert('Success: '+ JSON.stringify(response));
@@ -260,7 +260,7 @@ windowFunctions['uploadPart'] = function(evt) {
 				AWS.S3.uploadPart({
 							'BucketName' : 'test100312_1',
 							'ObjectName' : 'testfile.pdf',
-							'file' : f1,
+							'File' : f1,
 							'UploadId' : UploadId,
 							'PartNumber' : '1'
 							},
@@ -271,7 +271,7 @@ windowFunctions['uploadPart'] = function(evt) {
 							'BucketName' : 'test100312_1',
 							'ObjectName' : 'testfile.pdf',
 							'UploadId' : UploadId,
-							'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>1</PartNumber><ETag>' + ETag + '</ETag></Part></CompleteMultipartUpload>'
+							'XMLTemplate' : '<CompleteMultipartUpload><Part><PartNumber>1</PartNumber><ETag>' + ETag + '</ETag></Part></CompleteMultipartUpload>'
 							},
 							function(data, response) {
 								alert('MultipartUpload completed successfully: '+ JSON.stringify(data) + JSON.stringify(response));
@@ -308,7 +308,7 @@ windowFunctions['uploadPartCopy'] = function(evt) {
 			AWS.S3.uploadPartCopy({
 						'BucketName' : 'test100312_1',
 						'ObjectName' : 'sample.png',
-						'copySource' : '/test100312_1/KS_nav_views.png',
+						'CopySource' : '/test100312_1/KS_nav_views.png',
 						'UploadId' : UploadId,
 						'PartNumber' : '2'
 					},
@@ -319,7 +319,7 @@ windowFunctions['uploadPartCopy'] = function(evt) {
 						'BucketName' : 'test100312_1',
 						'ObjectName' : 'sample.png',
 						'UploadId' : UploadId,
-						'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>' + ETag + '</ETag></Part></CompleteMultipartUpload>'
+						'XMLTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>' + ETag + '</ETag></Part></CompleteMultipartUpload>'
 						},
 						function(data, response) {
 							alert('MultipartUpload completed successfully: '+ JSON.stringify(data) + JSON.stringify(response));
@@ -365,7 +365,7 @@ windowFunctions['deleteMultipleObjects'] = function(evt) {
 	
 	AWS.S3.deleteMultipleObjects({
 			'BucketName' : 'test100312_1',
-			'xmlTemplate' : '<Delete><Object><Key>KS_nav_views.png</Key></Object><Object><Key>sample.png</Key></Object></Delete>'
+			'XMLTemplate' : '<Delete><Object><Key>KS_nav_views.png</Key></Object><Object><Key>sample.png</Key></Object></Delete>'
 			
 			},
 			function(data, response) {

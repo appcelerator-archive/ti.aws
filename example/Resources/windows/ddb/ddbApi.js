@@ -27,7 +27,7 @@ windowFunctions['getSessionToken'] = function(evt) {
 windowFunctions['createTable'] = function(evt) {
 	
 	var param = {
-	"requestJSON" : {
+	"RequestJSON" : {
 	"TableName" : "my-ddb-test-tab-0926121",
 	"KeySchema" : {
 	"HashKeyElement" : {
@@ -63,7 +63,7 @@ AWS.DDB.createTable(param,
 windowFunctions['listTables'] = function(evt) {
 	
 	var params = {
-			'requestJSON' : {}
+			'RequestJSON' : {}
 		};
 		
 AWS.DDB.listTables(params,
@@ -84,7 +84,7 @@ AWS.DDB.listTables(params,
 windowFunctions['putItem'] = function(evt) {
 	
 	var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"TableName" : 'my-ddb-test-tab-0926121',
 				"Item" : {
 					"name" : { "S" : 'test'}, //Required
@@ -112,7 +112,7 @@ windowFunctions['putItem'] = function(evt) {
 	
 windowFunctions['updateItem'] = function(evt) {	
 	var params = {
-				'requestJSON' : {
+				'RequestJSON' : {
 					"TableName" : 'my-ddb-test-tab-0926121',
 					"Key" : {
 						"HashKeyElement" : {
@@ -153,7 +153,7 @@ windowFunctions['updateItem'] = function(evt) {
 windowFunctions['updateTable'] = function(evt) {
 	
 		var params = [
-		'{"requestJSON" : ',
+		'{"RequestJSON" : ',
 		'{"TableName" : "my-ddb-test-tab-0926121","ProvisionedThroughput" : ',
 		'{"ReadCapacityUnits" : 9, "WriteCapacityUnits" : 9',
 		'}}}'
@@ -173,7 +173,7 @@ windowFunctions['updateTable'] = function(evt) {
 	
 windowFunctions['query'] = function(evt) {	
 	var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"TableName" : 'my-ddb-test-tab-0926121',
 				"HashKeyValue" : {
 					"S" : "1"
@@ -199,7 +199,7 @@ AWS.DDB.query(params,
 windowFunctions['deleteItem'] = function(evt) {	
 	
 	var params = {
-				'requestJSON' : {
+				'RequestJSON' : {
 					"TableName" : 'my-ddb-test-tab-0926121',
 					"Key" : {
 						"HashKeyElement" : {
@@ -229,7 +229,7 @@ AWS.DDB.deleteItem(params,
 windowFunctions['describeTable'] = function(evt) {
 	
 	var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"TableName" : 'my-ddb-test-tab-0926121' //Required
 			}
 				};
@@ -251,7 +251,7 @@ AWS.DDB.describeTable(params,
 
 windowFunctions['deleteTable'] = function(evt) {
 	var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"TableName" : 'my-ddb-test-tab-0926121' //Required
 			}
 				};
@@ -273,7 +273,7 @@ AWS.DDB.deleteTable(params,
 
 windowFunctions['batchWriteItem'] = function(evt) {
 	
-	var params ='{"requestJSON" : {"RequestItems": {"my-ddb-test-tab-0926121": [{"PutRequest":{"Item":{"name":{"S":"2012-04-03T11:04:47.034Z"},"1234":{"N":"6"}}}},{"DeleteRequest":{"Key":{"HashKeyElement":{"S":"1"},"RangeKeyElement":{"N":"1"}}}}], "my-ddb-test-tab": [{"PutRequest":{"Item": {"name":{"S":"Amazon DynamoDB"},"1234":{"N":"6"}}}}]}}}';
+	var params ='{"RequestJSON" : {"RequestItems": {"my-ddb-test-tab-0926121": [{"PutRequest":{"Item":{"name":{"S":"2012-04-03T11:04:47.034Z"},"1234":{"N":"6"}}}},{"DeleteRequest":{"Key":{"HashKeyElement":{"S":"1"},"RangeKeyElement":{"N":"1"}}}}], "my-ddb-test-tab": [{"PutRequest":{"Item": {"name":{"S":"Amazon DynamoDB"},"1234":{"N":"6"}}}}]}}}';
 			
 AWS.DDB.batchWriteItem(JSON.parse(params),
 			
@@ -293,7 +293,7 @@ AWS.DDB.batchWriteItem(JSON.parse(params),
 
 windowFunctions['batchGetItem'] = function(evt) {
 	
-	var params = '{"requestJSON" : {"RequestItems":{"my-ddb-test-tab": {"Keys": [{"HashKeyElement": {"S":"1"}, "RangeKeyElement":{"N":"1"}}],"AttributesToGet":["item2"]},"my-ddb-test-tab-0926121": {"Keys": [{"HashKeyElement": {"S":"a"}, "RangeKeyElement":{"N":"1"}}],"AttributesToGet": ["item1"]}}}}';
+	var params = '{"RequestJSON" : {"RequestItems":{"my-ddb-test-tab": {"Keys": [{"HashKeyElement": {"S":"1"}, "RangeKeyElement":{"N":"1"}}],"AttributesToGet":["item2"]},"my-ddb-test-tab-0926121": {"Keys": [{"HashKeyElement": {"S":"a"}, "RangeKeyElement":{"N":"1"}}],"AttributesToGet": ["item1"]}}}}';
 			
 AWS.DDB.batchGetItem(JSON.parse(params),
 			
@@ -311,7 +311,7 @@ AWS.DDB.batchGetItem(JSON.parse(params),
 
 windowFunctions['scan'] = function(evt) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"TableName" : 'my-ddb-test-tab',
 				"ScanFilter" : {
 					"1234" : {

@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v1.1.2  Updated all top-level property names to use uppercase CamelCase naming convention [MOD-974]
+
 v1.1.1  Fixed getPresignedUrl method to properly handle objects inside buckets [MOD-1001]
         Improved logic for extracting error message string from response [MOD-1012]
         Data parameter of success callback for GetObject/GetObjectTorrent is now a blob object [MOD-1005]

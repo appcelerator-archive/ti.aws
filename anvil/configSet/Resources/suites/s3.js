@@ -75,7 +75,7 @@ module.exports = new function () {
 		AWS.S3.putObject({
 				'BucketName' : bucketName1,
 				'ObjectName' : 'KS_nav_views.png',
-				'file' : f
+				'File' : f
 			}, function(data) {
 			//	alert('success PutObject  + ');
 				AWS.S3.headObject({
@@ -166,7 +166,7 @@ module.exports = new function () {
 			AWS.S3.putObjectCopy({
 						'BucketName' : bucketName2,
 						'ObjectName' : 'xyz',
-						'copySource' : '/' + bucketName1 + '/' + 'KS_nav_views.png',
+						'CopySource' : '/' + bucketName1 + '/' + 'KS_nav_views.png',
 					}, function(data) {
 						//finish(testRun);
 						AWS.S3.deleteObject({
@@ -187,7 +187,7 @@ module.exports = new function () {
 		AWS.S3.putObjectCopy({
 			'BucketName' : 'invalid',
 			'ObjectName' : 'xyz',
-			'copySource' : '/test12398/strus2.pdf'
+			'CopySource' : '/test12398/strus2.pdf'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -199,7 +199,7 @@ module.exports = new function () {
 		AWS.S3.putObjectCopy({
 			'BucketName' : '',
 			'ObjectName' : 'xyz',
-			'copySource' : '/test12398/strus2.pdf'
+			'CopySource' : '/test12398/strus2.pdf'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -211,7 +211,7 @@ module.exports = new function () {
 		AWS.S3.putObjectCopy({
 			'BucketName' : bucketName1,
 			'ObjectName' : '',
-			'copySource' : '/test12398/strus2.pdf'
+			'CopySource' : '/test12398/strus2.pdf'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -223,7 +223,7 @@ module.exports = new function () {
 		AWS.S3.putObjectCopy({
 			'BucketName' : bucketName1,
 			'ObjectName' : 'validname',
-			'copySource' : ''
+			'CopySource' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -235,7 +235,7 @@ module.exports = new function () {
 		AWS.S3.putObjectCopy({
 			'BucketName' : bucketName1,
 			'ObjectName' : 'validname',
-			'copySource' : 'xyzw'
+			'CopySource' : 'xyzw'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -330,7 +330,7 @@ module.exports = new function () {
 					AWS.S3.uploadPart({
 						'BucketName' : bucketName1,
 						'ObjectName' : 'testfile.pdf',
-						'file' : f1,
+						'File' : f1,
 						'UploadId' : UploadId,
 						'PartNumber' : '2'
 					}, function(data) {
@@ -357,7 +357,7 @@ module.exports = new function () {
 							AWS.S3.uploadPartCopy({
 								'BucketName' : bucketName1,
 								'ObjectName' : 'testfile.pdf',
-								'copySource' : '/' + bucketName2 + '/testfile_1.pdf',
+								'CopySource' : '/' + bucketName2 + '/testfile_1.pdf',
 								'UploadId' : UploadId,
 								'PartNumber' : '3'
 							}, function(data) {
@@ -380,14 +380,14 @@ module.exports = new function () {
 			 AWS.S3.putObject({
 				 'BucketName' : bucketName1,
 				 'ObjectName' : 'testfile_3.pdf',
-				 'file' : f
+				 'File' : f
 			 }, function(data) {
  				
 					 var f1 = Titanium.Filesystem.getFile('testfile_4.pdf');
 					 AWS.S3.putObject({
 						 'BucketName' : bucketName2,
 						 'ObjectName' : 'testfile_4.pdf',
-						 'file' : f
+						 'File' : f
 					 }, function(data) {
 						// alert('putObject success');
 						 AWS.S3.initiateMultipartUpload({
@@ -399,7 +399,7 @@ module.exports = new function () {
 							 AWS.S3.uploadPartCopy({
 								 'BucketName' : bucketName1,
 								 'ObjectName' : 'testfile_3.pdf',
-								 'copySource' : '/' + bucketName2 +  '/testfile_4.pdf',
+								 'CopySource' : '/' + bucketName2 +  '/testfile_4.pdf',
 								 'UploadId' : data.UploadId,
 								 'PartNumber' : '2'
 							 }, function(data) {
@@ -409,7 +409,7 @@ module.exports = new function () {
 									 'BucketName' : bucketName1,
 									 'ObjectName' : 'testfile_3.pdf',
 									 'UploadId' : test,
-									 'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>' + data.ETag + '</ETag></Part></CompleteMultipartUpload>'
+									 'XMLTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>' + data.ETag + '</ETag></Part></CompleteMultipartUpload>'
 								 }, function(data) {
 									 alert('completeMultipartUpload success' + data);
 									 Ti.API.info(JSON.stringify(data));
@@ -444,7 +444,7 @@ module.exports = new function () {
 			AWS.S3.putObject({
 				'BucketName' :  bucketName1,
 				'ObjectName' : 'KS_nav_views_putObject.png',
-				'file' : f
+				'File' : f
 			}, function(data) {
 				//finish(testRun);
 				AWS.S3.deleteObject({
@@ -481,17 +481,17 @@ module.exports = new function () {
 			AWS.S3.putObject({
 				'BucketName' : bucketName2,
 				'ObjectName' : 'KS_nav_views_1.png',
-				'file' : f
+				'File' : f
 			}, function(data) {
 				var f1 = Titanium.Filesystem.getFile(filename3);
 				AWS.S3.putObject({
 					'BucketName' : bucketName2,
 					'ObjectName' : 'KS_nav_ui_1.png',
-					'file' : f1
+					'File' : f1
 				}, function(data) {
 					AWS.S3.deleteMultipleObjects({
 						'BucketName' : bucketName2,
-						'xmlTemplate' : '<Delete><Object><Key>KS_nav_views_1.png</Key></Object><Object><Key>KS_nav_ui_1.png</Key></Object></Delete>'
+						'XMLTemplate' : '<Delete><Object><Key>KS_nav_views_1.png</Key></Object><Object><Key>KS_nav_ui_1.png</Key></Object></Delete>'
 					}, function(data) {
 						//alert(data);
 						finish(testRun);
@@ -525,7 +525,7 @@ module.exports = new function () {
 
 			AWS.S3.putBucketPolicy({
 				'BucketName' : bucketName2,
-				'xmlTemplate' : JSON.stringify(jsonObject)
+				'XMLTemplate' : JSON.stringify(jsonObject)
 			}, function(data) {
 
 				AWS.S3.getBucketPolicy({
@@ -583,7 +583,7 @@ module.exports = new function () {
 	this.testPutBucketAcl_as_async= function(testRun) {
 		AWS.S3.putBucketAcl({
 				'BucketName' : bucketName2,
-				'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Grantee><Permission>FULL_CONTROL</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI xmlns="">http://acs.amazonaws.com/groups/global/AllUsers</URI></Grantee><Permission xmlns="">READ</Permission></Grant></AccessControlList></AccessControlPolicy>'			
+				'XMLTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Grantee><Permission>FULL_CONTROL</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI xmlns="">http://acs.amazonaws.com/groups/global/AllUsers</URI></Grantee><Permission xmlns="">READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 			}, function(data) {
 				finish(testRun);
 			}, function(error) {
@@ -596,7 +596,7 @@ module.exports = new function () {
 	this.testPutEmptyBucketACL_as_async= function(testRun) {
 		AWS.S3.putBucketAcl({
 			'BucketName' : '',
-			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
+			'XMLTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -607,7 +607,7 @@ module.exports = new function () {
 	this.testPutBucketACLWithInvalidbucketName_as_async= function(testRun) {
 		AWS.S3.putBucketAcl({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
+			'XMLTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -615,10 +615,10 @@ module.exports = new function () {
 		});
 	}
 	
-	this.testPutBucketACLWithEmptyXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketACLWithEmptyXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketAcl({
 			'BucketName' : 't16est12354',
-			'xmlTemplate' : ''
+			'XMLTemplate' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -626,10 +626,10 @@ module.exports = new function () {
 		});
 	}
 	
-	this.testPutBucketACLWithInvalidXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketACLWithInvalidXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketAcl({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName></DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
+			'XMLTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName></DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -641,7 +641,7 @@ module.exports = new function () {
 		
 			AWS.S3.putBucketLifecycle({
 				'BucketName' : bucketName1,
-				'xmlTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
+				'XMLTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
 			}, function(data) {
 				
 				AWS.S3.deleteBucketLifecycle({
@@ -659,7 +659,7 @@ module.exports = new function () {
 	this.testPutEmptyBucketLifeCycle_as_async= function(testRun) {
 		AWS.S3.putBucketLifecycle({
 			'BucketName' : '',
-			'xmlTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
+			'XMLTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -670,7 +670,7 @@ module.exports = new function () {
 	this.testPutBucketLifeCycleWithInvalidbucketName_as_async= function(testRun) {
 		AWS.S3.putBucketLifecycle({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
+			'XMLTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -678,10 +678,10 @@ module.exports = new function () {
 		});
 	}
 	
-	this.testPutBucketLifeCycleWithEmptyXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketLifeCycleWithEmptyXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketLifecycle({
 			'BucketName' : '',
-			'xmlTemplate' : ''
+			'XMLTemplate' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -689,10 +689,10 @@ module.exports = new function () {
 		});
 	}
 	
-	this.testPutBucketLifeCycleWithInvalidXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketLifeCycleWithInvalidXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketLifecycle({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<LifecycleConfiguration><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></LifecycleConfiguration>'
+			'XMLTemplate' : '<LifecycleConfiguration><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></LifecycleConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -718,7 +718,7 @@ module.exports = new function () {
 
 			AWS.S3.putBucketPolicy({
 				'BucketName' : bucketName1,
-				'xmlTemplate' : JSON.stringify(jsonObject)
+				'XMLTemplate' : JSON.stringify(jsonObject)
 			}, function(data) {
 				finish(testRun);
 			}, function(error) {
@@ -742,7 +742,7 @@ module.exports = new function () {
 		}
 		AWS.S3.putBucketPolicy({
 			'BucketName' : '',
-			'xmlTemplate' : JSON.stringify(jsonObject)
+			'XMLTemplate' : JSON.stringify(jsonObject)
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -766,7 +766,7 @@ module.exports = new function () {
 		}
 		AWS.S3.putBucketPolicy({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : JSON.stringify(jsonObject)
+			'XMLTemplate' : JSON.stringify(jsonObject)
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -774,11 +774,11 @@ module.exports = new function () {
 		});
 	}
 	
-	this.testPutBucketPolicyWithEmptyXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketPolicyWithEmptyXMLTemplate_as_async= function(testRun) {
 
 		AWS.S3.putBucketPolicy({
 			'BucketName' : '',
-			'xmlTemplate' : ''
+			'XMLTemplate' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -786,7 +786,7 @@ module.exports = new function () {
 		});
 	}
 	
-	this.testPutBucketPolicyWithInvalidXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketPolicyWithInvalidXMLTemplate_as_async= function(testRun) {
 		var jsonObject = {
 			"Version" : "",
 			"Id" : "bdffafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364",
@@ -801,7 +801,7 @@ module.exports = new function () {
 		}
 		AWS.S3.putBucketPolicy({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : JSON.stringify(jsonObject)
+			'XMLTemplate' : JSON.stringify(jsonObject)
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -815,14 +815,14 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			//alert('before ACL call');
 			AWS.S3.putBucketAcl({
 				'BucketName' : bucketName2,
-				'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Grantee><Permission>FULL_CONTROL</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>WRITE</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>READ_ACP</Permission></Grant></AccessControlList></AccessControlPolicy>'			
+				'XMLTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Grantee><Permission>FULL_CONTROL</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>WRITE</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>READ_ACP</Permission></Grant></AccessControlList></AccessControlPolicy>'
 			}, function(data) {
 				//pass and move on to BucketLogging
 				//alert( ' success in ACL' + data);
 						
 						AWS.S3.putBucketLogging({
 						'BucketName' : bucketName2,
-						'xmlTemplate' : '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01"><LoggingEnabled><TargetBucket>' + bucketName2 + '</TargetBucket><TargetPrefix>appcel-access_log-/</TargetPrefix><TargetGrants><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>mgadiya@appcelerator.com</EmailAddress></Grantee><Permission>READ</Permission></Grant></TargetGrants></LoggingEnabled></BucketLoggingStatus>'
+						'XMLTemplate' : '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01"><LoggingEnabled><TargetBucket>' + bucketName2 + '</TargetBucket><TargetPrefix>appcel-access_log-/</TargetPrefix><TargetGrants><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>mgadiya@appcelerator.com</EmailAddress></Grantee><Permission>READ</Permission></Grant></TargetGrants></LoggingEnabled></BucketLoggingStatus>'
 						//'<Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>WRITE</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>READ_ACP</Permission></Grant>
 												}, 
 						function(data) {
@@ -841,7 +841,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testPutEmptyBucketLogging_as_async= function(testRun) {
 		AWS.S3.putBucketLogging({
 			'BucketName' : '',
-			'xmlTemplate' : '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01"><LoggingEnabled><TargetBucket>pankaj1234567</TargetBucket><TargetPrefix>pankaj1234567-access_log-/</TargetPrefix><TargetGrants><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>WRITE</Permission></Grant></TargetGrants></LoggingEnabled></BucketLoggingStatus>'
+			'XMLTemplate' : '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01"><LoggingEnabled><TargetBucket>pankaj1234567</TargetBucket><TargetPrefix>pankaj1234567-access_log-/</TargetPrefix><TargetGrants><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>WRITE</Permission></Grant></TargetGrants></LoggingEnabled></BucketLoggingStatus>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -852,7 +852,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testPutBucketLoggingWithInvalidbucketName_as_async= function(testRun) {
 		AWS.S3.putBucketLogging({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01"><LoggingEnabled><TargetBucket>pankaj1234567</TargetBucket><TargetPrefix>pankaj1234567-access_log-/</TargetPrefix><TargetGrants><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>WRITE</Permission></Grant></TargetGrants></LoggingEnabled></BucketLoggingStatus>'
+			'XMLTemplate' : '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01"><LoggingEnabled><TargetBucket>pankaj1234567</TargetBucket><TargetPrefix>pankaj1234567-access_log-/</TargetPrefix><TargetGrants><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>WRITE</Permission></Grant></TargetGrants></LoggingEnabled></BucketLoggingStatus>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -860,10 +860,10 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testPutBucketLoggingWithEmptyXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketLoggingWithEmptyXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketLogging({
 			'BucketName' : '',
-			'xmlTemplate' : ''
+			'XMLTemplate' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -871,10 +871,10 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testPutBucketLoggingWithInvalidXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketLoggingWithInvalidXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketLogging({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01"><LoggingEnabled><TargetPrefix>pankaj1234567-access_log-/</TargetPrefix><TargetGrants><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>WRITE</Permission></Grant></TargetGrants></LoggingEnabled></BucketLoggingStatus>'
+			'XMLTemplate' : '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01"><LoggingEnabled><TargetPrefix>pankaj1234567-access_log-/</TargetPrefix><TargetGrants><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>WRITE</Permission></Grant></TargetGrants></LoggingEnabled></BucketLoggingStatus>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -886,7 +886,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		
 			AWS.S3.putBucketNotification({
 				'BucketName' : bucketName2,
-				'xmlTemplate' : '<NotificationConfiguration><TopicConfiguration><Topic>arn:aws:sns:us-east-1:723565023896:Appcel_AWS_TestTopic_1</Topic><Event>s3:ReducedRedundancyLostObject</Event></TopicConfiguration></NotificationConfiguration>'
+				'XMLTemplate' : '<NotificationConfiguration><TopicConfiguration><Topic>arn:aws:sns:us-east-1:723565023896:Appcel_AWS_TestTopic_1</Topic><Event>s3:ReducedRedundancyLostObject</Event></TopicConfiguration></NotificationConfiguration>'
 			}, function(data) {
 				finish(testRun);
 			}, function(error) {
@@ -897,7 +897,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testPutEmptyBucketNotification_as_async= function(testRun) {
 		AWS.S3.putBucketNotification({
 			'BucketName' : '',
-			'xmlTemplate' : '<NotificationConfiguration><TopicConfiguration><Topic>arn:aws:sns:us-east-1:704687501311:myTopic</Topic><Event>s3:ReducedRedundancyLostObject</Event></TopicConfiguration></NotificationConfiguration>'
+			'XMLTemplate' : '<NotificationConfiguration><TopicConfiguration><Topic>arn:aws:sns:us-east-1:704687501311:myTopic</Topic><Event>s3:ReducedRedundancyLostObject</Event></TopicConfiguration></NotificationConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -908,7 +908,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testPutBucketNotificationWithInvalidbucketName_as_async= function(testRun) {
 		AWS.S3.putBucketNotification({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<NotificationConfiguration><TopicConfiguration><Topic>arn:aws:sns:us-east-1:704687501311:myTopic</Topic><Event>s3:ReducedRedundancyLostObject</Event></TopicConfiguration></NotificationConfiguration>'
+			'XMLTemplate' : '<NotificationConfiguration><TopicConfiguration><Topic>arn:aws:sns:us-east-1:704687501311:myTopic</Topic><Event>s3:ReducedRedundancyLostObject</Event></TopicConfiguration></NotificationConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -916,10 +916,10 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testPutBucketNotificationWithEmptyXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketNotificationWithEmptyXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketNotification({
 			'BucketName' : '',
-			'xmlTemplate' : ''
+			'XMLTemplate' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -927,10 +927,10 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testPutBucketNotificationWithInvalidXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketNotificationWithInvalidXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketNotification({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<NotificationConfiguration><TopicConfiguration><Topic>arn:aws:sns:us-east-1:704687:myTopic</Topic><Event>s3:ReducedRedundancyLostObject</Event></TopicConfiguration></NotificationConfiguration>'
+			'XMLTemplate' : '<NotificationConfiguration><TopicConfiguration><Topic>arn:aws:sns:us-east-1:704687:myTopic</Topic><Event>s3:ReducedRedundancyLostObject</Event></TopicConfiguration></NotificationConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -941,7 +941,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testPutEmptyBucketRequestPayment_as_async= function(testRun) {
 		AWS.S3.putBucketRequestPayment({
 			'BucketName' : '',
-			'xmlTemplate' : '<RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Payer>Requester</Payer></RequestPaymentConfiguration>'
+			'XMLTemplate' : '<RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Payer>Requester</Payer></RequestPaymentConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -952,7 +952,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testPutBucketRequestPaymentWithInvalidbucketName_as_async= function(testRun) {
 		AWS.S3.putBucketRequestPayment({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Payer>Requester</Payer></RequestPaymentConfiguration>'
+			'XMLTemplate' : '<RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Payer>Requester</Payer></RequestPaymentConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -960,10 +960,10 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testPutBucketRequestPaymentWithEmptyXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketRequestPaymentWithEmptyXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketRequestPayment({
 			'BucketName' : '',
-			'xmlTemplate' : ''
+			'XMLTemplate' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -971,10 +971,10 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testPutBucketRequestPaymentWithInvalidXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketRequestPaymentWithInvalidXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketRequestPayment({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"></RequestPaymentConfiguration>'
+			'XMLTemplate' : '<RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"></RequestPaymentConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -986,7 +986,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		
 			AWS.S3.putBucketVersioning({
 				'BucketName' : bucketName2,
-				'xmlTemplate' : '<VersioningConfiguration xmlns= "http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status><MfaDelete>Disabled</MfaDelete></VersioningConfiguration>'
+				'XMLTemplate' : '<VersioningConfiguration xmlns= "http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status><MfaDelete>Disabled</MfaDelete></VersioningConfiguration>'
 			}, function(data) {
 				finish(testRun);
 			}, function(error) {
@@ -997,7 +997,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testPutEmptyBucketVersioning_as_async= function(testRun) {
 		AWS.S3.putBucketVersioning({
 			'BucketName' : '',
-			'xmlTemplate' : '<VersioningConfiguration xmlns= "http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status><MfaDelete>Disabled</MfaDelete></VersioningConfiguration>'
+			'XMLTemplate' : '<VersioningConfiguration xmlns= "http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status><MfaDelete>Disabled</MfaDelete></VersioningConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1008,7 +1008,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testPutBucketVersioningWithInvalidbucketName_as_async= function(testRun) {
 		AWS.S3.putBucketVersioning({
 			'BucketName' : '',
-			'xmlTemplate' : '<VersioningConfiguration xmlns= "http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status><MfaDelete>Disabled</MfaDelete></VersioningConfiguration>'
+			'XMLTemplate' : '<VersioningConfiguration xmlns= "http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status><MfaDelete>Disabled</MfaDelete></VersioningConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1016,10 +1016,10 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testPutBucketVersioningWithEmptyXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketVersioningWithEmptyXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketVersioning({
 			'BucketName' : '',
-			'xmlTemplate' : ''
+			'XMLTemplate' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1027,10 +1027,10 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testPutBucketVersioningWithInvalidXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketVersioningWithInvalidXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketVersioning({
 			'BucketName' : '',
-			'xmlTemplate' : '<VersioningConfiguration xmlns= "http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status></VersioningConfiguration>'
+			'XMLTemplate' : '<VersioningConfiguration xmlns= "http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status></VersioningConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1043,7 +1043,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	
 			AWS.S3.putBucketWebsite({
 				BucketName : 'test953',
-				'xmlTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument><Suffix>index.html</Suffix></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
+				'XMLTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument><Suffix>index.html</Suffix></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
 			}, function(data) {
 				finish(testRun);
 			}, function(error) {
@@ -1055,7 +1055,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testPutBucketWebsitewithEmptyBucketName_as_async= function(testRun) {
 		AWS.S3.putBucketWebsite({
 			'BucketName' : '',
-			'xmlTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument><Suffix>index.html</Suffix></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
+			'XMLTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument><Suffix>index.html</Suffix></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1066,7 +1066,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testPutBucketWebsiteWithInvalidbucketName_as_async= function(testRun) {
 		AWS.S3.putBucketWebsite({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument><Suffix>index.html</Suffix></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
+			'XMLTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument><Suffix>index.html</Suffix></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1074,10 +1074,10 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testPutBucketWebsiteWithEmptyXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketWebsiteWithEmptyXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketWebsite({
 			'BucketName' : '',
-			'xmlTemplate' : ''
+			'XMLTemplate' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1085,10 +1085,10 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testPutBucketWebsiteWithInvalidXmlTemplate_as_async= function(testRun) {
+	this.testPutBucketWebsiteWithInvalidXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putBucketWebsite({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
+			'XMLTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1101,7 +1101,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.putObject({
 			'BucketName' : '',
 			'ObjectName' : 'KS_nav_ui.png',
-			'file' : f
+			'File' : f
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1114,7 +1114,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.putObject({
 			'BucketName' : 'xyzw',
 			'ObjectName' : 'KS_nav_ui.png',
-			'file' : f
+			'File' : f
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1127,7 +1127,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.putObject({
 			'BucketName' : 'pankaj12345',
 			'ObjectName' : '',
-			'file' : f
+			'File' : f
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1142,7 +1142,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.putObjectAcl({
 			'BucketName' : bucketName2,
 			'ObjectName' : 'KS_nav_views.png',
-			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Grantee><Permission>FULL_CONTROL</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>WRITE</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>READ_ACP</Permission></Grant></AccessControlList></AccessControlPolicy>'
+			'XMLTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Grantee><Permission>FULL_CONTROL</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>WRITE</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>READ_ACP</Permission></Grant></AccessControlList></AccessControlPolicy>'
 			//'<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Grantee><Permission>FULL_CONTROL</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>WRITE</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>READ_ACP</Permission></Grant></AccessControlList></AccessControlPolicy>'	
 		}, function(data) {
 			finish(testRun);
@@ -1155,7 +1155,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.putObjectAcl({
 			'BucketName' : '',
 			'ObjectName' : 'myFile1.png',
-			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
+			'XMLTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1167,7 +1167,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.putObjectAcl({
 			'BucketName' : 'xyzw',
 			'ObjectName' : 'myFile1.png',
-			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
+			'XMLTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1179,7 +1179,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.putObjectAcl({
 			'BucketName' : 'pankaj12345',
 			'ObjectName' : '',
-			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
+			'XMLTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>bdc36625affafdb55b4eef63987c06e225014c5e6cbbe103161eb0833222b364</ID><DisplayName>' + emailId + '</DisplayName></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"><EmailAddress>' + emailId + '</EmailAddress></Grantee><Permission>READ</Permission></Grant></AccessControlList></AccessControlPolicy>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1187,11 +1187,11 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testPutObjectAclWithEmptyXmlTemplate_as_async= function(testRun) {
+	this.testPutObjectAclWithEmptyXMLTemplate_as_async= function(testRun) {
 		AWS.S3.putObjectAcl({
 			'BucketName' : 'test12354',
 			'ObjectName' : '',
-			'xmlTemplate' : ''
+			'XMLTemplate' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1277,7 +1277,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 
 			AWS.S3.putBucketLifecycle({
 				'BucketName' : bucketName1 ,
-				'xmlTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
+				'XMLTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
 			}, function(data) {
 
 				AWS.S3.getBucketLifecycle({
@@ -1619,7 +1619,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		
 			AWS.S3.putBucketLifecycle({
 				'BucketName' : bucketName1,
-				'xmlTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
+				'XMLTemplate' : '<LifecycleConfiguration><Rule><ID>delete-logs-rule</ID><Prefix>logs/</Prefix><Status>Enabled</Status><Expiration><Days>30</Days></Expiration></Rule><Rule><ID>delete-documents-rule</ID><Prefix>documents/</Prefix><Status>Enabled</Status><Expiration><Days>365</Days></Expiration></Rule></LifecycleConfiguration>'
 			}, function(data) {
 				AWS.S3.deleteBucketLifecycle({
 					'BucketName' : bucketName1
@@ -1671,7 +1671,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 
 			AWS.S3.putBucketPolicy({
 				'BucketName' : bucketName2,
-				'xmlTemplate' : JSON.stringify(jsonObject)
+				'XMLTemplate' : JSON.stringify(jsonObject)
 			}, function(data) {
 				AWS.S3.deleteBucketPolicy({
 					'BucketName' : bucketName2
@@ -1712,7 +1712,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	
 			AWS.S3.putBucketWebsite({
 				'BucketName' : 'test953',
-				'xmlTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument><Suffix>index.html</Suffix></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
+				'XMLTemplate' : '<WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><IndexDocument><Suffix>index.html</Suffix></IndexDocument><ErrorDocument><Key>404.html</Key></ErrorDocument></WebsiteConfiguration>'
 			}, function(data) {
 
 				AWS.S3.deleteBucketWebsite({
@@ -1757,7 +1757,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			AWS.S3.putObject({
 				'BucketName' :bucketName1,
 				'ObjectName' : 'KS_nav_views_3.png',
-				'file' : f
+				'File' : f
 			}, function(data) {
 				//alert('Success')
 				AWS.S3.deleteObject({
@@ -1820,7 +1820,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testDeleteMultipleObjectsWithEmptybucketName_as_async= function(testRun) {
 		AWS.S3.deleteMultipleObjects({
 			'BucketName' : '',
-			'xmlTemplate' : '<Delete><Object><Key>sample1.txt</Key></Object><Object><Key>sample2.txt</Key></Object></Delete>'
+			'XMLTemplate' : '<Delete><Object><Key>sample1.txt</Key></Object><Object><Key>sample2.txt</Key></Object></Delete>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1831,7 +1831,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testDeleteMultipleObjectsWithInvalidbucketName_as_async= function(testRun) {
 		AWS.S3.deleteMultipleObjects({
 			'BucketName' : 'xyzw',
-			'xmlTemplate' : '<Delete><Object><Key>sample1.txt</Key></Object><Object><Key>sample2.txt</Key></Object></Delete>'
+			'XMLTemplate' : '<Delete><Object><Key>sample1.txt</Key></Object><Object><Key>sample2.txt</Key></Object></Delete>'
 		}, function(data) {
 			finish(testRun);
 		}, function(error) {
@@ -1839,10 +1839,10 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testDeleteMultipleObjectsWithEmptyXmlTemplate_as_async= function(testRun) {
+	this.testDeleteMultipleObjectsWithEmptyXMLTemplate_as_async= function(testRun) {
 		AWS.S3.deleteMultipleObjects({
 			'BucketName' : 'velocity-gl',
-			'xmlTemplate' : ''
+			'XMLTemplate' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1853,7 +1853,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testDeleteMultipleObjectsWithInvalidobjectName_as_async= function(testRun) {
 		AWS.S3.deleteMultipleObjects({
 			'BucketName' : 'velocity-gl',
-			'xmlTemplate' : '<Delete><Object><Key>sample1.txt</Key></Object><Object></Object></Delete>'
+			'XMLTemplate' : '<Delete><Object><Key>sample1.txt</Key></Object><Object></Object></Delete>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -1867,7 +1867,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			AWS.S3.putObject({
 				'BucketName' : bucketName1,
 				'ObjectName' : 'KS_nav_views.png',
-				'file' : f
+				'File' : f
 			}, function(data) {
 				AWS.S3.getObject({
 					'BucketName' : bucketName1,
@@ -1940,7 +1940,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.putObjectAcl({
 			'BucketName' : bucketName2,
 			'ObjectName' : 'KS_nav_views.png',
-			'xmlTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Grantee><Permission>FULL_CONTROL</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>WRITE</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>READ_ACP</Permission></Grant></AccessControlList></AccessControlPolicy>'
+			'XMLTemplate' : '<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Grantee><Permission>FULL_CONTROL</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>WRITE</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>READ_ACP</Permission></Grant></AccessControlList></AccessControlPolicy>'
 			//'<AccessControlPolicy xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Owner><AccessControlList><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"><ID>440390190d411a6be128269cc1ff8db1694bec5fa9c198e8c7d941065eb711ad</ID></Grantee><Permission>FULL_CONTROL</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>WRITE</Permission></Grant><Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"><URI>http://acs.amazonaws.com/groups/s3/LogDelivery</URI></Grantee><Permission>READ_ACP</Permission></Grant></AccessControlList></AccessControlPolicy>'	
 			}, function(data) {
 				
@@ -2012,7 +2012,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			AWS.S3.putObject({
 				'BucketName' : bucketName1,
 				'ObjectName' : 'KS_nav_views.png',
-				'file' : f
+				'File' : f
 			}, function(data) {
 				AWS.S3.initiateMultipartUpload({
 					'BucketName' : bucketName1,
@@ -2184,7 +2184,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			AWS.S3.putObject({
 				'BucketName' : bucketName1,
 				'ObjectName' : 'KS_nav_views.png',
-				'file' : f
+				'File' : f
 			}, function(data) {
 				AWS.S3.initiateMultipartUpload({
 					'BucketName' : bucketName1,
@@ -2285,7 +2285,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.uploadPartCopy({
 			'BucketName' : '',
 			'ObjectName' : 'struts2.pdf',
-			'copySource' : '/pankaj2344/Spring.pdf',
+			'CopySource' : '/pankaj2344/Spring.pdf',
 			'UploadId' : UploadId,
 			'PartNumber' : '1'
 		}, function(data) {
@@ -2300,7 +2300,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			'BucketName' : 'xyzw',
 
 			'ObjectName' : 'struts2.pdf',
-			'copySource' : '/pankaj2344/Spring.pdf',
+			'CopySource' : '/pankaj2344/Spring.pdf',
 			'UploadId' : UploadId,
 			'PartNumber' : '1'
 		}, function(data) {
@@ -2314,7 +2314,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.uploadPartCopy({
 			'BucketName' : 'test12398',
 			'ObjectName' : '',
-			'copySource' : '/pankaj2344/Spring.pdf',
+			'CopySource' : '/pankaj2344/Spring.pdf',
 			'UploadId' : UploadId,
 			'PartNumber' : '1'
 		}, function(data) {
@@ -2328,7 +2328,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.uploadPartCopy({
 			'BucketName' : 'test12398',
 			'ObjectName' : 'image.63',
-			'copySource' : '/pankaj2344/Spring.pdf',
+			'CopySource' : '/pankaj2344/Spring.pdf',
 			'UploadId' : UploadId,
 			'PartNumber' : '1'
 		}, function(data) {
@@ -2341,7 +2341,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 	this.testUploadPartCopyWithEmptyuploadId_as_async= function(testRun) {
 		AWS.S3.uploadPartCopy({
 			'BucketName' : 'test12398',
-			'copySource' : '/pankaj2344/Spring.pdf',
+			'CopySource' : '/pankaj2344/Spring.pdf',
 			'ObjectName' : 'struts2.pdf',
 			'UploadId' : '',
 			'PartNumber' : '1'
@@ -2356,7 +2356,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.uploadPartCopy({
 			'BucketName' : 'test12398',
 			'ObjectName' : 'struts2.pdf',
-			'copySource' : '/pankaj2344/Spring.pdf',
+			'CopySource' : '/pankaj2344/Spring.pdf',
 			'UploadId' : '',
 			'PartNumber' : '1'
 		}, function(data) {
@@ -2370,7 +2370,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.uploadPartCopy({
 			'BucketName' : 'test12398',
 			'ObjectName' : 'struts2.pdf',
-			'copySource' : '/pankaj2344/Spring.pdf',
+			'CopySource' : '/pankaj2344/Spring.pdf',
 			'UploadId' : UploadId,
 			'PartNumber' : ''
 		}, function(data) {
@@ -2384,7 +2384,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.uploadPartCopy({
 			'BucketName' : 'test12398',
 			'ObjectName' : 'struts2.pdf',
-			'copySource' : '/pankaj2344/Spring.pdf',
+			'CopySource' : '/pankaj2344/Spring.pdf',
 			'UploadId' : UploadId,
 			'PartNumber' : 'xy'
 		}, function(data) {
@@ -2398,7 +2398,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.uploadPartCopy({
 			'BucketName' : 'test12398',
 			'ObjectName' : 'struts2.pdf',
-			'copySource' : '',
+			'CopySource' : '',
 			'UploadId' : UploadId,
 			'PartNumber' : '2'
 		}, function(data) {
@@ -2412,7 +2412,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		AWS.S3.uploadPartCopy({
 			'BucketName' : 'test12398',
 			'ObjectName' : 'struts2.pdf',
-			'copySource' : '/blah/blah',
+			'CopySource' : '/blah/blah',
 			'UploadId' : UploadId,
 			'PartNumber' : '2'
 		}, function(data) {
@@ -2427,7 +2427,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			'BucketName' : '',
 			'ObjectName' : 'struts2.pdf',
 			'UploadId' : UploadId,
-			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"&quot;038969b6c419420d05e62ead4a9dd88e&quot;"</ETag></CompleteMultipartUpload>'
+			'XMLTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"&quot;038969b6c419420d05e62ead4a9dd88e&quot;"</ETag></CompleteMultipartUpload>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -2440,7 +2440,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			'BucketName' : 'xyzw',
 			'ObjectName' : 'struts2.pdf',
 			'UploadId' : UploadId,
-			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '""</ETag></Part></CompleteMultipartUpload>'
+			'XMLTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '""</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -2453,7 +2453,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			'BucketName' : 'test12398',
 			'ObjectName' : '',
 			'UploadId' : UploadId,
-			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
+			'XMLTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -2466,7 +2466,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			'BucketName' : 'test12398',
 			'ObjectName' : 'image.63',
 			'UploadId' : UploadId,
-			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
+			'XMLTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -2479,7 +2479,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			'BucketName' : 'test12398',
 			'ObjectName' : 'struts2.pdf',
 			'UploadId' : '',
-			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
+			'XMLTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -2492,7 +2492,7 @@ this.testPutBucketLogging_as_async= function(testRun) {
 			'BucketName' : 'test12398',
 			'ObjectName' : 'struts2.pdf',
 			'UploadId' : 'bQZXGLyBw6hwwp9P9pk_Rk17Y5escQ_E949jTPySaJEvcrUfEAPE7Ng--',
-			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
+			'XMLTemplate' : '<CompleteMultipartUpload><Part><PartNumber>2</PartNumber><ETag>"' + ETag + '"</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -2500,12 +2500,12 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testCompleteMultipartUploadWithEmptyXmlTemplate_as_async= function(testRun) {
+	this.testCompleteMultipartUploadWithEmptyXMLTemplate_as_async= function(testRun) {
 		AWS.S3.completeMultipartUpload({
 			'BucketName' : 'test12398',
 			'ObjectName' : 'struts2.pdf',
 			'UploadId' : UploadId,
-			'xmlTemplate' : ''
+			'XMLTemplate' : ''
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
@@ -2513,12 +2513,12 @@ this.testPutBucketLogging_as_async= function(testRun) {
 		});
 	}
 	
-	this.testCompleteMultipartUploadWithInvalidXmlTemplate_as_async= function(testRun) {
+	this.testCompleteMultipartUploadWithInvalidXMLTemplate_as_async= function(testRun) {
 		AWS.S3.completeMultipartUpload({
 			'BucketName' : 'test12398',
 			'ObjectName' : 'struts2.pdf',
 			'UploadId' : UploadId,
-			'xmlTemplate' : '<CompleteMultipartUpload><Part><PartNumber>1</PartNumber><ETag>"a54357aff0632cce46d942af68356b38"</ETag></Part><Part><ETag>"0c78aef83f66abc1fa1e8477f296d394"</ETag></Part><Part><PartNumber>3</PartNumber><ETag>"acbd18db4cc2f85cedef654fccc4a4d8"</ETag></Part></CompleteMultipartUpload>'
+			'XMLTemplate' : '<CompleteMultipartUpload><Part><PartNumber>1</PartNumber><ETag>"a54357aff0632cce46d942af68356b38"</ETag></Part><Part><ETag>"0c78aef83f66abc1fa1e8477f296d394"</ETag></Part><Part><PartNumber>3</PartNumber><ETag>"acbd18db4cc2f85cedef654fccc4a4d8"</ETag></Part></CompleteMultipartUpload>'
 		}, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
 		}, function(error) {
