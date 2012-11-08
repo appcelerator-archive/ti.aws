@@ -54,9 +54,9 @@ module.exports = new function () {
 			},1000);
 	}//end testSimple
 	
-	this.testBatchGetItemWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testBatchGetItemWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {} //Empty
+			'RequestJSON' : {} //Empty
 		};
 		
 		AWS.DDB.batchGetItem(params, function(data) {
@@ -67,12 +67,12 @@ module.exports = new function () {
 	}
 
 	/**
-	 *Test case for batchGetItem With an Invalid requestJSON.
+	 *Test case for batchGetItem With an Invalid RequestJSON.
 	 */
 	
-	this.testBatchGetItemWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testBatchGetItemWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				'test' : 'test'
 			} //Empty
 		};
@@ -85,12 +85,12 @@ module.exports = new function () {
 	
 	
 	/**
-	 *Test case for batchGetItem With a valid requestJSON.
+	 *Test case for batchGetItem With a valid RequestJSON.
 	 */
 
 	this.testBatchGetItem_as_async = function(testRun) {
 		
-		var params = '{"requestJSON" : {"RequestItems":{"my-ddb-test-tab": {"Keys": [{"HashKeyElement": {"S":"1"}, "RangeKeyElement":{"N":"1"}}],"AttributesToGet":["item2"]},"my-ddb-test-tab": {"Keys": [{"HashKeyElement": {"S":"1"}, "RangeKeyElement":{"N":"1"}}],"AttributesToGet": ["item1"]}}}}';
+		var params = '{"RequestJSON" : {"RequestItems":{"my-ddb-test-tab": {"Keys": [{"HashKeyElement": {"S":"1"}, "RangeKeyElement":{"N":"1"}}],"AttributesToGet":["item2"]},"my-ddb-test-tab": {"Keys": [{"HashKeyElement": {"S":"1"}, "RangeKeyElement":{"N":"1"}}],"AttributesToGet": ["item1"]}}}}';
 			
 		AWS.DDB.batchGetItem(JSON.parse(params),			
 		function(data, response) {
@@ -106,13 +106,13 @@ module.exports = new function () {
 	//***************batchWriteItem test cases start**************
 
 	/**
-	 *Test case for BatchWriteItem WithEmpty  requestJSON.
+	 *Test case for BatchWriteItem WithEmpty  RequestJSON.
 	 */
 	
 	
-	this.testBatchWriteItemWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testBatchWriteItemWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}//Empty
+			'RequestJSON' : {}//Empty
 		};
 		AWS.DDB.batchWriteItem(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -122,15 +122,15 @@ module.exports = new function () {
 	}
 
 	/**
-	 *Test case for batchWriteItem With an Invalid requestJSON.
+	 *Test case for batchWriteItem With an Invalid RequestJSON.
 	 */
 	
-	this.testBatchWriteItemWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testBatchWriteItemWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.batchWriteItem(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -140,12 +140,12 @@ module.exports = new function () {
 	}
 
 	/**
-	 *Test case for batchWriteItem With a valid requestJSON.
+	 *Test case for batchWriteItem With a valid RequestJSON.
 	 */
 // 
 	this.testBatchWriteItem_as_async = function(testRun) {
 
-		var params ='{"requestJSON" : {"RequestItems": {"my-ddb-test-tab": [{"PutRequest":{"Item":{"name":{"S":"1234567"},"1234":{"N":"12345678"}}}},{"DeleteRequest":{"Key":{"HashKeyElement":{"S":"1"},"RangeKeyElement":{"N":"1"}}}}], "my-ddb-test-tab": [{"PutRequest":{"Item": {"name":{"S":"Amazon DynamoDB"},"1234":{"N":"6"}}}}]}}}';	
+		var params ='{"RequestJSON" : {"RequestItems": {"my-ddb-test-tab": [{"PutRequest":{"Item":{"name":{"S":"1234567"},"1234":{"N":"12345678"}}}},{"DeleteRequest":{"Key":{"HashKeyElement":{"S":"1"},"RangeKeyElement":{"N":"1"}}}}], "my-ddb-test-tab": [{"PutRequest":{"Item": {"name":{"S":"Amazon DynamoDB"},"1234":{"N":"6"}}}}]}}}';
 		AWS.DDB.batchWriteItem(JSON.parse(params),
 		function(data, response) {
 			finish(testRun);
@@ -160,12 +160,12 @@ module.exports = new function () {
 	//***************createTable test cases start**************
 
 	/**
-	 *Test case for createTable With a valid requestJSON.
+	 *Test case for createTable With a valid RequestJSON.
 	 */
 	this.testCreateTable_as_async = function(testRun) {
 
 	var param = {
-	"requestJSON" : {
+	"RequestJSON" : {
 	"TableName" : "AWS_Appcel_Test_Create",
 	"KeySchema" : {
 	"HashKeyElement" : {
@@ -194,7 +194,7 @@ module.exports = new function () {
 	
 	var cleanUp = function () {	
 		var param = {
-			"requestJSON" : {
+			"RequestJSON" : {
 			"TableName" : "AWS_Appcel_Test_Create"
 			}
 					};	
@@ -212,11 +212,11 @@ module.exports = new function () {
 	
 
 	/**
-	 *Test case for createTable WithEmpty  requestJSON.
+	 *Test case for createTable WithEmpty  RequestJSON.
 	 */
-	this.testCreateTableWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testCreateTableWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}//Empty
+			'RequestJSON' : {}//Empty
 		};
 		AWS.DDB.createTable(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -226,14 +226,14 @@ module.exports = new function () {
 	}
 
 	/**
-	 *Test case for createTable With an Invalid requestJSON.
+	 *Test case for createTable With an Invalid RequestJSON.
 	 */
-	this.testCreateTableWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testCreateTableWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.createTable(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -246,11 +246,11 @@ module.exports = new function () {
 
 	//***************deleteItem test cases start**************
 	/**
-	 *Test case for deleteItem WithEmpty  requestJSON.
+	 *Test case for deleteItem WithEmpty  RequestJSON.
 	 */
-	this.testDeleteItemWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testDeleteItemWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}//Empty
+			'RequestJSON' : {}//Empty
 		};
 		AWS.DDB.deleteItem(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -259,14 +259,14 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for deleteItem With an Invalid requestJSON.
+	 *Test case for deleteItem With an Invalid RequestJSON.
 	 */
-	this.testDeleteItemWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testDeleteItemWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.deleteItem(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -275,13 +275,13 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for deleteItem With a valid requestJSON.
+	 *Test case for deleteItem With a valid RequestJSON.
 	 */
 
 	this.testDeleteItem_as_async = function(testRun) {
 
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"TableName" : tableName,
 				"Item" : {
 					"name" : {
@@ -295,7 +295,7 @@ module.exports = new function () {
 		};
 		AWS.DDB.putItem(params, function(data) {
 			var params = {
-				'requestJSON' : {
+				'RequestJSON' : {
 					"TableName" : tableName,
 					"Key" : {
 						"HashKeyElement" : {
@@ -323,11 +323,11 @@ module.exports = new function () {
 
 	//***************describeTable test cases start**************
 	/**
-	 *Test case for describeTable WithEmpty  requestJSON.
+	 *Test case for describeTable WithEmpty  RequestJSON.
 	 */
-	this.testDescribeTableWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testDescribeTableWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}//Empty
+			'RequestJSON' : {}//Empty
 		};
 		AWS.DDB.describeTable(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -336,14 +336,14 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for describeTable With an Invalid requestJSON.
+	 *Test case for describeTable With an Invalid RequestJSON.
 	 */
-	this.testDescribeTableWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testDescribeTableWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.describeTable(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -353,13 +353,13 @@ module.exports = new function () {
 	}
 
 	/**
-	 *Test case for describeTable With a valid requestJSON.
+	 *Test case for describeTable With a valid RequestJSON.
 	 */
 
 	this.testDescribeTable_as_async = function(testRun) {
 
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				'TableName' : tableName
 			}//Required
 		};
@@ -367,7 +367,7 @@ module.exports = new function () {
 			
 			finish(testRun);
 			var params = {
-				'requestJSON' : {
+				'RequestJSON' : {
 					"TableName" : tableName
 				}
 			};
@@ -382,11 +382,11 @@ module.exports = new function () {
 
 	//***************GetItem test cases start**************
 	/**
-	 *Test case for getItem WithEmpty  requestJSON.
+	 *Test case for getItem WithEmpty  RequestJSON.
 	 */
-	this.testGetItemWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testGetItemWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}//Empty
+			'RequestJSON' : {}//Empty
 		};
 		AWS.DDB.getItem(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -395,14 +395,14 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for getItem With an Invalid requestJSON.
+	 *Test case for getItem With an Invalid RequestJSON.
 	 */
-	this.testGetItemWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testGetItemWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.getItem(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -411,13 +411,13 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for getItem With a valid requestJSON.
+	 *Test case for getItem With a valid RequestJSON.
 	 */
 
 	this.testGetItem_as_async = function(testRun) {
 
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"TableName" : tableName,
 				"Item" : {
 					"name" : {
@@ -431,7 +431,7 @@ module.exports = new function () {
 		};
 		AWS.DDB.putItem(params, function(data) {
 			var params = {
-				'requestJSON' : {
+				'RequestJSON' : {
 					"TableName" : tableName,
 					"Key" : {
 						"HashKeyElement" : {
@@ -448,7 +448,7 @@ module.exports = new function () {
 
 				finish(testRun);
 				var params = {
-					'requestJSON' : {
+					'RequestJSON' : {
 						"TableName" : tableName,
 						"Key" : {
 							"HashKeyElement" : {
@@ -480,14 +480,14 @@ module.exports = new function () {
 	//***************listTables test cases start**************
 
 	/*
-	 *Test case for listTables With an Invalid requestJSON.
+	 *Test case for listTables With an Invalid RequestJSON.
 	 */
-	this.testListTablesWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testListTablesWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.listTables(params, function(data) {
 			finish(testRun);
@@ -496,11 +496,11 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for listTables With a valid requestJSON.
+	 *Test case for listTables With a valid RequestJSON.
 	 */
 	this.testListTables_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}
+			'RequestJSON' : {}
 		};
 		AWS.DDB.listTables(params, function(data) {
 			finish(testRun);
@@ -512,11 +512,11 @@ module.exports = new function () {
 
 	//***************putItem test cases start**************
 	/**
-	 *Test case for putItem WithEmpty  requestJSON.
+	 *Test case for putItem WithEmpty  RequestJSON.
 	 */
-	this.testPutItemWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testPutItemWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}//Empty
+			'RequestJSON' : {}//Empty
 		};
 		AWS.DDB.putItem(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -525,14 +525,14 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for putItem With an Invalid requestJSON.
+	 *Test case for putItem With an Invalid RequestJSON.
 	 */
-	this.testPutItemWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testPutItemWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.putItem(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -541,13 +541,13 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for putItem With a valid requestJSON.
+	 *Test case for putItem With a valid RequestJSON.
 	 */
 
 	this.testPutItem_as_async = function(testRun) {
 
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"TableName" : tableName,
 				"Item" : {
 					"name" : {
@@ -562,7 +562,7 @@ module.exports = new function () {
 		AWS.DDB.putItem(params, function(data) {
 			finish(testRun);
 			var params = {
-				'requestJSON' : {
+				'RequestJSON' : {
 					"TableName" : tableName,
 					"Key" : {
 						"HashKeyElement" : {
@@ -589,11 +589,11 @@ module.exports = new function () {
 
 	//***************query test cases start**************
 	/**
-	 *Test case for query WithEmpty  requestJSON.
+	 *Test case for query WithEmpty  RequestJSON.
 	 */
-	this.testQueryWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testQueryWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}//Empty
+			'RequestJSON' : {}//Empty
 		};
 		AWS.DDB.query(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -602,14 +602,14 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for query With an Invalid requestJSON.
+	 *Test case for query With an Invalid RequestJSON.
 	 */
-	this.testQueryWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testQueryWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.query(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -618,13 +618,13 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for query With a valid requestJSON.
+	 *Test case for query With a valid RequestJSON.
 	 */
 
 	this.testQuery_as_async = function(testRun) {
 
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"TableName" : tableName,
 				"HashKeyValue" : {
 					"S" : "Bill & Ted's Excellent Adventure"
@@ -634,7 +634,7 @@ module.exports = new function () {
 		AWS.DDB.query(params, function(data) {
 			finish(testRun);
 			var params = {
-				'requestJSON' : {
+				'RequestJSON' : {
 					"TableName" : tableName
 				}//Required
 			};
@@ -649,11 +649,11 @@ module.exports = new function () {
 
 	//***************scan test cases start**************
 	/**
-	 *Test case for scan WithEmpty  requestJSON.
+	 *Test case for scan WithEmpty  RequestJSON.
 	 */
-	this.testScanWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testScanWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}//Empty
+			'RequestJSON' : {}//Empty
 		};
 		AWS.DDB.scan(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -662,14 +662,14 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for scan With an Invalid requestJSON.
+	 *Test case for scan With an Invalid RequestJSON.
 	 */
-	this.testScanWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testScanWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.scan(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -678,13 +678,13 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for scan With a valid requestJSON.
+	 *Test case for scan With a valid RequestJSON.
 	 */
 
 	this.testScan_as_async = function(testRun) {
 
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"TableName" : tableName,
 				"ScanFilter" : {
 					"1234" : {
@@ -699,7 +699,7 @@ module.exports = new function () {
 		AWS.DDB.scan(params, function(data) {
 			finish(testRun);
 			var params = {
-				'requestJSON' : {
+				'RequestJSON' : {
 					"TableName" : tableName
 				}//Required
 			};
@@ -714,11 +714,11 @@ module.exports = new function () {
 
 	//***************updateItem test cases start**************
 	/**
-	 *Test case for updateItem WithEmpty  requestJSON.
+	 *Test case for updateItem WithEmpty  RequestJSON.
 	 */
-	this.testUpdateItemWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testUpdateItemWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}//Empty
+			'RequestJSON' : {}//Empty
 		};
 		AWS.DDB.updateItem(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -727,14 +727,14 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for updateItem With an Invalid requestJSON.
+	 *Test case for updateItem With an Invalid RequestJSON.
 	 */
-	this.testUpdateItemWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testUpdateItemWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.updateItem(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -743,13 +743,13 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for updateItem With a valid requestJSON.
+	 *Test case for updateItem With a valid RequestJSON.
 	 */
 
 	this.testUpdateItem_as_async = function(testRun) {
 
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"TableName" : tableName,
 				"Item" : {
 					"name" : {
@@ -763,7 +763,7 @@ module.exports = new function () {
 		};
 		AWS.DDB.putItem(params, function(data) {
 			var params = {
-				'requestJSON' : {
+				'RequestJSON' : {
 					"TableName" : tableName,
 					"Key" : {
 						"HashKeyElement" : {
@@ -788,7 +788,7 @@ module.exports = new function () {
 			AWS.DDB.updateItem(params, function(data) {
 				finish(testRun);
 				var params = {
-					'requestJSON' : {
+					'RequestJSON' : {
 						"TableName" : tableName,
 						"Key" : {
 							"HashKeyElement" : {
@@ -820,11 +820,11 @@ module.exports = new function () {
 
 	//***************updateTable test cases start**************
 	/**
-	 *Test case for UpdateTable WithEmpty  requestJSON.
+	 *Test case for UpdateTable WithEmpty  RequestJSON.
 	 */
-	this.testUpdateTableWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testUpdateTableWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}//Empty
+			'RequestJSON' : {}//Empty
 		};
 		AWS.DDB.updateTable(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -833,14 +833,14 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for updateTable With an Invalid requestJSON.
+	 *Test case for updateTable With an Invalid RequestJSON.
 	 */
-	this.testUpdateTableWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testUpdateTableWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.updateTable(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -849,12 +849,12 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for updateTable With a valid requestJSON.
+	 *Test case for updateTable With a valid RequestJSON.
 	 */
 
 	this.testUpdateTable_as_async = function(testRun) {
 		
-		var params = '{"requestJSON" : {"TableName" : "' + tableNameForUpdate + '","ProvisionedThroughput" : {"ReadCapacityUnits" : 6,"WriteCapacityUnits" : 6} }}';
+		var params = '{"RequestJSON" : {"TableName" : "' + tableNameForUpdate + '","ProvisionedThroughput" : {"ReadCapacityUnits" : 6,"WriteCapacityUnits" : 6} }}';
 		
 		AWS.DDB.updateTable(JSON.parse(params), function(data) {
 			// Nothing here!! just pass!!
@@ -867,7 +867,7 @@ module.exports = new function () {
 		
 			var cleanUp = function () {	
 			var param = {
-				"requestJSON" : {
+				"RequestJSON" : {
 				"TableName" : tableNameForUpdate
 				}
 					};	
@@ -878,7 +878,7 @@ module.exports = new function () {
 		
 				var reCreate = function () {	
 				var param = {
-							"requestJSON" : {
+							"RequestJSON" : {
 							"TableName" : tableNameForUpdate,
 							"KeySchema" : {
 							"HashKeyElement" : {
@@ -915,11 +915,11 @@ module.exports = new function () {
 	//***************deleteTable test cases start**************
 
 	/**
-	 *Test case for deleteTable With a valid requestJSON.
+	 *Test case for deleteTable With a valid RequestJSON.
 	 */
 	/*this.testDeleteTable_as_async = function(testRun) {
 	var param = {
-	"requestJSON" : {
+	"RequestJSON" : {
 	"TableName" : "my-ddb-goyal-tab",
 	"KeySchema" : {
 	"HashKeyElement" : {
@@ -942,7 +942,7 @@ module.exports = new function () {
 
 	AWS.DDB.createTable(param, function(data) {
 	var param = {
-	'requestJSON' : {
+	'RequestJSON' : {
 	"TableName" : "my-ddb-test-tab",
 	}
 	};
@@ -958,11 +958,11 @@ module.exports = new function () {
 	},*/
 
 	/**
-	 *Test case for deleteTable WithEmpty  requestJSON.
+	 *Test case for deleteTable WithEmpty  RequestJSON.
 	 */
-	this.testDeleteTableWithEmptyrequestJSON_as_async = function(testRun) {
+	this.testDeleteTableWithEmptyRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {}//Empty
+			'RequestJSON' : {}//Empty
 		};
 		AWS.DDB.deleteTable(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();
@@ -971,14 +971,14 @@ module.exports = new function () {
 		});
 	}
 	/**
-	 *Test case for deleteTable With an Invalid requestJSON.
+	 *Test case for deleteTable With an Invalid RequestJSON.
 	 */
-	this.testDeleteTableWithInvalidrequestJSON_as_async = function(testRun) {
+	this.testDeleteTableWithInvalidRequestJSON_as_async = function(testRun) {
 		var params = {
-			'requestJSON' : {
+			'RequestJSON' : {
 				"asdf" : "hdd"
 
-			}//Invalid requestJSON
+			}//Invalid RequestJSON
 		};
 		AWS.DDB.deleteTable(params, function(data) {
 			valueOf(testRun, true).shouldBeFalse();

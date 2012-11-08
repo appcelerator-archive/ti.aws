@@ -121,8 +121,8 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	var xhr = Ti.Network.createHTTPClient();
 	params.contentType = this.contentType || '';
 
-	if (this.computeMD5 && params.xmlTemplate) {
-		params.contentMD5 = sessionOBJ.md5.b64_md5(params.xmlTemplate);
+	if (this.computeMD5 && params.XMLTemplate) {
+		params.contentMD5 = sessionOBJ.md5.b64_md5(params.XMLTemplate);
 	} else {
 		params.contentMD5 = '';
 	}
@@ -137,15 +137,15 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	params.stringToSign = '';
 	//params.method = this.method;
 	if (this.method == 'getPresignedUrl') {
-		params.curDate = params.expires;
+		params.curDate = params.Expires;
 	}
 	//get the file mime type and size from the file object passed by client
 	if (this.uploadFile) {
-		var fileContents = params.file.read();
+		var fileContents = params.File.read();
 		if (fileContents) {
 			params.contentType = fileContents.mimeType;
 		}
-		params.contentLength = params.file.size;
+		params.contentLength = params.File.size;
 	}
 
 	sessionOBJ.awsHelper.generateS3Params(params);
@@ -155,9 +155,9 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	if (this.method == 'listVersions') {
 		params.url = 'https://' + params.BucketName + this.endpoint + params.subResource;
 	} else if (this.method == 'deleteVersion') {
-		params.url = 'https://' + params.BucketName + this.endpoint + params.key + '?versionId=' + params.versionId;
+		params.url = 'https://' + params.BucketName + this.endpoint + params.Key + '?versionId=' + params.VersionId;
 	} else if (this.method == 'getPresignedUrl') {
-		var url = params.url + '?AWSAccessKeyId=' + sessionOBJ.accessKeyId + '&Expires=' + params.expires + '&Signature=' + encodeURIComponent(signature);
+		var url = params.url + '?AWSAccessKeyId=' + sessionOBJ.accessKeyId + '&Expires=' + params.Expires + '&Signature=' + encodeURIComponent(signature);
 		cbOnData(url, null);
 		return;
 	}
@@ -192,8 +192,8 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 		xhr.setRequestHeader('Content-MD5', params.contentMD5)
 	}
 	//used for apis like Put object copy and upload part-copy
-	if (params.hasOwnProperty('copySource')) {
-		xhr.setRequestHeader('x-amz-copy-source', params.copySource);
+	if (params.hasOwnProperty('CopySource')) {
+		xhr.setRequestHeader('x-amz-copy-source', params.CopySource);
 		// will be passed by client
 	}
 
@@ -219,8 +219,8 @@ var s3Executor = function(params, cbOnData, cbOnError) {
 	xhr.onerror = function(e) {
 		awsHelper.httpError(this, sessionOBJ.xmlToJSON.toJSON(this.responseText, false, null), e, cbOnError);
 	}
-	if (params.hasOwnProperty('xmlTemplate')) {//for sending xml in request object
-		xhr.send(params.xmlTemplate);
+	if (params.hasOwnProperty('XMLTemplate')) {//for sending xml in request object
+		xhr.send(params.XMLTemplate);
 	} else if (fileContents && (params.contentLength > 0)) {// for sending file in request object
 		xhr.send(fileContents);
 	} else {
@@ -348,7 +348,7 @@ var dynamoDBCall = function(thisRef, params, cbOnData, cbOnError) {
 	//var dtStr = (new Date).toUTCString();
 	var canonicalHeader = 'host:' + thisRef.host + '\n' + 'x-amz-date:' + curDate + '\n' + 'x-amz-security-token:' + sessionToken + '\n' + 'x-amz-target:DynamoDB_20111205.' + thisRef.action + '\n';
 	var signedHeaders = 'Host;X-Amz-Date;x-amz-security-token;X-Amz-Target';
-	var stringToSign = thisRef.verb + '\n' + '/' + '\n' + '' + '\n' + canonicalHeader + '\n' + JSON.stringify(params.requestJSON);
+	var stringToSign = thisRef.verb + '\n' + '/' + '\n' + '' + '\n' + canonicalHeader + '\n' + JSON.stringify(params.RequestJSON);
 
 	var signature = sessionOBJ.sha256.b64_hmac_sha256_sha256(secretAccessKey, stringToSign);
 	if (signature.substring(signature.length - 1) !== "=") {
@@ -376,7 +376,7 @@ var dynamoDBCall = function(thisRef, params, cbOnData, cbOnError) {
 	xhr.setRequestHeader('Host', thisRef.host);
 	xhr.setRequestHeader('X-Amzn-Authorization', auth);
 
-	xhr.send(JSON.stringify(params.requestJSON));
+	xhr.send(JSON.stringify(params.RequestJSON));
 }
 var AWS = {};
 
@@ -578,49 +578,49 @@ sessionOBJ.bedFrame.build(AWS, {
 			}, {
 				method : 'putBucketAcl', verb : 'PUT', subResource : '?acl', contentType : 'application/xml',
 				validations : {
-					required : { params : ['BucketName', 'xmlTemplate']	}
+					required : { params : ['BucketName', 'XMLTemplate']	}
 				}
 			}, {
 				method : 'putBucketLifecycle', verb : 'PUT', subResource : '?lifecycle', contentType : 'application/xml', computeMD5 : true,
 				validations : {
-					required : { params : ['BucketName', 'xmlTemplate'] }
+					required : { params : ['BucketName', 'XMLTemplate'] }
 				}
 			}, {
 				method : 'putBucketPolicy', verb : 'PUT', subResource : '?policy', contentType : 'application/json',
 				validations : {
-					required : { params : ['BucketName', 'xmlTemplate']	}
+					required : { params : ['BucketName', 'XMLTemplate']	}
 				}
 			}, {
 				method : 'putBucketLogging', verb : 'PUT', subResource : '?logging', contentType : 'application/xml',
 				validations : {
-					required : { params : ['BucketName', 'xmlTemplate']	}
+					required : { params : ['BucketName', 'XMLTemplate']	}
 				}
 			}, {
 				method : 'putBucketNotification', verb : 'PUT',	subResource : '?notification', contentType : 'application/xml',
 				validations : {
-					required : { params : ['BucketName', 'xmlTemplate']
+					required : { params : ['BucketName', 'XMLTemplate']
 					}
 				}
 			}, {
 				method : 'putBucketTagging', verb : 'PUT',	subResource : '?tagging', contentType : 'application/xml',
 				validations : {
-					required : { params : ['BucketName', 'xmlTemplate']
+					required : { params : ['BucketName', 'XMLTemplate']
 					}
 				}
 			}, {
 				method : 'putBucketRequestPayment', verb : 'PUT', subResource : '?requestPayment', contentType : 'application/xml',
 				validations : {
-					required : { params : ['BucketName', 'xmlTemplate']	}
+					required : { params : ['BucketName', 'XMLTemplate']	}
 				}
 			}, {
 				method : 'putBucketVersioning',	verb : 'PUT', subResource : '?versioning', contentType : 'application/xml',
 				validations : {
-					required : { params : ['BucketName', 'xmlTemplate']	}
+					required : { params : ['BucketName', 'XMLTemplate']	}
 				}
 			}, {
 				method : 'putBucketWebsite', verb : 'PUT', subResource : '?website', contentType : 'application/xml',
 				validations : {
-					required : { params : ['BucketName', 'xmlTemplate']	}
+					required : { params : ['BucketName', 'XMLTemplate']	}
 				}
 			}, {
 				method : 'getService',
@@ -634,7 +634,7 @@ sessionOBJ.bedFrame.build(AWS, {
 				method : 'deleteMultipleObjects', verb : 'POST', subResource : '?delete', contentType : 'application/xml', computeMD5 : true,
 				arrayProps : { 'Deleted' : 1, 'Error' : 1 },
 				validations : {
-					required : { params : ['BucketName', 'xmlTemplate']	}
+					required : { params : ['BucketName', 'XMLTemplate']	}
 				}
 			}, {
 				method : 'getObject', // Returning Blob Data.
@@ -665,12 +665,12 @@ sessionOBJ.bedFrame.build(AWS, {
 			}, {
 				method : 'putObjectAcl', verb : 'PUT', subResource : '?acl', contentType : 'application/xml',
 				validations : {
-					required : { params : ['BucketName', 'ObjectName', 'xmlTemplate'] }
+					required : { params : ['BucketName', 'ObjectName', 'XMLTemplate'] }
 				}
 			}, {
 				method : 'putObjectCopy', verb : 'PUT',
 				validations : {
-					required : { params : ['BucketName', 'ObjectName', 'copySource']
+					required : { params : ['BucketName', 'ObjectName', 'CopySource']
 					}
 				}
 			}, {
@@ -682,7 +682,7 @@ sessionOBJ.bedFrame.build(AWS, {
 			}, {
 				method : 'uploadPart',	verb : 'PUT', uploadFile : true,
 				validations : {
-					required : { params : ['BucketName', 'ObjectName', 'UploadId', 'PartNumber', 'file'] }
+					required : { params : ['BucketName', 'ObjectName', 'UploadId', 'PartNumber', 'File'] }
 				}
 			}, {
 				method : 'uploadPartCopy', verb : 'PUT',
@@ -692,7 +692,7 @@ sessionOBJ.bedFrame.build(AWS, {
 			}, {
 				method : 'completeMultipartUpload',	verb : 'POST', contentType : 'application/xml',
 				validations : {
-					required : { params : ['BucketName', 'ObjectName', 'UploadId', 'xmlTemplate'] }
+					required : { params : ['BucketName', 'ObjectName', 'UploadId', 'XMLTemplate'] }
 				}
 			}, {
 				method : 'abortMultipartUpload', verb : 'DELETE',
@@ -720,12 +720,12 @@ sessionOBJ.bedFrame.build(AWS, {
 			}, {
 				method : 'deleteVersion', verb : 'DELETE', endpoint : '.s3.amazonaws.com/',
 				validations : {
-					required : { params : ['BucketName', 'Key', 'versionId'] }
+					required : { params : ['BucketName', 'Key', 'VersionId'] }
 				}
 			}, {
 				method : 'getPresignedUrl',
 				validations : {
-					required : { params : ['BucketName', 'expires']
+					required : { params : ['BucketName', 'Expires']
 					}
 				}
 			}
@@ -954,7 +954,7 @@ sessionOBJ.bedFrame.build(AWS, {
 		algorithm : "HmacSHA256",
 		contentType : "application/x-amz-json-1.0",
 		validations : {
-			required : { params : ['requestJSON'] }
+			required : { params : ['RequestJSON'] }
 		},
 		executor : dynamoDbExecutor,
 		children : [

@@ -96,10 +96,10 @@ awsHelper.generateS3Params = function(params) {
 	//   Part 1 is the base URL construction
 	//   Part 2 is the query string construction
 
-	//copySource is used by 'Put object copy and Upload part ' api's, which needs to be part of stringtosign
+	//CopySource is used by 'Put object copy and Upload part ' api's, which needs to be part of stringtosign
 	var canonicalizedAmzHeaders = '';
-	if (params.hasOwnProperty('copySource') && (params.hasOwnProperty('ObjectName'))) {
-		canonicalizedAmzHeaders = 'x-amz-copy-source:' + params.copySource + '\n';
+	if (params.hasOwnProperty('CopySource') && (params.hasOwnProperty('ObjectName'))) {
+		canonicalizedAmzHeaders = 'x-amz-copy-source:' + params.CopySource + '\n';
 	}
 
 	params.stringToSign = params.verb + '\n' + params.contentMD5 + '\n' + params.contentType + '\n' + params.curDate + '\n' + canonicalizedAmzHeaders + '/';
@@ -112,8 +112,8 @@ awsHelper.generateS3Params = function(params) {
 		urlPart += params.BucketName + '/';
 		if (params.hasOwnProperty('ObjectName')) {
 			urlPart += params.ObjectName;
-		} else if (params.hasOwnProperty('key')) {
-			urlPart += params.key;
+		} else if (params.hasOwnProperty('Key')) {
+			urlPart += params.Key;
 		}
 	}
 
@@ -130,12 +130,12 @@ awsHelper.generateS3Params = function(params) {
 			if (params.UploadId) {
 				queryStringArray.push('uploadId=' + params.UploadId);
 			}
-			if (params.versionId) {
-				queryStringArray.push('versionId=' + params.versionId);
+			if (params.VersionId) {
+				queryStringArray.push('versionId=' + params.VersionId);
 			}
 			queryString = queryStringArray.join('&');
-		} else if (params.versionId) {
-			queryString = 'versionId=' + params.versionId;
+		} else if (params.VersionId) {
+			queryString = 'versionId=' + params.VersionId;
 		}
 
 		if (queryString.length > 0) {
