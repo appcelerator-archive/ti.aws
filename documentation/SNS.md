@@ -11,7 +11,7 @@ Amazon Simple Notification Service is a web service that enables you to build di
 
 ## Installation
 
-* [ Using Modules ]( http://docs.appcelerator.com/titanium/2.1/index.html#!/guide/Using_Modules )
+* [ Using Modules ]( http://docs.appcelerator.com/titanium/latest/index.html#!/guide/Using_Modules )
 
 ## Useful Links
 
