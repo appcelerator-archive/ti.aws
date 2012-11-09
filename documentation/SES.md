@@ -12,7 +12,7 @@ Amazon SES provides an easy, flexible, and low-cost way to deliver emails from t
 The Amazon Simple Email Service Developer Guide provides a conceptual overview of Amazon SES, detailed information on how to send email, a description of how to manage your sending activity, information about email authentication, an overview of the API, and detailed information on all API operations.
 ## Installation
 
-* [ Using Modules ]( http://docs.appcelerator.com/titanium/2.1/index.html#!/guide/Using_Modules )
+* [ Using Modules ]( http://docs.appcelerator.com/titanium/latest/index.html#!/guide/Using_Modules )
 
 ## Useful Links
 
