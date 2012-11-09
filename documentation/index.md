@@ -13,7 +13,7 @@ i.e. refer to : http://aws.amazon.com/documentation/
 
 ## Installation
 The link below explains how to Obtain the Module, Install it and reference it within your Titanium Application.
-* [ Using Modules ]( http://docs.appcelerator.com/titanium/2.1/index.html#!/guide/Using_Modules )
+* [ Using Modules ]( http://docs.appcelerator.com/titanium/latest/index.html#!/guide/Using_Modules )
 
 ## Configuration
 
