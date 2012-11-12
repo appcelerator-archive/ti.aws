@@ -233,7 +233,7 @@ windowFunctions['deleteMessage'] = function(evt) {
 	AWS.SQS.receiveMessage(paramsxx,
 			
 		function(data, response) {
-			var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
+			var receiptHandle = data.ReceiveMessageResult.Message[0].ReceiptHandle;
 			
 			AWS.SQS.deleteMessage({
 			'AWSAccountId': awsAccountId,
@@ -268,7 +268,7 @@ windowFunctions['deleteMessageBatch'] = function(evt) {
 	AWS.SQS.receiveMessage(paramsxx,
 			
 		function(data, response) {
-			var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
+			var receiptHandle = data.ReceiveMessageResult.Message[0].ReceiptHandle;
 			
 			AWS.SQS.deleteMessageBatch({
 			'AWSAccountId': awsAccountId,
@@ -304,7 +304,7 @@ windowFunctions['changeMessageVisibility'] = function(evt) {
 	AWS.SQS.receiveMessage(paramsxx,
 			
 		function(data, response) {
-			var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
+			var receiptHandle = data.ReceiveMessageResult.Message[0].ReceiptHandle;
 			
 			AWS.SQS.changeMessageVisibility({
 					'AWSAccountId': awsAccountId,
@@ -340,7 +340,7 @@ windowFunctions['changeMessageVisibilityBatch'] = function(evt) {
 	AWS.SQS.receiveMessage(paramsxx,
 			
 		function(data, response) {
-			var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
+			var receiptHandle = data.ReceiveMessageResult.Message[0].ReceiptHandle;
 			
 			AWS.SQS.changeMessageVisibilityBatch({
 					'AWSAccountId': awsAccountId,
