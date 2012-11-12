@@ -741,7 +741,7 @@ module.exports = new function () {
 					'QueueName' : 'AnvilTestQueue9'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
-					var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
+					var receiptHandle = data.ReceiveMessageResult.Message[0].ReceiptHandle;
 					var params = {
 						'AWSAccountId' : awsAccountId,
 						'QueueName' : 'AnvilTestQueue9',
@@ -884,7 +884,7 @@ module.exports = new function () {
 					'QueueName' : 'AnvilTestQueue10'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
-					var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
+					var receiptHandle = data.ReceiveMessageResult.Message[0].ReceiptHandle;
 					var params = {
 						'AWSAccountId' : awsAccountId,
 						'QueueName' : 'AnvilTestQueue10',
@@ -961,7 +961,7 @@ module.exports = new function () {
 					'QueueName' : 'AnvilTestQueue11'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
-					var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
+					var receiptHandle = data.ReceiveMessageResult.Message[0].ReceiptHandle;
 					var params = {
 						'AWSAccountId' : awsAccountId,
 						'QueueName' : 'AnvilTestQueue11',
@@ -1103,7 +1103,7 @@ module.exports = new function () {
 					'QueueName' : 'AnvilTestQueue12'
 				};
 				AWS.SQS.receiveMessage(params, function(data) {
-					var receiptHandle = data.ReceiveMessageResult.Message.ReceiptHandle;
+					var receiptHandle = data.ReceiveMessageResult.Message[0].ReceiptHandle;
 					var params = {
 						'AWSAccountId' : awsAccountId,
 						'QueueName' : 'AnvilTestQueue12',
