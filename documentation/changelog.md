@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v1.1.3  Fixed issue with JSON data returned in XML payloads (e.g. ReceiveMessage body) [MOD-1016]
+
 v1.1.2  Updated all top-level property names to use uppercase CamelCase naming convention [MOD-974]
 
 v1.1.1  Fixed getPresignedUrl method to properly handle objects inside buckets [MOD-1001]

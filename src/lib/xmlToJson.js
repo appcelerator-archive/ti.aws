@@ -86,7 +86,17 @@ xmlToJS.convert = function convert(xml, arrayProps) {
 					}
 					break;
 				case node.TEXT_NODE:
-					return node.nodeValue;
+					// If data is a JSON formatted string then parse it. Note that we must get the full
+					// textContent from the parent node as the XML parser will break the JSON string
+					// into multiple text nodes. We want the full text value for the element. [MOD-1016]
+					var result = node.nodeValue;
+					try {
+						if (result.substr(0, 1) === '{') {
+							result = JSON.parse(node.parentNode.textContent);
+						}
+					} catch (e) {
+					}
+					return result;
 					break;
 			}
 		}
