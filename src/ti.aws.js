@@ -824,9 +824,9 @@ sessionOBJ.bedFrame.build(AWS, {
 				arrayProps : { 'QueryUrl' : 1 }
 			}, {
 				method : 'receiveMessage',
-				arrayProps : { 'Attribute' : 1 },
+				arrayProps : { 'Attribute' : 1, 'Message' : 1 },
 				validations : {
-					required : { params : ['AWSAccountId', 'QueueName']	}
+					required : { params : ['AWSAccountId', 'QueueName' ] }
 				}
 			}, {
 				method : 'removePermission',
