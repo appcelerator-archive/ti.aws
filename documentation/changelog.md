@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v1.1.4  Added Documentation for all the existing AWS Services, along with Sample Code Snippets.
+
 v1.1.3  Fixed issue with JSON data returned in XML payloads (e.g. ReceiveMessage body) [MOD-1016]
 
 v1.1.2  Updated all top-level property names to use uppercase CamelCase naming convention [MOD-974]
