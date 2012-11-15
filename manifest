@@ -12,6 +12,6 @@ copyright: Copyright (c) 2011-2012 by Appcelerator,  Inc.
 # these should not be edited
 name: ti.aws
 moduleid: ti.aws
-guid: d2b00e93-43a2-4422-9c70-e0db7c1185d8
+guid: d2b00e93-43a2-4422-9c70-e0db7c1185d9
 platform: commonjs
 minsdk: 1.8.2
