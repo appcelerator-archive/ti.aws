@@ -1,12 +1,12 @@
 # Amazon Web Services (AWS) Module
 
-## Amazon SNS
-Amazon Simple Notification Service is a web service that enables you to build distributed web-enabled applications. Applications can use Amazon SNS to easily push real-time notification messages to interested subscribers over multiple delivery protocols. For more information about this product go to http://aws.amazon.com/sns.
+## Amazon Simple Notification Service (Amazon SNS)
+Amazon SNS is a web service that enables you to build distributed web-enabled applications. Applications can use Amazon SNS to easily push real-time notification messages to interested subscribers over multiple delivery protocols. For more information about this product go to http://aws.amazon.com/sns.
 
 ## Useful Links
 
-* [ Getting Started with Amazon web services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )    
-* [ SNS ]( http://aws.amazon.com/documentation/sns/ )
+* [ Getting Started with Amazon Web Services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )
+* [ Amazon SNS ]( http://aws.amazon.com/documentation/sns/ )
 
 ## Method Calls
 

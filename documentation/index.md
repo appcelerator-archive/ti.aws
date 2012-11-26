@@ -39,18 +39,31 @@ Key ID and Secret Access Key must be used to authorize access to your account.
 * accessKey[string]: The access key for your application
 * secureKey[string]: The secure key for your application
 
+#### Useful Links
+
+* [Overview of Policies](http://docs.amazonwebservices.com/IAM/latest/UserGuide/PoliciesOverview.html?r=3093)
+
+* [Example Policies for IAM Entities](http://docs.amazonwebservices.com/IAM/latest/UserGuide/ExampleIAMPolicies.html)
+
+* [How to Write a Policy](http://docs.amazonwebservices.com/IAM/latest/UserGuide/AccessPolicyLanguage_HowToWritePolicies.html)
+
+* [Integrating with Other AWS Products](http://docs.amazonwebservices.com/IAM/latest/UserGuide/Using_SpecificProducts.html)
+
+* [AWS Policy Generator](http://awspolicygen.s3.amazonaws.com/policygen.html)
+
 ## Supported Services
-Please click on the links below for the Titanium Module documentation & code-snippets for each of the supported AWS Services.
+
+Please click on the links below for the Titanium Module documentation & code-snippets for each of the supported AWS services.
 
 * [Amazon SimpleDB](SimpleDB.html)
 	
-* [Simple Storage Service (S3)  ](S3.html)
+* [Simple Storage Service (Amazon S3)](S3.html)
 
-* [Amazon Simple Email Service (SES)](SES.html)
+* [Amazon Simple Email Service (Amazon SES)](SES.html)
 		
-* [Amazon Simple Queue Service (SQS)](SQS.html)
+* [Amazon Simple Queue Service (Amazon SQS)](SQS.html)
 
-* [Amazon Simple Notification Service (SNS) ](SNS.html)
+* [Amazon Simple Notification Service (Amazon SNS)](SNS.html)
 
 * [Amazon DynamoDB](DDB.html)
 

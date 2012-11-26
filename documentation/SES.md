@@ -1,14 +1,12 @@
 # Amazon Web Services (AWS) Module
 
-## Amazon Simple Email Service (SES)
-Amazon SES provides an easy, flexible, and low-cost way to deliver emails from the cloud, while reducing the likelihood of legitimate email being classified by ISPs as spam. It integrates seamlessly with other AWS products, can send a broad range of transactional, marketing, and subscription messages, and scales to handle large volumes of email. Amazon SES removes the barrier to entry for those not needing the costly full-service campaign management features of traditional email service providers.
-
-The Amazon Simple Email Service Developer Guide provides a conceptual overview of Amazon SES, detailed information on how to send email, a description of how to manage your sending activity, information about email authentication, an overview of the API, and detailed information on all API operations.
+## Amazon Simple Email Service (Amazon SES)
+Amazon SES provides an easy, flexible, and low-cost way to deliver email from the cloud, while reducing the likelihood of legitimate email being classified by ISPs as spam. Amazon SES integrates seamlessly with other AWS products, can send a broad range of transactional, marketing, and subscription messages, and scales to handle large volumes of email. Amazon SES removes the barrier to entry for those not needing the costly full-service campaign management features of traditional email service providers.
 
 ## Useful Links
 
-* [ Getting Started with Amazon web services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )    
-* [ SES ]( http://aws.amazon.com/documentation/ses/ )
+* [ Getting Started with Amazon Web Services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )
+* [ Amazon SES ]( http://aws.amazon.com/documentation/ses/ )
 
 ## Method Calls
 
