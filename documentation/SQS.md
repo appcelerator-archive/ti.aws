@@ -1,15 +1,12 @@
 # Amazon Web Services (AWS) Module
 
-## Amazon Simple Queue Service (SQS)
-This is the Amazon Simple Queue Service API Reference. This section describes who should read this guide, how the guide is organized, and other resources related to the Amazon Simple Queue Service (Amazon SQS).
-
+## Amazon Simple Queue Service (Amazon SQS)
 Amazon SQS offers reliable and scalable hosted queues for storing messages as they travel between computers. By using Amazon SQS, you can move data between distributed components of your applications that perform different tasks without losing messages or requiring each component to be always available.
-
 
 ## Useful Links
 
-* [ Getting Started with Amazon web services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )    
-* [ SQS ]( http://aws.amazon.com/documentation/sqs/ )
+* [ Getting Started with Amazon Web Services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )
+* [ Amazon SQS ]( http://aws.amazon.com/documentation/sqs/ )
 
 ## Method Calls
 
