@@ -5,8 +5,8 @@ Amazon SimpleDB is a web service for running queries on structured data in real 
 
 ## Useful Links
 
-* [ Getting Started with Amazon web services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )  	
-* [ SimpleDB ]( http://aws.amazon.com/documentation/simpledb/ )
+* [ Getting Started with Amazon Web Services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )
+* [ Amazon SimpleDB ]( http://aws.amazon.com/documentation/simpledb/ )
 
 ## Method Calls
 

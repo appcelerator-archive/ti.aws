@@ -1,12 +1,13 @@
 # Amazon Web Services (AWS) Module
 
 ## Amazon DynamoDB
+
 Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. If you are a developer, you can use Amazon DynamoDB to create a database table that can store and retrieve any amount of data, and serve any level of request traffic. Amazon DynamoDB automatically spreads the data and traffic for the table over a sufficient number of servers to handle the request capacity specified by the customer and the amount of data stored, while maintaining consistent and fast performance. All data items are stored on Solid State Disks (SSDs) and are automatically replicated across multiple Availability Zones in a Region to provide built-in high availability and data durability.
 
 ## Useful Links
 
-* [ Getting Started with Amazon web services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )    
-* [ DynamoDB ]( http://aws.amazon.com/documentation/dynamodb/ )
+* [ Getting Started with Amazon Web Services ]( http://docs.amazonwebservices.com/gettingstarted/latest/awsgsg-intro/intro.html )
+* [ Amazon DynamoDB ]( http://aws.amazon.com/documentation/dynamodb/ )
 
 ## Method Calls
 
@@ -22,9 +23,10 @@ All methods are called using a standard calling convention:
 
 ### NOTE
 
-The DDB methods require sending a JSON formatted object in the request. Specify the JSON object in the `RequestJSON` property.
+The DDB methods require sending a JSON-formatted object in the request. Specify the JSON object in the `RequestJSON` property.
 
 ### Example
+
         AWS.DDB.createTable({
             "RequestJSON" : {
                 "TableName" : "my-ddb-test",
@@ -51,7 +53,6 @@ The DDB methods require sending a JSON formatted object in the request. Specify 
             Ti.API.error(message);
             Ti.API.info(JSON.stringify(error));
         });
-
 
 ## Methods
 
@@ -84,4 +85,3 @@ The DDB methods require sending a JSON formatted object in the request. Specify 
 ## License
 
 Copyright(c) 2011-2012 by Appcelerator, Inc. All Rights Reserved. Please see the LICENSE file included in the distribution for further details.
-
