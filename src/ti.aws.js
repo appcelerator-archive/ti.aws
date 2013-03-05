@@ -88,7 +88,7 @@ var snsExecutor = function(params, cbOnData, cbOnError) {
 	params.Version = this.version;
 	payload = sessionOBJ.awsHelper.generatePayload(params, sessionOBJ.accessKeyId, sessionOBJ.secretKey, this.endpoint)
 
-	if (Ti.Platform.osname === 'iphone') {
+	if (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad' ) {
 		xhr.open(this.verb, this.endpoint + '?' + payload);
 	} else {
 		xhr.open(this.verb, this.endpoint);
@@ -97,7 +97,7 @@ var snsExecutor = function(params, cbOnData, cbOnError) {
 	xhr.setRequestHeader('User-Agent', customUserAgent);
 	xhr.setRequestHeader('Host', 'sns.'+regionEndpoint+'.amazonaws.com');
 
-	if (Ti.Platform.osname === 'iphone') {
+	if (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad' ) {
 		xhr.send();
 	} else {
 		xhr.send(payload);
@@ -283,7 +283,7 @@ var stsExecutor = function(params, cbOnData, cbOnError) {
 	}
 	sUrl = sessionOBJ.awsHelper.generatePayload(params, sessionOBJ.accessKeyId, sessionOBJ.secretKey, this.endpoint);
 
-	if (Ti.Platform.osname === 'iphone') {
+	if (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad' ) {
 		xhr.open(this.verb, this.endpoint + '?' + payload);
 	} else {
 		xhr.open(this.verb, this.endpoint);
@@ -291,7 +291,7 @@ var stsExecutor = function(params, cbOnData, cbOnError) {
 	xhr.setRequestHeader('User-Agent', customUserAgent);
 	xhr.setRequestHeader('Host', 'sts.amazonaws.com');
 
-	if (Ti.Platform.osname === 'iphone') {
+	if (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad' ) {
 		xhr.send();
 	} else {
 		xhr.send(payload);
