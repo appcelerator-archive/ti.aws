@@ -1,5 +1,6 @@
 # Change Log
 <pre>
+<p>v1.1.5  Fixed iOS platform detection to include iPad and iPhone [MOD-1321]</p>
 <p>v1.1.4  Added documentation for all the existing AWS services, along with Sample Code Snippets.</p>
 <p>v1.1.3  Fixed issue with JSON data returned in XML payloads (e.g., ReceiveMessage body) [MOD-1016]</p>
 <p>v1.1.2  Updated all top-level property names to use uppercase CamelCase naming convention [MOD-974]</p>
