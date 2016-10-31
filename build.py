@@ -4,7 +4,7 @@
 #
 
 version = '2.0.0'
-sdk_path = r'/Library/Application Support/Titanium/mobilesdk/osx/2.0.1'
+sdk_path = r'/<absolute_path_to>/Library/Application Support/Titanium/mobilesdk/osx/5.5.1.GA'
 
 import os, sys, time, datetime, string, math, zipfile, codecs, re, shutil, subprocess, base64
 from datetime import date
