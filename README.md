@@ -1,4 +1,4 @@
-# ti.aws [![Build Status](https://magnum.travis-ci.com/appcelerator-modules/ti.aws.svg?token=ph6xdReX6PW2XENunBEH&branch=master)](https://magnum.travis-ci.com/appcelerator-modules/ti.aws)
+# ti.aws
 
 Amazon Web Services
 
